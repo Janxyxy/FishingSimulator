@@ -51,13 +51,31 @@ app.post("/register", (req, res) => {
     return;
   }
   // Check if user already exists
-
+  checkForUser(username, email);
   // Encrypt the password
 
   // Create a new user in the database
 
   // Return 201 Created status
 });
+
+//Functions
+function checkForUser(username, email) {
+  connection.query(
+    `SELECT * FROM users WHERE username = '${username}'`,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (result.length > 0) {
+        console.log("User already exists");
+      } else {
+        console.log("User not found");
+      }
+    }
+  );
+}
 
 // Start server
 app.listen(port, () => {
