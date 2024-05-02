@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="./output.css" rel="stylesheet" />  <!--Tailwind CSS-->
+  <script src="https://kit.fontawesome.com/c4ffb2ea08.js" crossorigin="anonymous"></script> <!--Muj font awesome-->
+  <title>Register</title>
+</head>
+
+<body class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black">
+ 
+
+  <div class=" px-6 py-6 lg:px-8">
+
+    </div>
+      <h1 class="h-14 w-aut bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500  text-center text-4xl font-bold tracking-tight"> Fishing simulator</h1>
+    </div>
+  
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-clip-border p-6 bg-gray-900 border-4 border-violet-600 border-dashed  rounded-lg">
+      <form class="space-y-6" onSubmit="  event.preventDefault(); sendForm()">
+        <div>
+            <label for="username" class="block text-sm font-medium leading-6 text-white">Name</label>
+            <div class="mt-2">
+              <input id="username" name="username" type="text" autocomplete="email" required class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+        <div>
+          <label for="email" class="block text-sm font-medium leading-6 text-white">Email address</label>
+          <div class="mt-2">
+            <input id="email" name="email" type="email" autocomplete="email" required class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+  
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm font-medium leading-6 text-white">Password</label>
+
+          </div>
+          <div class="mt-2">
+            <input id="password" name="password" type="password" autocomplete="current-password" required class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div>
+            <div class="flex items-center justify-between">
+              <label for="password2" class="block text-sm font-medium leading-6 text-white">Password again</label>
+  
+            </div>
+            <div class="mt-2">
+              <input id="password2" name="password2" type="password" autocomplete="current-password" required class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+  
+        <div>
+          <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</button>
+        </div>
+      </form>
+  
+      <p class="mt-10 text-center text-sm text-gray-500">
+        Alredy a member?
+        <a href="./login.html" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Log in</a>
+      </p>
+    </div>
+  </div>
+  <script>
+    function sendForm() {
+      const username = document.getElementById('username').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const password2 = document.getElementById('password2').value;
+
+      if(!username || !email || !password || !password2) {
+        alert('All fields are required');
+        return;
+      }
+
+      if (password !== password2) {
+        alert('Passwords do not match');
+
+        return;
+      }
+
+      const data = {
+        username,
+        email,
+        password,
+        password2
+      };
+      fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(response => {
+        if (response.status === 201) {
+          alert('User created');
+          window.location.href = './login.html'; // Redirect to login page
+        } else {
+          alert(response.body)
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>
