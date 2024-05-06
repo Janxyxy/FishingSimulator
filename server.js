@@ -75,6 +75,20 @@ function checkForUser(username, email) {
       }
     }
   );
+  connection.query(
+    `SELECT * FROM users WHERE email = '${email}'`,
+    (err, result) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      if (result.length > 0) {
+        console.log("User already exists");
+      } else {
+        console.log("User not found");
+      }
+    }
+  );
 }
 
 // Start server
