@@ -6,7 +6,9 @@ const cors = require("cors");
 env = require("dotenv").config();
 
 const app = express();
+
 app.use(cors());
+
 const port = 3000;
 
 // Middleware
@@ -41,54 +43,28 @@ app.post("/register", (req, res) => {
   const password2 = req.body.password2;
 
   if (!username || !email || !password || !password2) {
-    res.status(400).send("Empty fields detected");
+    res.status(400).send("Empty fields detected"); //400 Bad Request
     return;
   }
 
   if (password !== password2) {
-    res.status(400).send("Passwords do not match");
-
+    res.status(400).send("Passwords do not match"); //400 Bad Request
     return;
   }
-  // Check if user already exists
-  checkForUser(username, email);
+
+  //Check if user exsists
+  return res.status(409).json({ message: "Username already exists!" });
+
+  //Make user
   // Encrypt the password
-
-  // Create a new user in the database
-
-  // Return 201 Created status
+  CreateUser(username, email, password);
+  res.status(201).send("User created successfully");
 });
 
-//Functions
-function checkForUser(username, email) {
-  connection.query(
-    `SELECT * FROM users WHERE username = '${username}'`,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      if (result.length > 0) {
-        console.log("User already exists");
-      } else {
-        console.log("User not found");
-      }
-    }
-  );
-  connection.query(
-    `SELECT * FROM users WHERE email = '${email}'`,
-    (err, result) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      if (result.length > 0) {
-        console.log("User already exists");
-      } else {
-        console.log("User not found");
-      }
-    }
-  );
+///Functions///
+
+function CreateUser(username, email, password) {
+  console.log("Creating user:", username, email, password);
 }
 
 // Start server
