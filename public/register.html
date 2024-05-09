@@ -145,7 +145,6 @@
 
       if (password !== password2) {
         alert('Passwords do not match');
-
         return;
       }
 
@@ -165,9 +164,13 @@
         if (response.status === 201) {
           alert('User created');
           window.location.href = './login.html'; // Redirect to login page
-        } else {
-          alert(response.body)
-        }
+        } else if (response.status === 409) {
+      response.json().then(jsonResponse => {
+        console.log(jsonResponse.message); // Log the message from the server
+      });
+    } else {
+      alert('An error occurred');
+    }
       });
     }
   </script>
