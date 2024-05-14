@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
+const bcrypt = require("bcrypt");
 const cors = require("cors");
 
 env = require("dotenv").config();
@@ -52,19 +53,57 @@ app.post("/register", (req, res) => {
     return;
   }
 
-  //Check if user exsists
-  return res.status(409).json({ message: "Username already exists!" });
-
-  //Make user
-  // Encrypt the password
-  CreateUser(username, email, password);
-  res.status(201).send("User created successfully");
+  TryMakeUser(username, email, password, res);
 });
 
 ///Functions///
 
-function CreateUser(username, email, password) {
-  console.log("Creating user:", username, email, password);
+function TryMakeUser(username, email, password, res) {
+  connection.query(
+    "SELECT * FROM users WHERE username = ? OR email = ?",
+    [username, email],
+    (error, results, fields) => {
+      if (error) {
+        res.status(500).send("Chyba databáze: " + error.message);
+        return;
+      }
+      if (results.length > 0) {
+        res.status(409).send("Username or email already exists");
+        return;
+      } else {
+        CreateUser(username, email, password, res);
+      }
+    }
+  );
+}
+
+function CreateUser(username, email, password, res) {
+  const saltRounds = 10;
+  bcrypt.hash(password, saltRounds, (err, hash) => {
+    if (err) {
+      res.status(500).send("Chyba při šifrování hesla: " + err.message);
+      console.log("Chyba při šifrování hesla: " + err.message);
+      return;
+    }
+    const insertQuery =
+      "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)";
+    connection.query(
+      insertQuery,
+      [username, email, hash],
+      (error, results, fields) => {
+        if (error) {
+          res
+            .status(500)
+            .send("Chyba databáze při vytváření uživatele: " + error.message);
+          console.log(
+            "Chyba databáze při vytváření uživatele: " + error.message
+          );
+          return;
+        }
+        res.status(201).send("User created successfully");
+      }
+    );
+  });
 }
 
 // Start server

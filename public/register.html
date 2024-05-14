@@ -165,12 +165,14 @@
           alert('User created');
           window.location.href = './login.html'; // Redirect to login page
         } else if (response.status === 409) {
-      response.json().then(jsonResponse => {
-        console.log(jsonResponse.message); // Log the message from the server
-      });
-    } else {
-      alert('An error occurred');
-    }
+          response.json().then(jsonResponse => {
+            console.error('Chyba serveru 409:', jsonResponse.message); 
+            alert('User already exists');
+          });
+        } else {
+          console.error('Neznámá chyba při registraci uživatele s kódem:', response.status);
+          alert('Došlo k chybě');
+        }
       });
     }
   </script>
