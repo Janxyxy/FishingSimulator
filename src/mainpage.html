@@ -17,6 +17,12 @@
       >
         Fishing simulator
       </h1>
+      <button
+        onclick="event.preventDefault(); redirectToLogout()"
+        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Logout
+      </button>
     </div>
 
     <div>
@@ -25,5 +31,10 @@
         src="http://12tails.com/wp-content/uploads/2019/09/minecraftFishingGuide.jpg"
       />
     </div>
+    <script>
+      function redirectToLogout() {
+        window.location.href = "/logout";
+      }
+    </script>
   </body>
 </html>

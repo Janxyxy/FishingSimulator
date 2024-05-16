@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+const session = require("express-session");
+const path = require("path");
 
 env = require("dotenv").config();
 
@@ -26,6 +28,15 @@ const connection = mysql.createConnection({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE,
 });
+
+app.use(
+  session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Nastaveno na false, protože je používán pouze localhost
+  })
+);
 
 connection.connect((err) => {
   if (err) {
@@ -56,7 +67,64 @@ app.post("/register", (req, res) => {
   TryMakeUser(username, email, password, res);
 });
 
+app.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  TryLogin(email, password, req, res);
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send("Chyba při odstraňování session");
+    }
+    res.redirect("/login.html");
+  });
+});
+// Middleware to ensure that only logged-in users can access the main page
+app.use(express.static("public", { redirect: false }));
+
+app.get("/", (req, res) => {
+  res.redirect("/register.html");
+});
+
+app.use("/mainpage", (req, res, next) => {
+  if (!req.session || !req.session.userId) {
+    res.status(401).send("Přístup zamítnut. Prosím přihlašte se.");
+    return;
+  }
+  res.sendFile(path.join(__dirname, "src", "mainpage.html"));
+});
 ///Functions///
+
+function TryLogin(email, password, req, res) {
+  const selectQuery = "SELECT * FROM users WHERE email = ?";
+  connection.query(selectQuery, [email], (error, results, fields) => {
+    if (error) {
+      res.status(500).send("Chyba databáze při přihlášení: " + error.message);
+      return;
+    }
+    if (results.length === 0) {
+      res.status(402).send("Uživatel nenalezen");
+      return;
+    }
+    const user = results[0];
+    bcrypt.compare(password, user.password_hash, (err, isMatch) => {
+      if (err) {
+        res.status(500).send("Chyba při ověřování hesla: " + err.message);
+        return;
+      }
+      if (!isMatch) {
+        res.status(401).send("Nesprávné heslo");
+        return;
+      }
+      // Set user session details
+      req.session.userId = user.id;
+      res.send("Přihlášení úspěšné");
+    });
+  });
+}
 
 function TryMakeUser(username, email, password, res) {
   connection.query(
