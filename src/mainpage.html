@@ -6,6 +6,11 @@
     <title>Fishing simulator</title>
     <link href="/output.css" rel="stylesheet" />
     <!--Tailwind CSS-->
+    <script
+      src="https://kit.fontawesome.com/c4ffb2ea08.js"
+      crossorigin="anonymous"
+    ></script>
+    <!--Muj font awesome-->
   </head>
 
   <body
@@ -18,7 +23,7 @@
           <span
             class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block"
           >
-            <span class="relative text-white"> Fishing simulator</span>
+            <span class="relative text-white">Fishing simulator</span>
           </span>
           <!--text-->
         </blockquote>
@@ -26,17 +31,21 @@
           <ul class="flex space-x-8 mt-1 mr-10">
             <li>
               <a href="/home" class="hover:text-gray-300">Home</a>
+              <i class="fa-solid fa-house"></i>
             </li>
             <li>
               <a href="/register" class="hover:text-gray-300">Sing up</a>
+              <i class="fas fa-user-plus text-white ml-2"></i>
             </li>
             <li>
               <a href="/login" class="hover:text-gray-300">Login</a>
+              <i class="fa-solid fa-right-to-bracket"></i>
             </li>
             <li>
               <a href="/mainpage" class="hover:text-gray-300"
                 >Fishing simulator</a
               >
+              <i class="fa-solid fa-fish"></i>
             </li>
           </ul>
         </nav>
@@ -64,6 +73,7 @@
         </button>
       </div>
       <p class="text-white">Your User ID: <span id="userId"></span></p>
+      <p class="text-white"><span id="username"></span></p>
     </div>
 
     <div>
@@ -84,6 +94,23 @@
           })
           .then((data) => {
             document.getElementById("userId").textContent = data.userId;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("/api/username")
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Failed to fetch user ID");
+            }
+          })
+          .then((data) => {
+            document.getElementById("username").textContent = data.username;
           })
           .catch((error) => {
             console.error("Error:", error);

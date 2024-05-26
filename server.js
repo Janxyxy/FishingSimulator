@@ -72,7 +72,8 @@ app.get("/login", (req, res) => {
 
 app.use("/mainpage", (req, res, next) => {
   if (!req.session || !req.session.userId) {
-    res.status(401).send("Přístup zamítnut. Prosím přihlašte se.");
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    //res.status(401).send("Přístup zamítnut. Prosím přihlašte se.");
     return;
   }
   res.sendFile(path.join(__dirname, "src", "mainpage.html"));
@@ -130,7 +131,7 @@ app.get("/api/username", (req, res) => {
     res.status(401).send("Unauthorized");
     return;
   }
-  res.json({ sername: req.session.username });
+  res.json({ username: req.session.username });
 });
 
 app.get("/api/fish", (req, res) => {
@@ -139,7 +140,7 @@ app.get("/api/fish", (req, res) => {
       res.status(500).send("Chyba databáze: " + error.message);
       return;
     }
-    res.json(results);
+    res.json({ result: results });
   });
 });
 
