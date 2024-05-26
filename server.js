@@ -18,6 +18,9 @@ const port = 3000;
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Middleware to ensure that only logged-in users can access the main page
+app.use(express.static("public", { redirect: false }));
+
 // Parse JSON bodies (as sent by API clients)
 app.use(bodyParser.json());
 
@@ -82,8 +85,8 @@ app.get("/logout", (req, res) => {
     res.redirect("/login.html");
   });
 });
-// Middleware to ensure that only logged-in users can access the main page
-app.use(express.static("public", { redirect: false }));
+
+app.get("/fish", (req, res) => {
 
 app.get("/", (req, res) => {
   res.redirect("/register.html");
@@ -92,6 +95,7 @@ app.get("/", (req, res) => {
 app.use("/mainpage", (req, res, next) => {
   if (!req.session || !req.session.userId) {
     res.status(401).send("Přístup zamítnut. Prosím přihlašte se.");
+    res.sendFile(path.join(__dirname, "login.html"));
     return;
   }
   res.sendFile(path.join(__dirname, "src", "mainpage.html"));

@@ -17,11 +17,19 @@
       >
         Fishing simulator
       </h1>
+
       <button
         onclick="event.preventDefault(); redirectToLogout()"
         class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
       >
         Logout
+      </button>
+
+      <button
+        onclick="event.preventDefault(); fish()"
+        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+      >
+        Fish
       </button>
     </div>
 
@@ -34,6 +42,20 @@
     <script>
       function redirectToLogout() {
         window.location.href = "/logout";
+      }
+
+      function fish() {
+        fetch("/fish", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+          });
       }
     </script>
   </body>
