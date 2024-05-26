@@ -1,6 +1,6 @@
 # Fishing Simulator
 
-![Raw Cod](./images/Raw_Cod.png)
+![Raw Cod](/public/images/Raw_Cod.png)
 
 ## Table of Contents
 
