@@ -1756,4 +1756,14 @@ video {
     padding-top: 14rem;
     padding-bottom: 14rem;
   }
+
+  .lg\:px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .lg\:px-6 {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }
