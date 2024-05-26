@@ -17,20 +17,22 @@
       >
         Fishing simulator
       </h1>
+      <div>
+        <button
+          onclick="event.preventDefault(); redirectToLogout()"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Logout
+        </button>
 
-      <button
-        onclick="event.preventDefault(); redirectToLogout()"
-        class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Logout
-      </button>
-
-      <button
-        onclick="event.preventDefault(); fish()"
-        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-      >
-        Fish
-      </button>
+        <button
+          onclick="event.preventDefault(); fish()"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Fish
+        </button>
+      </div>
+      <p class="text-white">Your User ID: <span id="userId"></span></p>
     </div>
 
     <div>
@@ -40,6 +42,23 @@
       />
     </div>
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("/api/userId")
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Failed to fetch user ID");
+            }
+          })
+          .then((data) => {
+            document.getElementById("userId").textContent = data.userId;
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      });
+
       function redirectToLogout() {
         window.location.href = "/logout";
       }

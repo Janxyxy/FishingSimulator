@@ -51,7 +51,44 @@ connection.connect((err) => {
 
 // Routes
 
-app.post("/register", (req, res) => {
+app.get("/", (req, res) => {
+  res.redirect("/register");
+});
+
+app.get("/register", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "register.html"));
+});
+
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "login.html"));
+});
+
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send("Chyba při odstraňování session");
+    }
+    res.redirect("/login");
+  });
+});
+
+app.use("/mainpage", (req, res, next) => {
+  if (!req.session || !req.session.userId) {
+    res.status(401).send("Přístup zamítnut. Prosím přihlašte se.");
+    return;
+  }
+  res.sendFile(path.join(__dirname, "src", "mainpage.html"));
+});
+
+//API authentication
+app.post("/api/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  TryLogin(email, password, req, res);
+});
+
+app.post("/api/register", (req, res) => {
   const username = req.body.username;
   const email = req.body.email;
   const password = req.body.password;
@@ -70,24 +107,26 @@ app.post("/register", (req, res) => {
   TryMakeUser(username, email, password, res);
 });
 
-app.post("/login", (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
+//API endpoints
 
-  TryLogin(email, password, req, res);
+app.get("/api/userId", (req, res) => {
+  if (!req.session || !req.session.userId) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+  res.json({ userId: req.session.userId });
 });
 
-app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send("Chyba při odstraňování session");
-    }
-    res.redirect("/login.html");
-  });
+app.get("/api/username", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.status(401).send("Unauthorized");
+    return;
+  }
+  res.json({ sername: req.session.username });
 });
 
-app.get("fish", (req, res) => {
-  connection.query("SELECT * FROM fish", (error, results, fields) => {
+app.get("/api/fish", (req, res) => {
+  connection.query("SELECT * FROM userItems", (error, results, fields) => {
     if (error) {
       res.status(500).send("Chyba databáze: " + error.message);
       return;
@@ -96,18 +135,6 @@ app.get("fish", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.redirect("/register.html");
-});
-
-app.use("/mainpage", (req, res, next) => {
-  if (!req.session || !req.session.userId) {
-    res.status(401).send("Přístup zamítnut. Prosím přihlašte se.");
-    res.sendFile(path.join(__dirname, "login.html"));
-    return;
-  }
-  res.sendFile(path.join(__dirname, "src", "mainpage.html"));
-});
 ///Functions///
 
 function TryLogin(email, password, req, res) {
@@ -133,6 +160,7 @@ function TryLogin(email, password, req, res) {
       }
       // Set user session details
       req.session.userId = user.id;
+      req.session.username = user.username;
       res.send("Přihlášení úspěšné");
     });
   });

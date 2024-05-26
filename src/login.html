@@ -67,7 +67,7 @@
 
     <p class="mt-10 text-center text-sm text-gray-500">
       Not a member?
-      <a href="./register.html" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Make account</a>
+      <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Make account</a>
     </p>
   </div>
   <div id="infoBox" class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-clip-border p-6 bg-gray-900 border-4 border-red-600 border-dashed  rounded-lg invisible">
@@ -104,7 +104,7 @@
     const infoBox = document.getElementById('infoBox');
     const infoText = document.getElementById('infoText');
 
-    fetch('http://localhost:3000/login', {
+    fetch('http://localhost:3000/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
