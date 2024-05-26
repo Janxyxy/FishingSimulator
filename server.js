@@ -86,7 +86,15 @@ app.get("/logout", (req, res) => {
   });
 });
 
-app.get("/fish", (req, res) => {
+app.get("fish", (req, res) => {
+  connection.query("SELECT * FROM fish", (error, results, fields) => {
+    if (error) {
+      res.status(500).send("Chyba databáze: " + error.message);
+      return;
+    }
+    res.json(results);
+  });
+});
 
 app.get("/", (req, res) => {
   res.redirect("/register.html");
