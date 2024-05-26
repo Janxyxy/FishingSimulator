@@ -25,6 +25,9 @@ app.use(express.static("public", { redirect: false }));
 // Parse JSON bodies (as sent by API clients)
 app.use(bodyParser.json());
 
+// Serve static files from the public directory
+app.use("/public", express.static(path.join(__dirname, "public")));
+
 // MySQL Connection
 const connection = mysql.createConnection({
   host: process.env.DATABASE_HOST,
@@ -53,24 +56,18 @@ connection.connect((err) => {
 // Routes
 
 app.get("/", (req, res) => {
-  res.redirect("/register");
+  res.redirect("/home");
 });
 
+app.get("/home", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "index.html"));
+});
 app.get("/register", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "register.html"));
 });
 
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "login.html"));
-});
-
-app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).send("Chyba při odstraňování session");
-    }
-    res.redirect("/login");
-  });
 });
 
 app.use("/mainpage", (req, res, next) => {
@@ -88,6 +85,15 @@ app.post("/api/login", (req, res) => {
   const password = req.body.password;
 
   TryLogin(email, password, req, res);
+});
+
+app.get("/api/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send("Chyba při odstraňování session");
+    }
+    res.redirect("/index");
+  });
 });
 
 app.post("/api/register", (req, res) => {
@@ -153,7 +159,7 @@ function TryLogin(email, password, req, res) {
     const user = results[0];
     bcrypt.compare(password, user.password_hash, (err, isMatch) => {
       if (err) {
-        res.status(500).send("Chyba při ověřování hesla: " + err.message);
+        "Chyba při ověřování hesla: " + err.message;
         return;
       }
       if (!isMatch) {
@@ -163,7 +169,7 @@ function TryLogin(email, password, req, res) {
       // Set user session details
       req.session.userId = user.id;
       req.session.username = user.username;
-      res.send("Přihlášení úspěšné");
+      res.status(201).send("Přihlášení úspěšné");
     });
   });
 }
