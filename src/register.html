@@ -56,7 +56,7 @@
         </div>
         <div class="mt-2 relative">
           <input id="password" name="password" type="password" autocomplete="current-password"
-            onchange="checkIfPassMatch()" required
+          oninput="checkIfPassMatch()" required
             class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           <i id="toggleIcon"
             class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"></i>
@@ -73,7 +73,7 @@
         </div>
         <div class="mt-2 relative">
           <input id="password2" name="password2" type="password" autocomplete="current-password"
-            onchange="checkIfPassMatch()" required
+            oninput="checkIfPassMatch()" required
             class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           <i id="toggleIcon2"
             class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"></i>
@@ -86,15 +86,20 @@
           up</button>
       </div>
     </form>
+    <div id="errordiv" class="text-lg text-center mt-2 invisible">
+      <span id="errormessage" class="font-semibold text-red-500 "></span>
+      <i class="fa-solid fa-xmark  text-red-500"></i>
+    </div>
 
-    <p class="mt-10 text-center text-sm text-gray-500">
+    <p class="mt-2 text-center text-sm text-gray-500">
       Alredy a member?
       <a href="/login" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Log in</a>
     </p>
   </div>
   </div>
   <script>
-
+  
+    // variables 
     const passwordInput = document.getElementById('password');
     const toggleIcon = document.getElementById('toggleIcon');
 
@@ -103,6 +108,9 @@
 
     const passworddosentrepeat = document.getElementById('passworddosentrepeat');
     const passworddosentrepeat2 = document.getElementById('passworddosentrepeat2');
+
+    const errordiv = document.getElementById('errordiv');
+    const errormessage = document.getElementById('errormessage');
 
     toggleIcon.addEventListener('click', function () {
       togglePasswordVisibility(passwordInput, toggleIcon);
@@ -163,11 +171,14 @@
       }).then(response => {
         if (response.status === 201) {
           alert('User created');
-          window.location.href = '/login'; // Redirect to login page
+          errordiv.classList.remove('invisible');
+          window.location.href = '/login'; 
         } else if (response.status === 409) {
           response.json().then(jsonResponse => {
-            console.error('Chyba serveru 409:', jsonResponse.message); 
-            alert('User already exists');
+            console.error('Chyba serveru 409:', jsonResponse.error); 
+            //User already exists
+            errordiv.classList.remove('invisible');
+            errormessage.innerHTML = jsonResponse.error;
           });
         } else {
           console.error('Neznámá chyba při registraci uživatele s kódem:', response.status);
@@ -177,5 +188,4 @@
     }
   </script>
 </body>
-
 </html>

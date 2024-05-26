@@ -1,5 +1,7 @@
 # Fishing Simulator
 
+![Raw Cod](./images/Raw_Cod.png)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -58,7 +60,8 @@ CREATE TABLE users (
 ```sql
 CREATE TABLE items (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
+    name VARCHAR(25) NOT NULL
+    category VARCHAR(25) NOT NULL
 );
 ```
 
@@ -72,3 +75,13 @@ CREATE TABLE userItems  (
     FOREIGN KEY (item_id) REFERENCES items(id)
 );
 ```
+
+## ENV Variables
+
+Variables in .env file:
+<br>DATABASE = fishing_simulator
+<br>DATABASE_HOST = localhost
+<br>DATABASE_USER = root
+<br>DATABASE_PASSWORD =
+
+SECRET_KEY = my_secure_random_key_12345

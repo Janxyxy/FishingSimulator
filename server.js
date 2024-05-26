@@ -15,6 +15,7 @@ app.use(cors());
 const port = 3000;
 
 // Middleware
+
 // Parse URL-encoded bodies (as sent by HTML forms)
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -37,7 +38,7 @@ app.use(
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // Nastaveno na false, protože je používán pouze localhost
+    cookie: { secure: false }, // Change to true if HTTPS is used
   })
 );
 
@@ -81,6 +82,7 @@ app.use("/mainpage", (req, res, next) => {
 });
 
 //API authentication
+
 app.post("/api/login", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -107,7 +109,7 @@ app.post("/api/register", (req, res) => {
   TryMakeUser(username, email, password, res);
 });
 
-//API endpoints
+//ASP endpoints
 
 app.get("/api/userId", (req, res) => {
   if (!req.session || !req.session.userId) {
@@ -176,7 +178,17 @@ function TryMakeUser(username, email, password, res) {
         return;
       }
       if (results.length > 0) {
-        res.status(409).send("Username or email already exists");
+        const existingUser = results[0];
+        if (
+          existingUser.username === username &&
+          existingUser.email === email
+        ) {
+          res.status(409).json({ error: "Username and email already exist" });
+        } else if (existingUser.username === username) {
+          res.status(409).json({ error: "Username already exists" });
+        } else {
+          res.status(409).json({ error: "Email already exists" });
+        }
         return;
       } else {
         CreateUser(username, email, password, res);
