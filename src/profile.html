@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fishing Simulator</title>
+    <title>Fishing simulator</title>
     <link href="/output.css" rel="stylesheet" />
     <!--Tailwind CSS-->
     <script
@@ -12,13 +12,10 @@
     ></script>
     <!--Muj font awesome-->
   </head>
-  <style>
-    body {
-      background-image: url("/public/images/minecraft_fishing.png");
-    }
-  </style>
 
-  <body class="text-white">
+  <body
+    class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white"
+  >
     <header class="bg-gray-800 p-4 shadow-lg">
       <div class="container mx-auto flex justify-between m-2">
         <blockquote class="text-2xl font-semibold text-white">
@@ -26,45 +23,46 @@
           <span
             class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block"
           >
-            <span class="relative text-white">Home</span>
+            <span class="relative text-white">Profile</span>
           </span>
-          <i class="fa-solid fa-house ml-2"></i>
+          <i class="fa-solid fa-user ml-2"></i>
           <!--text-->
         </blockquote>
         <nav>
           <ul class="flex space-x-12 mt-1 mr-10">
             <li>
               <a href="/home" class="hover:text-blue-500"
-                >Home <i class="fa-solid fa-house ml-1"></i
+                >Home <i class="fa-solid fa-house"></i
               ></a>
             </li>
             <li>
               <a href="/register" class="hover:text-blue-500"
                 >Sing up
-                <i class="fas fa-user-plus ml-1"></i>
+                <i class="fas fa-user-plus ml-2"></i>
               </a>
             </li>
             <li>
               <a href="/login" class="hover:text-blue-500"
-                >Login <i class="fa-solid fa-right-to-bracket ml-1"></i
+                >Login <i class="fa-solid fa-right-to-bracket ml-2"></i
               ></a>
             </li>
             <li>
               <a href="/mainpage" class="hover:text-blue-500"
                 >Fishing simulator
-                <i class="fa-solid fa-fish ml-1"></i>
+                <i class="fa-solid fa-fish"></i>
               </a>
             </li>
             <li>
               <a href="/profile" class="hover:text-blue-500"
                 >Profile
-                <i class="fa-solid fa-user ml-1"></i>
+                <i class="fa-solid fa-user"></i>
               </a>
             </li>
           </ul>
         </nav>
       </div>
     </header>
-    <div></div>
+
+    <script></script>
   </body>
 </html>

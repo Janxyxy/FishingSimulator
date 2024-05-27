@@ -70,6 +70,15 @@ app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "login.html"));
 });
 
+app.get("/profile", (req, res) => {
+  if (!req.session || !req.session.userId) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    //res.status(401).send("Přístup zamítnut. Prosím přihlašte se.");
+    return;
+  }
+  res.sendFile(path.join(__dirname, "src", "profile.html"));
+});
+
 app.use("/mainpage", (req, res, next) => {
   if (!req.session || !req.session.userId) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));

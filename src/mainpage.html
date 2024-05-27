@@ -28,50 +28,51 @@
           <!--text-->
         </blockquote>
         <nav>
-          <ul class="flex space-x-8 mt-1 mr-10">
+          <ul class="flex space-x-12 mt-1 mr-10">
             <li>
-              <a href="/home" class="hover:text-gray-300">Home</a>
-              <i class="fa-solid fa-house"></i>
+              <a href="/home" class="hover:text-blue-500"
+                >Home <i class="fa-solid fa-house ml-1"></i
+              ></a>
             </li>
             <li>
-              <a href="/register" class="hover:text-gray-300">Sing up</a>
-              <i class="fas fa-user-plus text-white ml-2"></i>
+              <a href="/register" class="hover:text-blue-500"
+                >Sing up
+                <i class="fas fa-user-plus ml-1"></i>
+              </a>
             </li>
             <li>
-              <a href="/login" class="hover:text-gray-300">Login</a>
-              <i class="fa-solid fa-right-to-bracket"></i>
+              <a href="/login" class="hover:text-blue-500"
+                >Login <i class="fa-solid fa-right-to-bracket ml-1"></i
+              ></a>
             </li>
             <li>
-              <a href="/mainpage" class="hover:text-gray-300"
-                >Fishing simulator</a
-              >
-              <i class="fa-solid fa-fish"></i>
+              <a href="/mainpage" class="hover:text-blue-500"
+                >Fishing simulator
+                <i class="fa-solid fa-fish ml-1"></i>
+              </a>
+            </li>
+            <li>
+              <a href="/profile" class="hover:text-blue-500"
+                >Profile
+                <i class="fa-solid fa-user ml-1"></i>
+              </a>
             </li>
           </ul>
         </nav>
       </div>
     </header>
     <div class="px-6 py-6 lg:px-8">
-      <h1
-        class="h-14 w-auto bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500 text-center text-4xl font-bold tracking-tight"
-      >
-        Fishing simulator
-      </h1>
-      <div>
-        <button
-          onclick="event.preventDefault(); redirectToLogout()"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Logout
-        </button>
-
-        <button
-          onclick="event.preventDefault(); fish()"
-          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Fish
-        </button>
+      <div class="grid place-items-end">
+        <div>
+          <button
+            onclick="event.preventDefault(); redirectToLogout()"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Logout
+          </button>
+        </div>
       </div>
+
       <p class="text-white">Your User ID: <span id="userId"></span></p>
       <p class="text-white"><span id="username"></span></p>
     </div>
@@ -119,6 +120,10 @@
 
       function redirectToLogout() {
         window.location.href = "/api/logout";
+      }
+
+      function redirectToProfile() {
+        window.location.href = "/profile";
       }
 
       function fish() {
