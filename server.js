@@ -93,7 +93,7 @@ app.get("/api/logout", (req, res) => {
     if (err) {
       return res.status(500).send("Chyba při odstraňování session");
     }
-    res.redirect("/index");
+    res.redirect("/home");
   });
 });
 
@@ -135,12 +135,15 @@ app.get("/api/username", (req, res) => {
 });
 
 app.get("/api/fish", (req, res) => {
-  connection.query("SELECT * FROM userItems", (error, results, fields) => {
+  const selectQuery = "SELECT * FROM fish";
+  connection.query(selectQuery, (error, results, fields) => {
     if (error) {
-      res.status(500).send("Chyba databáze: " + error.message);
+      res
+        .status(500)
+        .send("Error retrieving fish data from database: " + error.message);
       return;
     }
-    res.json({ result: results });
+    res.json(results);
   });
 });
 

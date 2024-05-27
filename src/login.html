@@ -120,7 +120,7 @@
             />
             <i
               id="toggleIcon"
-              class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
+              class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-black"
             ></i>
           </div>
         </div>
@@ -164,11 +164,11 @@
         if (passwordInput.type === "password") {
           passwordInput.type = "text";
           toggleIcon.className =
-            "fa-solid fa-eye absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer";
+            "fa-solid fa-eye absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
         } else {
           passwordInput.type = "password";
           toggleIcon.className =
-            "fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer";
+            "fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
         }
       });
 
