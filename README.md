@@ -53,14 +53,14 @@ CREATE TABLE users (
     id  INT AUTO_INCREMENT PRIMARY KEY ,
     username VARCHAR(60) NOT NULL,
     email VARCHAR(60) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
 );
 ```
 
 ```sql
 CREATE TABLE items (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(25) NOT NULL
+    name VARCHAR(25) NOT NULL,
     category VARCHAR(25) NOT NULL
 );
 ```
