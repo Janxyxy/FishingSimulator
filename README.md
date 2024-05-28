@@ -26,6 +26,12 @@
 
 ## Setup
 
+Install all dependencies:
+
+```
+npm install
+```
+
 Start tailwind watch:
 
 ```
