@@ -79,7 +79,8 @@ app.get("/profile", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "profile.html"));
 });
 
-app.use("/mainpage", (req, res, next) => {
+app.get("/mainpage", (req, res) => {
+  //use/get?
   if (!req.session || !req.session.userId) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     //res.status(401).send("Přístup zamítnut. Prosím přihlašte se.");
@@ -125,11 +126,15 @@ app.post("/api/register", (req, res) => {
   TryMakeUser(username, email, password, res);
 });
 
-//ASP endpoints
+app.delete("/api/delete", (req, res) => {
+  DeleteUser(req, res);
+});
+
+//API endpoints
 
 app.get("/api/userId", (req, res) => {
   if (!req.session || !req.session.userId) {
-    res.status(401).send("Unauthorized");
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
   res.json({ userId: req.session.userId });
@@ -137,13 +142,63 @@ app.get("/api/userId", (req, res) => {
 
 app.get("/api/username", (req, res) => {
   if (!req.session || !req.session.username) {
-    res.status(401).send("Unauthorized");
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
   res.json({ username: req.session.username });
 });
 
+app.get("/api/creation_date", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+  const selectQuery = "SELECT creation_date FROM users WHERE id = ?";
+  connection.query(
+    selectQuery,
+    [req.session.userId],
+    (error, results, fields) => {
+      if (error) {
+        res
+          .status(500)
+          .send(
+            "Error retrieving creation date from database: " + error.message
+          );
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
+app.get("/api/last_update_time", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+  const selectQuery = "SELECT last_update_time FROM users WHERE id = ?";
+  connection.query(
+    selectQuery,
+    [req.session.userId],
+    (error, results, fields) => {
+      if (error) {
+        res
+          .status(500)
+          .send(
+            "Error retrieving creation date from database: " + error.message
+          );
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
 app.get("/api/fish", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
   const selectQuery = "SELECT * FROM fish";
   connection.query(selectQuery, (error, results, fields) => {
     if (error) {
@@ -244,6 +299,62 @@ function CreateUser(username, email, password, res) {
     );
   });
 }
+
+function DeleteUser(req, res) {
+  console.log("Delete request received");
+  const userId = req.session.userId;
+
+  if (!userId) {
+    console.log("session ID invalid");
+    res.status(400).send("Invalid session ID");
+    return;
+  }
+
+  const deleteQuery = "DELETE FROM users WHERE id = ?";
+
+  connection.query(deleteQuery, [userId], (error, results, fields) => {
+    if (error) {
+      res
+        .status(500)
+        .send("Database error while deleting user: " + error.message);
+      console.log("Database error while deleting user: " + error.message);
+      return;
+    }
+
+    if (results.affectedRows === 0) {
+      res.status(404).send("User not found");
+      console.log("User not found id: " + userId);
+      return;
+    }
+
+    //TODO: Add fish deletion
+    //TODO: Add user session deletion
+    //TODO: Redirect to home page
+    resetAutoIncrement();
+
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(500).send("Chyba při odstraňování session");
+      }
+      res.sendStatus(200);
+    });
+
+    console.log("User deleted successfully");
+  });
+}
+
+function resetAutoIncrement() {
+  const resetQuery = "ALTER TABLE users AUTO_INCREMENT = 1";
+  connection.query(resetQuery, (error, results, fields) => {
+    if (error) {
+      console.error("Error resetting auto increment: " + error.message);
+      return;
+    }
+    console.log("Auto increment reset successfully");
+  });
+}
+
+resetAutoIncrement();
 
 // Start server
 app.listen(port, () => {

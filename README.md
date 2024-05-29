@@ -46,6 +46,7 @@ npm run start
 
 ## Database
 
+[Databáze](http://localhost/phpmyadmin/index.php?route=/database/structure&db=fishing_simulator) -
 fishing_simulator
 
 - users
@@ -86,8 +87,9 @@ CREATE TABLE userItems  (
 
 ## ENV Variables
 
-Variables in .env file:
-<br>DATABASE = fishing_simulator
+Variables in .env file:<br>
+
+DATABASE = fishing_simulator
 <br>DATABASE_HOST = localhost
 <br>DATABASE_USER = root
 <br>DATABASE_PASSWORD =

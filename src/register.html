@@ -203,9 +203,15 @@
       id="successPopup"
       class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 invisible"
     >
-      <div class="bg-white p-6 rounded-lg shadow-lg text-center">
-        <h2 class="text-2xl font-bold mb-4">User Created Successfully!</h2>
-        <p class="mb-6">
+      <div class="bg-white p-4 rounded-lg shadow-lg text-center">
+        <h2 class="text-2xl font-bold mb-4 text-black">
+          User Created Successfully!
+        </h2>
+        <div class="flex justify-center">
+          <img src="/public/images/Superman.png" class="w-96 rounded-lg" />
+        </div>
+
+        <p class="mb-6 text-black">
           Your account has been created. Please log in to continue.
         </p>
         <button
@@ -300,6 +306,7 @@
           if (response.ok) {
             //user created
             successPopup.classList.remove("invisible");
+            playMusic();
           } else if (response.status === 409) {
             response.json().then((jsonResponse) => {
               console.error("Chyba serveru 409:", jsonResponse.error);
@@ -316,6 +323,12 @@
             alert("Došlo k chybě");
           }
         });
+      }
+
+      function playMusic() {
+        const audio = new Audio("/public/sounds/starman_meme.mp3");
+        audio.loop = true;
+        audio.play();
       }
     </script>
   </body>
