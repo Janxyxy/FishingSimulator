@@ -8,6 +8,10 @@
 - [Technologies Used](#technologies-used)
 - [Members](#members)
 - [Setup](#setup)
+- [Database](#database)
+  - [Schema](#schema)
+- [ENV Variables](#env-variables)
+- [Admin dashboard](#admin-dashboard)
 
 ## Introduction
 
@@ -53,7 +57,7 @@ fishing_simulator
 - items
 - userItems
 
-### Scheama
+### Schema
 
 ```sql
 CREATE TABLE users (
@@ -95,3 +99,9 @@ DATABASE = fishing_simulator
 <br>DATABASE_PASSWORD =
 
 SECRET_KEY = my_secure_random_key_12345
+
+## Admin dashboard
+
+Dashboard is available only for admin users.
+Admin user is user with id = 1
+[Dashboard](http://localhost:3000/dashboard)

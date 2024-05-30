@@ -79,6 +79,14 @@ app.get("/profile", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "profile.html"));
 });
 
+app.get("/dashboard", (req, res) => {
+  if (req.session && req.session.userId === 1) {
+    res.sendFile(path.join(__dirname, "src", "dashboard.html"));
+    return;
+  }
+  res.sendFile(path.join(__dirname, "src", "401page.html"));
+});
+
 app.get("/mainpage", (req, res) => {
   //use/get?
   if (!req.session || !req.session.userId) {
@@ -131,6 +139,26 @@ app.delete("/api/delete", (req, res) => {
 });
 
 //API endpoints
+
+app.get("/api/users", (req, res) => {
+  if (!req.session || !req.session.username || req.session.userId !== 1) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+
+  const selectQuery =
+    "SELECT id, username, email, creation_date, last_update_time FROM users";
+
+  connection.query(selectQuery, (error, results, fields) => {
+    if (error) {
+      res
+        .status(500)
+        .send("Error retrieving user data from database: " + error.message);
+      return;
+    }
+    res.json(results);
+  });
+});
 
 app.get("/api/userId", (req, res) => {
   if (!req.session || !req.session.userId) {
