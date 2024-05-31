@@ -140,6 +140,7 @@ app.delete("/api/delete", (req, res) => {
 
 //API endpoints
 
+//Admin only
 app.get("/api/users", (req, res) => {
   if (!req.session || !req.session.username || req.session.userId !== 1) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
@@ -220,6 +221,38 @@ app.get("/api/last_update_time", (req, res) => {
       res.json(results);
     }
   );
+});
+
+app.get("/api/inventory", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+  const selectQuery = "SELECT * FROM useritems WHERE user_id = ?";
+  connection.query(
+    selectQuery,
+    [req.session.userId],
+    (error, results, fields) => {
+      if (error) {
+        res
+          .status(500)
+          .send(
+            "Error retrieving inventory data from database: " + error.message
+          );
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
+//Admin only
+app.get("/api/inventory/:userId", (req, res) => {
+  if (!req.session || !req.session.username || req.session.userId !== 1) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+  const userId = req.params.userId;
 });
 
 app.get("/api/fish", (req, res) => {

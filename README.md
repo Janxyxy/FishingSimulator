@@ -10,6 +10,7 @@
 - [Setup](#setup)
 - [Database](#database)
   - [Schema](#schema)
+  - [Items](#items)
 - [ENV Variables](#env-variables)
 - [Admin dashboard](#admin-dashboard)
 
@@ -29,6 +30,8 @@
 - Jirka
 
 ## Setup
+
+Install Node.js and npm from [here](https://nodejs.org/en).
 
 Install all dependencies:
 
@@ -87,6 +90,40 @@ CREATE TABLE userItems  (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (item_id) REFERENCES items(id)
 );
+```
+
+### Items
+
+add items to the items table
+
+```sql
+-- Fish Items
+INSERT INTO items (name, category) VALUES ('Raw Cod', 'Fish');
+INSERT INTO items (name, category) VALUES ('Raw Salmon', 'Fish');
+INSERT INTO items (name, category) VALUES ('Tropical Fish', 'Fish');
+INSERT INTO items (name, category) VALUES ('Pufferfish', 'Fish');
+
+-- Junk Items
+INSERT INTO items (name, category) VALUES ('Lily Pad', 'Junk');
+INSERT INTO items (name, category) VALUES ('Bowl', 'Junk');
+INSERT INTO items (name, category) VALUES ('Leather', 'Junk');
+INSERT INTO items (name, category) VALUES ('Leather Boots', 'Junk');
+INSERT INTO items (name, category) VALUES ('Rotten Flesh', 'Junk');
+INSERT INTO items (name, category) VALUES ('Stick', 'Junk');
+INSERT INTO items (name, category) VALUES ('String', 'Junk');
+INSERT INTO items (name, category) VALUES ('Water Bottle', 'Junk');
+INSERT INTO items (name, category) VALUES ('Bone', 'Junk');
+INSERT INTO items (name, category) VALUES ('Ink Sac', 'Junk');
+INSERT INTO items (name, category) VALUES ('Tripwire Hook', 'Junk');
+
+-- Treasure Items
+INSERT INTO items (name, category) VALUES ('Enchanted Book', 'Treasure');
+INSERT INTO items (name, category) VALUES ('Saddle', 'Treasure');
+INSERT INTO items (name, category) VALUES ('Name Tag', 'Treasure');
+INSERT INTO items (name, category) VALUES ('Nautilus Shell', 'Treasure');
+INSERT INTO items (name, category) VALUES ('Bow', 'Treasure');
+INSERT INTO items (name, category) VALUES ('Fishing Rod', 'Treasure');
+INSERT INTO items (name, category) VALUES ('Lily Pad', 'Treasure');
 ```
 
 ## ENV Variables

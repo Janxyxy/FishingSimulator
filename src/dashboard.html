@@ -67,6 +67,22 @@
         </div>
 
         <script>
+            function handleInventoryClick(event, url) {
+                event.preventDefault();
+                fetchInventory(url);
+            }
+
+            function fetchInventory(url) {
+                fetch(url)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching inventory:', error);
+                    });
+            }
+
             fetch('/api/users')
                 .then(response => response.json())
                 .then(data => {
@@ -104,7 +120,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <a class="inline-flex items-center text-base font-semibold text-white" href="/api/items/${user.id}">
+                            <a id="inventory-link" class="inline-flex items-center text-base font-semibold text-white" onclick="handleInventoryClick(event, '/api/items/${user.id}')">
                                 Inventory
                                 <i class="fa-solid fa-box ml-1 mt-1"></i>
                             </a>
