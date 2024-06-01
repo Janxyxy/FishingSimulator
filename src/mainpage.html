@@ -41,104 +41,190 @@
               <i class="fa-solid fa-fish ml-1"></i>
             </a>
           </li>
-          <li>
-            <a href="/profile" class="hover:text-blue-500">Profile
-              <i class="fa-solid fa-user ml-1"></i>
-            </a>
-          </li>
         </ul>
       </nav>
     </div>
   </header>
   <div class="px-6 py-6 lg:px-8">
-    <div class="grid place-items-end">
-      <div>
-        <button onclick="event.preventDefault(); redirectToDashboard()" id="dashboardButton"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded invisible">
-          Dashboard
-        </button>
-        <button onclick="event.preventDefault(); redirectToLogout()"
-          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-          Logout
-        </button>
+    <div class="max-w- p-5">
+
+      <div
+        class="p-4 max-w-screen-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Profile</h3>
+          <div class="" id="buttons">
+            <button onclick="event.preventDefault(); redirectToLogout()"
+              class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-3 rounded-lg">
+              Logout
+            </button>
+            <button onclick="showDeletePopup();"
+              class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-3 rounded-lg mt-4">Delete profile
+            </button>
+          </div>
+        </div>
+
+        <div class="flow-root">
+          <ul role="list" class="divide-y  divide-gray-200 dark:divide-gray-700" id="userList">
+            <!-- List items will be appended here by JavaScript -->
+          </ul>
+        </div>
+
       </div>
     </div>
 
-    <p class="text-white">Your User ID: <span id="userId"></span></p>
-    <p class="text-white"><span id="username"></span></p>
-  </div>
-  <h1 class="text-center text-white text-2xl mt-4">
-    Jirkoooo udelej csska díky
-  </h1>
-  <div>
-    <img class="border-rad" src="/public/images/minecraft_fishing4.png" />
-  </div>
-  <script>
-    const dashboardButton = document.getElementById("dashboardButton");
+    <h1 class="text-center text-white text-2xl mt-4">
+      Jirkoooo udelej csska díky
+    </h1>
+    <div>
+      <img class="border-rad" src="/public/images/minecraft_fishing4.png" />
+    </div>
+    <div id="deletePopup"
+      class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 invisible">
+      <div class="bg-white p-4 rounded-lg shadow-lg text-center">
+        <h2 class="text-2xl font-bold mb-4 text-black">
+          Delte! Delete! Delete!
+        </h2>
+        <p class="mb-4 text-black">
+          This action is irreversible and all your data will be lost.
+        </p>
+        <div class="flex justify-center">
+          <img src="/public/images/deleteuser.png" class="w-96 rounded-lg" />
+        </div>
+        <div class=" mt-4 flex justify-center gap-6">
+          <button id="loginButton" onclick="event.preventDefault(); DeleteUser();"
+            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            Yes, I am sigma
+          </button>
+          <button id="loginButton" onclick="hideDeletePopup();"
+            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+            No, I not sigma
+          </button>
+        </div>
 
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("/api/userId")
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Failed to fetch user ID");
-          }
+      </div>
+    </div>
+
+    <script>
+
+      const dashboardButton = document.getElementById("dashboardButton");
+      const popup = document.getElementById("deletePopup");
+
+      function showDeletePopup() {
+        popup.classList.remove("invisible");
+      }
+
+      function hideDeletePopup() {
+        popup.classList.add("invisible");
+      }
+
+      function DeleteUser() {
+        fetch("/api/delete", {
+          method: "DELETE",
         })
-        .then((data) => {
-          document.getElementById("userId").textContent = data.userId;
-          if (data.userId === 1) {
-            dashboardButton.classList.remove("invisible");
-          }
+          .then((response) => {
+            if (response.ok) {
+              window.location.href = "/home";
+            } else {
+              throw new Error("Failed to delete user");
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting user:", error);
+          });
+      }
+
+
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch('/api/user')
+          .then(response => response.json())
+          .then(data => {
+            const userList = document.getElementById('userList');
+            data.forEach(user => {
+              if (user.id === 1) {
+                const buttons = document.getElementById('buttons');
+                const dashboardButton = document.createElement('button');
+                dashboardButton.onclick = function () {
+                  event.preventDefault();
+                  redirectToDashboard();
+                };
+                dashboardButton.id = "dashboardButton";
+                dashboardButton.className = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded-lg";
+                dashboardButton.innerText = "Dashboard";
+                buttons.appendChild(dashboardButton);
+              }
+              const userItem = document.createElement('li');
+              userItem.className = "py-3 sm:py-4";
+              userItem.innerHTML = `
+            <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0 mb-5">
+              <i class="fa-solid fa-user ml-2"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+              <div>
+                  <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                ${user.username} /
+                  </span>
+                  <span class="text-sm text-gray-500 truncate dark:text-gray-400">
+                ${user.email}
+                <i class="fa-solid fa-envelope ml-1"></i>
+                  </span>
+              </div>
+              <div class="flex items-center mt-2 space-x-2">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
+                ${user.id}
+                <i class="fa-solid fa-id-card-clip ml-1"></i>
+                  </span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-200 text-green-800">
+                ${new Date(user.creation_date).toLocaleString()}
+                <i class="fa-solid fa-file-circle-plus ml-1"></i>
+                  </span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800">
+                ${new Date(user.last_update_time).toLocaleString()}
+                <i class="fa-solid fa-pen ml-1"></i>
+                  </span>
+              </div>
+                </div>
+                <a id="inventory-link" class="inline-flex items-center text-base font-semibold text-white" onclick="handleInventoryClick(event, '/api/items/${user.id}')">
+              Inventory
+              <i class="fa-solid fa-box ml-1 mt-1"></i>
+                </a>
+            </div>
+              `;
+              userList.appendChild(userItem);
+            });
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      });
+
+      function redirectToLogout() {
+        window.location.href = "/api/logout";
+      }
+
+      function redirectToDashboard() {
+        window.location.href = "/dashboard";
+      }
+
+      function redirectToProfile() {
+        window.location.href = "/profile";
+      }
+
+      function fish() {
+        fetch("/api/fish", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({}),
         })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    });
+          .then((response) => response.json())
+          .then((data) => {
+            alert(data.message);
+          });
+      }
 
-    document.addEventListener("DOMContentLoaded", function () {
-      fetch("/api/username")
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          } else {
-            throw new Error("Failed to fetch user ID");
-          }
-        })
-        .then((data) => {
-          document.getElementById("username").textContent = data.username;
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-    });
-
-    function redirectToLogout() {
-      window.location.href = "/api/logout";
-    }
-
-    function redirectToDashboard() {
-      window.location.href = "/dashboard";
-    }
-
-    function redirectToProfile() {
-      window.location.href = "/profile";
-    }
-
-    function fish() {
-      fetch("/api/fish", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({}),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          alert(data.message);
-        });
-    }
-  </script>
+    </script>
 </body>
 
 </html>

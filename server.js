@@ -161,6 +161,30 @@ app.get("/api/users", (req, res) => {
   });
 });
 
+app.get("/api/user", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+
+  const selectQuery =
+    "SELECT id, username, email, creation_date, last_update_time FROM users WHERE id = ?";
+
+  connection.query(
+    selectQuery,
+    [req.session.userId],
+    (error, results, fields) => {
+      if (error) {
+        res
+          .status(500)
+          .send("Error retrieving user data from database: " + error.message);
+        return;
+      }
+      res.json(results);
+    }
+  );
+});
+
 app.get("/api/userId", (req, res) => {
   if (!req.session || !req.session.userId) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));

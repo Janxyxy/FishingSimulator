@@ -43,11 +43,6 @@
                             <i class="fa-solid fa-fish"></i>
                         </a>
                     </li>
-                    <li>
-                        <a href="/profile" class="hover:text-blue-500">Profile
-                            <i class="fa-solid fa-user"></i>
-                        </a>
-                    </li>
                 </ul>
             </nav>
     </header>
@@ -65,32 +60,33 @@
                 </ul>
             </div>
         </div>
+    </div>
 
-        <script>
-            function handleInventoryClick(event, url) {
-                event.preventDefault();
-                fetchInventory(url);
-            }
+    <script>
+        function handleInventoryClick(event, url) {
+            event.preventDefault();
+            fetchInventory(url);
+        }
 
-            function fetchInventory(url) {
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                    })
-                    .catch(error => {
-                        console.error('Error fetching inventory:', error);
-                    });
-            }
-
-            fetch('/api/users')
+        function fetchInventory(url) {
+            fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    const userList = document.getElementById('userList');
-                    data.forEach(user => {
-                        const userItem = document.createElement('li');
-                        userItem.className = "py-3 sm:py-4";
-                        userItem.innerHTML = `
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching inventory:', error);
+                });
+        }
+
+        fetch('/api/users')
+            .then(response => response.json())
+            .then(data => {
+                const userList = document.getElementById('userList');
+                data.forEach(user => {
+                    const userItem = document.createElement('li');
+                    userItem.className = "py-3 sm:py-4";
+                    userItem.innerHTML = `
                         <div class="flex items-center space-x-4">
                             <div class="flex-shrink-0 mb-5">
                                 <i class="fa-solid fa-user ml-2"></i>
@@ -126,13 +122,13 @@
                             </a>
                         </div>
                     `;
-                        userList.appendChild(userItem);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
+                    userList.appendChild(userItem);
                 });
-        </script>
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    </script>
 </body>
 
 </html>
