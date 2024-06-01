@@ -1,340 +1,267 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/output.css" rel="stylesheet" />
-    <!--Tailwind CSS-->
-    <script
-      src="https://kit.fontawesome.com/c4ffb2ea08.js"
-      crossorigin="anonymous"
-    ></script>
-    <!--Muj font awesome-->
-    <title>Register</title>
-  </head>
 
-  <body
-    class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white"
-  >
-    <header class="bg-gray-800 p-4 shadow-lg">
-      <div class="container mx-auto flex justify-between m-2">
-        <blockquote class="text-2xl font-semibold text-white">
-          <!--text-->
-          <span
-            class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block"
-          >
-            <span class="relative text-white">Register</span>
-          </span>
-          <i class="fas fa-user-plus text-white ml-2"></i>
-          <!--text-->
-        </blockquote>
-        <nav>
-          <ul class="flex space-x-12 mt-1 mr-10">
-            <li>
-              <a href="/home" class="hover:text-blue-500"
-                >Home <i class="fa-solid fa-house ml-1"></i
-              ></a>
-            </li>
-            <li>
-              <a href="/register" class="hover:text-blue-500"
-                >Sing up
-                <i class="fas fa-user-plus ml-1"></i>
-              </a>
-            </li>
-            <li>
-              <a href="/login" class="hover:text-blue-500"
-                >Login <i class="fa-solid fa-right-to-bracket ml-1"></i
-              ></a>
-            </li>
-            <li>
-              <a href="/mainpage" class="hover:text-blue-500"
-                >Fishing simulator
-                <i class="fa-solid fa-fish ml-1"></i>
-              </a>
-            </li>
-            <li>
-              <a href="/profile" class="hover:text-blue-500"
-                >Profile
-                <i class="fa-solid fa-user ml-1"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/output.css" rel="stylesheet" />
+  <!--Tailwind CSS-->
+  <script src="https://kit.fontawesome.com/c4ffb2ea08.js" crossorigin="anonymous"></script>
+  <!--Muj font awesome-->
+  <title>Register</title>
+</head>
 
-    <div class="px-4 py-4 lg:px-6">
-      <div
-        class="mt-4 sm:mx-auto sm:w-full sm:max-w-sm bg-clip-border p-6 bg-gray-900 border-4 border-violet-600 border-dashed rounded-lg"
-      >
-        <form class="space-y-6" onSubmit="event.preventDefault(); sendForm()">
-          <div class="flex items-center justify-center">
-            <h1 class="text-3xl font-medium leading-4 text-white">Sing up</h1>
-          </div>
-          <div>
-            <label
-              for="username"
-              class="block text-sm font-medium leading-6 text-white"
-              >Name</label
-            >
-            <div class="mt-2 relative">
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autocomplete="off"
-                required
-                class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-              <i
-                class="fa-solid fa-user absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-              ></i>
-            </div>
-          </div>
-          <div>
-            <label
-              for="email"
-              class="block text-sm font-medium leading-6 text-white"
-              >Email address</label
-            >
-            <div class="mt-2 relative">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autocomplete="off"
-                required
-                class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-              <i
-                class="fa-solid fa-envelope absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"
-              ></i>
-            </div>
-          </div>
-
-          <div>
-            <div class="flex items-center justify-between">
-              <label
-                for="password"
-                class="block text-sm font-medium leading-6 text-white"
-                >Password</label
-              >
-              <div id="passworddosentrepeat" class="text-sm invisible">
-                <span class="font-semibold text-red-500"
-                  >Password doesn't match</span
-                >
-                <i class="fa-solid fa-xmark text-red-500"></i>
-              </div>
-            </div>
-            <div class="mt-2 relative">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="current-password"
-                oninput="checkIfPassMatch()"
-                required
-                class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-              <i
-                id="toggleIcon"
-                class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-black"
-              ></i>
-            </div>
-          </div>
-
-          <div>
-            <div class="flex items-center justify-between">
-              <label
-                for="password2"
-                class="block text-sm font-medium leading-6 text-white"
-                >Password again</label
-              >
-              <div id="passworddosentrepeat2" class="text-sm invisible">
-                <span class="font-semibold text-red-500"
-                  >Password doesn't match</span
-                >
-                <i class="fa-solid fa-xmark text-red-500"></i>
-              </div>
-            </div>
-            <div class="mt-2 relative">
-              <input
-                id="password2"
-                name="password2"
-                type="password"
-                autocomplete="current-password"
-                oninput="checkIfPassMatch()"
-                required
-                class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-              <i
-                id="toggleIcon2"
-                class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-black"
-              ></i>
-            </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign up
-            </button>
-          </div>
-        </form>
-        <div id="errordiv" class="text-lg text-center mt-2 invisible">
-          <span id="errormessage" class="font-semibold text-red-500"></span>
-          <i class="fa-solid fa-xmark text-red-500"></i>
-        </div>
-
-        <p class="mt-2 text-center text-sm text-gray-500">
-          Alredy a member?
-          <a
-            href="/login"
-            class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-            >Log in</a
-          >
-        </p>
-      </div>
+<body
+  class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white">
+  <header class="bg-gray-800 p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between m-2">
+      <blockquote class="text-2xl font-semibold text-white">
+        <!--text-->
+        <span
+          class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block">
+          <span class="relative text-white">Register</span>
+        </span>
+        <i class="fas fa-user-plus text-white ml-2"></i>
+        <!--text-->
+      </blockquote>
+      <nav>
+        <ul class="flex space-x-12 mt-1 mr-10">
+          <li>
+            <a href="/home" class="hover:text-blue-500">Home <i class="fa-solid fa-house ml-1"></i></a>
+          </li>
+          <li>
+            <a href="/register" class="hover:text-blue-500">Sing up
+              <i class="fas fa-user-plus ml-1"></i>
+            </a>
+          </li>
+          <li>
+            <a href="/login" class="hover:text-blue-500">Login <i class="fa-solid fa-right-to-bracket ml-1"></i></a>
+          </li>
+          <li>
+            <a href="/mainpage" class="hover:text-blue-500">Fishing simulator
+              <i class="fa-solid fa-fish ml-1"></i>
+            </a>
+          </li>
+          <li>
+            <a href="/profile" class="hover:text-blue-500">Profile
+              <i class="fa-solid fa-user ml-1"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
+  </header>
 
+  <div class="px-4 py-4 lg:px-6">
     <div
-      id="successPopup"
-      class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 invisible"
-    >
-      <div class="bg-white p-4 rounded-lg shadow-lg text-center">
-        <h2 class="text-2xl font-bold mb-4 text-black">
-          User Created Successfully!
-        </h2>
-        <div class="flex justify-center">
-          <img src="/public/images/Superman.png" class="w-96 rounded-lg" />
+      class="mt-4 sm:mx-auto sm:w-full sm:max-w-sm bg-clip-border p-6 bg-gray-900 border-4 border-violet-600 border-dashed rounded-lg">
+      <form class="space-y-6" onSubmit="event.preventDefault(); sendForm()">
+        <div class="flex items-center justify-center">
+          <h1 class="text-3xl font-medium leading-4 text-white">Sing up</h1>
+        </div>
+        <div>
+          <label for="username" class="block text-sm font-medium leading-6 text-white">Name</label>
+          <div class="mt-2 relative">
+            <input id="username" name="username" type="text" autocomplete="off" required
+              class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <i class="fa-solid fa-user absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"></i>
+          </div>
+        </div>
+        <div>
+          <label for="email" class="block text-sm font-medium leading-6 text-white">Email address</label>
+          <div class="mt-2 relative">
+            <input id="email" name="email" type="email" autocomplete="off" required
+              class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <i class="fa-solid fa-envelope absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"></i>
+          </div>
         </div>
 
-        <p class="mb-3 text-black">
-          Your account has been created. Please log in to continue.
-        </p>
-        <p class="mb-4 text-black">
-          There's a starman waiting in the sky<br />
-          He'd like to come and meet us<br />
-          But he thinks he'd blow our minds
-        </p>
-        <button
-          id="loginButton"
-          onclick="window.location.href = '/login';"
-          class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-44 rounded"
-        >
-          Dive in
-        </button>
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm font-medium leading-6 text-white">Password</label>
+            <div id="passworddosentrepeat" class="text-sm invisible">
+              <span class="font-semibold text-red-500">Password doesn't match</span>
+              <i class="fa-solid fa-xmark text-red-500"></i>
+            </div>
+          </div>
+          <div class="mt-2 relative">
+            <input id="password" name="password" type="password" autocomplete="current-password"
+              oninput="checkIfPassMatch()" required
+              class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <i id="toggleIcon"
+              class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-black"></i>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password2" class="block text-sm font-medium leading-6 text-white">Password again</label>
+            <div id="passworddosentrepeat2" class="text-sm invisible">
+              <span class="font-semibold text-red-500">Password doesn't match</span>
+              <i class="fa-solid fa-xmark text-red-500"></i>
+            </div>
+          </div>
+          <div class="mt-2 relative">
+            <input id="password2" name="password2" type="password" autocomplete="current-password"
+              oninput="checkIfPassMatch()" required
+              class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <i id="toggleIcon2"
+              class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-black"></i>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit"
+            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Sign up
+          </button>
+        </div>
+      </form>
+      <div id="errordiv" class="text-lg text-center mt-2 invisible">
+        <span id="errormessage" class="font-semibold text-red-500"></span>
+        <i class="fa-solid fa-xmark text-red-500"></i>
       </div>
+
+      <p class="mt-2 text-center text-sm text-gray-500">
+        Alredy a member?
+        <a href="/login" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Log in</a>
+      </p>
     </div>
+  </div>
 
-    <script>
-      // variables
-      const passwordInput = document.getElementById("password");
-      const toggleIcon = document.getElementById("toggleIcon");
+  <div id="successPopup"
+    class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 invisible">
+    <div class="bg-white p-4 rounded-lg shadow-lg text-center">
+      <h2 class="text-2xl font-bold mb-4 text-black">
+        User Created Successfully!
+      </h2>
+      <div class="flex justify-center">
+        <img src="/public/images/Superman.png" class="w-96 rounded-lg" />
+      </div>
 
-      const passwordInput2 = document.getElementById("password2");
-      const toggleIcon2 = document.getElementById("toggleIcon2");
+      <p class="mb-3 text-black">
+        Your account has been created. Please log in to continue.
+      </p>
+      <p class="mb-4 text-black">
+        There's a starman waiting in the sky<br />
+        He'd like to come and meet us<br />
+        But he thinks he'd blow our minds
+      </p>
+      <button id="loginButton" onclick="window.location.href = '/login';"
+        class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-44 rounded">
+        Dive in
+      </button>
+    </div>
+  </div>
 
-      const passworddosentrepeat = document.getElementById(
-        "passworddosentrepeat"
-      );
-      const passworddosentrepeat2 = document.getElementById(
-        "passworddosentrepeat2"
-      );
+  <script>
+    // variables
+    const passwordInput = document.getElementById("password");
+    const toggleIcon = document.getElementById("toggleIcon");
 
-      const errordiv = document.getElementById("errordiv");
-      const errormessage = document.getElementById("errormessage");
+    const passwordInput2 = document.getElementById("password2");
+    const toggleIcon2 = document.getElementById("toggleIcon2");
 
-      const successPopup = document.getElementById("successPopup");
+    const passworddosentrepeat = document.getElementById(
+      "passworddosentrepeat"
+    );
+    const passworddosentrepeat2 = document.getElementById(
+      "passworddosentrepeat2"
+    );
 
-      toggleIcon.addEventListener("click", function () {
-        togglePasswordVisibility(passwordInput, toggleIcon);
-      });
+    const errordiv = document.getElementById("errordiv");
+    const errormessage = document.getElementById("errormessage");
 
-      toggleIcon2.addEventListener("click", function () {
-        togglePasswordVisibility(passwordInput2, toggleIcon2);
-      });
+    const successPopup = document.getElementById("successPopup");
 
-      function checkIfPassMatch() {
-        if (passwordInput.value !== passwordInput2.value) {
-          passworddosentrepeat.classList.remove("invisible");
-          passworddosentrepeat2.classList.remove("invisible");
+    toggleIcon.addEventListener("click", function () {
+      togglePasswordVisibility(passwordInput, toggleIcon);
+    });
+
+    toggleIcon2.addEventListener("click", function () {
+      togglePasswordVisibility(passwordInput2, toggleIcon2);
+    });
+
+    function checkIfPassMatch() {
+      if (passwordInput.value !== passwordInput2.value) {
+        passworddosentrepeat.classList.remove("invisible");
+        passworddosentrepeat2.classList.remove("invisible");
+      } else {
+        passworddosentrepeat.classList.add("invisible");
+        passworddosentrepeat2.classList.add("invisible");
+      }
+    }
+
+    function togglePasswordVisibility(input, icon) {
+      if (input.type === "password") {
+        input.type = "text";
+        icon.className =
+          "fa-solid fa-eye absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
+      } else {
+        input.type = "password";
+        icon.className =
+          "fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
+      }
+    }
+
+    function sendForm() {
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const password2 = document.getElementById("password2").value;
+
+      if (!username || !email || !password || !password2) {
+        alert("All fields are required");
+        return;
+      }
+
+      if (password !== password2) {
+        alert("Passwords do not match");
+        return;
+      }
+
+      const data = {
+        username,
+        email,
+        password,
+        password2,
+      };
+
+      fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }).then((response) => {
+        if (response.ok) {
+          //user created
+          successPopup.classList.remove("invisible");
+          playMusic();
+        } else if (response.status === 409) {
+          response.json().then((jsonResponse) => {
+            console.error("Chyba serveru 409:", jsonResponse.error);
+
+            //User already exists
+            errordiv.classList.remove("invisible");
+            errormessage.innerHTML = jsonResponse.error;
+          });
         } else {
-          passworddosentrepeat.classList.add("invisible");
-          passworddosentrepeat2.classList.add("invisible");
+          console.error(
+            "Neznámá chyba při registraci uživatele s kódem:",
+            response.status
+          );
+          alert("Došlo k chybě");
         }
-      }
+      });
+    }
 
-      function togglePasswordVisibility(input, icon) {
-        if (input.type === "password") {
-          input.type = "text";
-          icon.className =
-            "fa-solid fa-eye absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
-        } else {
-          input.type = "password";
-          icon.className =
-            "fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
-        }
-      }
+    function playMusic() {
+      const audio = new Audio("/public/sounds/starman_meme.mp3");
+      audio.loop = true;
+      audio.play();
+    }
+  </script>
+</body>
 
-      function sendForm() {
-        const username = document.getElementById("username").value;
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const password2 = document.getElementById("password2").value;
-
-        if (!username || !email || !password || !password2) {
-          alert("All fields are required");
-          return;
-        }
-
-        if (password !== password2) {
-          alert("Passwords do not match");
-          return;
-        }
-
-        const data = {
-          username,
-          email,
-          password,
-          password2,
-        };
-        fetch("http://localhost:3000/api/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        }).then((response) => {
-          if (response.ok) {
-            //user created
-            successPopup.classList.remove("invisible");
-            playMusic();
-          } else if (response.status === 409) {
-            response.json().then((jsonResponse) => {
-              console.error("Chyba serveru 409:", jsonResponse.error);
-
-              //User already exists
-              errordiv.classList.remove("invisible");
-              errormessage.innerHTML = jsonResponse.error;
-            });
-          } else {
-            console.error(
-              "Neznámá chyba při registraci uživatele s kódem:",
-              response.status
-            );
-            alert("Došlo k chybě");
-          }
-        });
-      }
-
-      function playMusic() {
-        const audio = new Audio("/public/sounds/starman_meme.mp3");
-        audio.loop = true;
-        audio.play();
-      }
-    </script>
-  </body>
 </html>

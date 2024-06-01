@@ -23,6 +23,12 @@
 - Node.js
 - Express.js
 - Tailwind CSS
+- Docker
+- MariaDB
+
+## Deployment
+
+You can access web [here](https://fishing.honza.space).
 
 ## Members
 
