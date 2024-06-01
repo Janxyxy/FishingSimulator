@@ -260,7 +260,7 @@ app.get("/api/fish", (req, res) => {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
-  const selectQuery = "SELECT * FROM fish";
+  const selectQuery = "SELECT * FROM items";
   connection.query(selectQuery, (error, results, fields) => {
     if (error) {
       res

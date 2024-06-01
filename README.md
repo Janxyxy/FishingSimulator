@@ -77,7 +77,8 @@ CREATE TABLE users (
 CREATE TABLE items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(25) NOT NULL,
-    category VARCHAR(25) NOT NULL
+    category VARCHAR(25) NOT NULL,
+    unenchanted_chance FLOAT NOT NULL
 );
 ```
 
@@ -97,33 +98,36 @@ CREATE TABLE userItems  (
 add items to the items table
 
 ```sql
--- Fish Items
-INSERT INTO items (name, category) VALUES ('Raw Cod', 'Fish');
-INSERT INTO items (name, category) VALUES ('Raw Salmon', 'Fish');
-INSERT INTO items (name, category) VALUES ('Tropical Fish', 'Fish');
-INSERT INTO items (name, category) VALUES ('Pufferfish', 'Fish');
+-- Inserting fish items
+INSERT INTO items (name, category, unenchanted_chance) VALUES
+('Raw Cod', 'Fish', 51.0),
+('Raw Salmon', 'Fish', 21.3),
+('Pufferfish', 'Fish', 11.1),
+('Tropical Fish', 'Fish', 1.7);
 
--- Junk Items
-INSERT INTO items (name, category) VALUES ('Lily Pad', 'Junk');
-INSERT INTO items (name, category) VALUES ('Bowl', 'Junk');
-INSERT INTO items (name, category) VALUES ('Leather', 'Junk');
-INSERT INTO items (name, category) VALUES ('Leather Boots', 'Junk');
-INSERT INTO items (name, category) VALUES ('Rotten Flesh', 'Junk');
-INSERT INTO items (name, category) VALUES ('Stick', 'Junk');
-INSERT INTO items (name, category) VALUES ('String', 'Junk');
-INSERT INTO items (name, category) VALUES ('Water Bottle', 'Junk');
-INSERT INTO items (name, category) VALUES ('Bone', 'Junk');
-INSERT INTO items (name, category) VALUES ('Ink Sac', 'Junk');
-INSERT INTO items (name, category) VALUES ('Tripwire Hook', 'Junk');
+-- Inserting junk items
+INSERT INTO items (name, category, unenchanted_chance) VALUES
+('Lily Pad', 'Junk', 1.7),
+('Bone', 'Junk', 1.0),
+('Bowl', 'Junk', 1.0),
+('Leather', 'Junk', 1.0),
+('Leather Boots', 'Junk', 1.0),
+('Rotten Flesh', 'Junk', 1.0),
+('Tripwire Hook', 'Junk', 1.0),
+('Water Bottle', 'Junk', 1.0),
+('Stick', 'Junk', 0.5),
+('String', 'Junk', 0.5),
+('Fishing Rod', 'Junk', 0.2),
+('10x Ink Sac', 'Junk', 0.1);
 
--- Treasure Items
-INSERT INTO items (name, category) VALUES ('Enchanted Book', 'Treasure');
-INSERT INTO items (name, category) VALUES ('Saddle', 'Treasure');
-INSERT INTO items (name, category) VALUES ('Name Tag', 'Treasure');
-INSERT INTO items (name, category) VALUES ('Nautilus Shell', 'Treasure');
-INSERT INTO items (name, category) VALUES ('Bow', 'Treasure');
-INSERT INTO items (name, category) VALUES ('Fishing Rod', 'Treasure');
-INSERT INTO items (name, category) VALUES ('Lily Pad', 'Treasure');
+-- Inserting treasure items
+INSERT INTO items (name, category, unenchanted_chance) VALUES
+('Enchanted Bow', 'Treasure', 0.8),
+('Enchanted Book', 'Treasure', 0.8),
+('Enchanted Fishing Rod', 'Treasure', 0.8),
+('Name Tag', 'Treasure', 0.8),
+('Nautilus Shell', 'Treasure', 0.8),
+('Saddle', 'Treasure', 0.8);
 ```
 
 ## ENV Variables

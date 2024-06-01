@@ -1,0 +1,34 @@
+services:
+  express:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:	
+      - db
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - ./db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+
+  adminer:
+    image: adminer
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+
+
+# todo: 
+# nainstalovat docker
+# pustit nejakout test sluzbu
+# nastavit nginx reverse proxy
