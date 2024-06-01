@@ -1,162 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Fishing simulator</title>
-    <link href="/output.css" rel="stylesheet" />
-    <!--Tailwind CSS-->
-    <script
-      src="https://kit.fontawesome.com/c4ffb2ea08.js"
-      crossorigin="anonymous"
-    ></script>
-    <!--Muj font awesome-->
-  </head>
 
-  <body
-    class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white"
-  >
-    <header class="bg-gray-800 p-4 shadow-lg">
-      <div class="container mx-auto flex justify-between m-2">
-        <blockquote class="text-2xl font-semibold text-white">
-          <!--text-->
-          <span
-            class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block"
-          >
-            <span class="relative text-white">Fishing simulator</span>
-          </span>
-          <!--text-->
-        </blockquote>
-        <nav>
-          <ul class="flex space-x-12 mt-1 mr-10">
-            <li>
-              <a href="/home" class="hover:text-blue-500"
-                >Home <i class="fa-solid fa-house ml-1"></i
-              ></a>
-            </li>
-            <li>
-              <a href="/register" class="hover:text-blue-500"
-                >Sing up
-                <i class="fas fa-user-plus ml-1"></i>
-              </a>
-            </li>
-            <li>
-              <a href="/login" class="hover:text-blue-500"
-                >Login <i class="fa-solid fa-right-to-bracket ml-1"></i
-              ></a>
-            </li>
-            <li>
-              <a href="/mainpage" class="hover:text-blue-500"
-                >Fishing simulator
-                <i class="fa-solid fa-fish ml-1"></i>
-              </a>
-            </li>
-            <li>
-              <a href="/profile" class="hover:text-blue-500"
-                >Profile
-                <i class="fa-solid fa-user ml-1"></i>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    <div class="px-6 py-6 lg:px-8">
-      <div class="grid place-items-end">
-        <div>
-          <button
-            onclick="event.preventDefault(); redirectToDashboard()"
-            id="dashboardButton"
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded invisible"
-          >
-            Dashboard
-          </button>
-          <button
-            onclick="event.preventDefault(); redirectToLogout()"
-            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fishing simulator</title>
+  <link href="/output.css" rel="stylesheet" />
+  <!--Tailwind CSS-->
+  <script src="https://kit.fontawesome.com/c4ffb2ea08.js" crossorigin="anonymous"></script>
+  <!--Muj font awesome-->
+</head>
 
-      <p class="text-white">Your User ID: <span id="userId"></span></p>
-      <p class="text-white"><span id="username"></span></p>
+<body
+  class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white">
+  <header class="bg-gray-800 p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between m-2">
+      <blockquote class="text-2xl font-semibold text-white">
+        <!--text-->
+        <span
+          class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block">
+          <span class="relative text-white">Fishing simulator</span>
+        </span>
+        <!--text-->
+      </blockquote>
+      <nav>
+        <ul class="flex space-x-12 mt-1 mr-10">
+          <li>
+            <a href="/home" class="hover:text-blue-500">Home <i class="fa-solid fa-house ml-1"></i></a>
+          </li>
+          <li>
+            <a href="/register" class="hover:text-blue-500">Sing up
+              <i class="fas fa-user-plus ml-1"></i>
+            </a>
+          </li>
+          <li>
+            <a href="/login" class="hover:text-blue-500">Login <i class="fa-solid fa-right-to-bracket ml-1"></i></a>
+          </li>
+          <li>
+            <a href="/mainpage" class="hover:text-blue-500">Fishing simulator
+              <i class="fa-solid fa-fish ml-1"></i>
+            </a>
+          </li>
+          <li>
+            <a href="/profile" class="hover:text-blue-500">Profile
+              <i class="fa-solid fa-user ml-1"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
-    <h1 class="text-center text-white text-2xl mt-4">
-      Jirkoooo udelej csska díky
-    </h1>
-    <div>
-      <img
-        class="border-rad"
-        src="http://12tails.com/wp-content/uploads/2019/09/minecraftFishingGuide.jpg"
-      />
+  </header>
+  <div class="px-6 py-6 lg:px-8">
+    <div class="grid place-items-end">
+      <div>
+        <button onclick="event.preventDefault(); redirectToDashboard()" id="dashboardButton"
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded invisible">
+          Dashboard
+        </button>
+        <button onclick="event.preventDefault(); redirectToLogout()"
+          class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          Logout
+        </button>
+      </div>
     </div>
-    <script>
-      const dashboardButton = document.getElementById("dashboardButton");
 
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("/api/userId")
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error("Failed to fetch user ID");
-            }
-          })
-          .then((data) => {
-            document.getElementById("userId").textContent = data.userId;
-            if (data.userId === 1) {
-              dashboardButton.classList.remove("invisible");
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      });
+    <p class="text-white">Your User ID: <span id="userId"></span></p>
+    <p class="text-white"><span id="username"></span></p>
+  </div>
+  <h1 class="text-center text-white text-2xl mt-4">
+    Jirkoooo udelej csska díky
+  </h1>
+  <div>
+    <img class="border-rad" src="/public/images/minecraft_fishing4.png" />
+  </div>
+  <script>
+    const dashboardButton = document.getElementById("dashboardButton");
 
-      document.addEventListener("DOMContentLoaded", function () {
-        fetch("/api/username")
-          .then((response) => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error("Failed to fetch user ID");
-            }
-          })
-          .then((data) => {
-            document.getElementById("username").textContent = data.username;
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
-      });
-
-      function redirectToLogout() {
-        window.location.href = "/api/logout";
-      }
-
-      function redirectToDashboard() {
-        window.location.href = "/dashboard";
-      }
-
-      function redirectToProfile() {
-        window.location.href = "/profile";
-      }
-
-      function fish() {
-        fetch("/api/fish", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({}),
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("/api/userId")
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Failed to fetch user ID");
+          }
         })
-          .then((response) => response.json())
-          .then((data) => {
-            alert(data.message);
-          });
-      }
-    </script>
-  </body>
+        .then((data) => {
+          document.getElementById("userId").textContent = data.userId;
+          if (data.userId === 1) {
+            dashboardButton.classList.remove("invisible");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      fetch("/api/username")
+        .then((response) => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Failed to fetch user ID");
+          }
+        })
+        .then((data) => {
+          document.getElementById("username").textContent = data.username;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+
+    function redirectToLogout() {
+      window.location.href = "/api/logout";
+    }
+
+    function redirectToDashboard() {
+      window.location.href = "/dashboard";
+    }
+
+    function redirectToProfile() {
+      window.location.href = "/profile";
+    }
+
+    function fish() {
+      fetch("/api/fish", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert(data.message);
+        });
+    }
+  </script>
+</body>
+
 </html>
