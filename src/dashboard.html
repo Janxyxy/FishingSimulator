@@ -87,41 +87,41 @@
                     const userItem = document.createElement('li');
                     userItem.className = "py-3 sm:py-4";
                     userItem.innerHTML = `
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0 mb-5">
-                                <i class="fa-solid fa-user ml-2"></i>
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div>
-                                    <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                        ${user.username} /
-                                    </span>
-                                    <span class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        ${user.email}
-                                        <i class="fa-solid fa-envelope ml-1"></i>
-                                    </span>
-                                </div>
-                                <div class="flex items-center mt-2 space-x-2">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800">
-                                        ${user.id}
-                                        <i class="fa-solid fa-id-card-clip ml-1"></i>
-                                    </span>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-200 text-green-800">
-                                        ${new Date(user.creation_date).toLocaleString()}
-                                        <i class="fa-solid fa-file-circle-plus ml-1"></i>
-                                    </span>
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800">
-                                        ${new Date(user.last_update_time).toLocaleString()}
-                                        <i class="fa-solid fa-pen ml-1"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            <a id="inventory-link" class="inline-flex items-center text-base font-semibold text-white" onclick="handleInventoryClick(event, '/api/items/${user.id}')">
-                                Inventory
-                                <i class="fa-solid fa-box ml-1 mt-1"></i>
-                            </a>
-                        </div>
-                    `;
+              <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+                <div class="flex-shrink-0 mb-3 md:mb-0">
+                  <i class="fa-solid fa-user ml-2"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div>
+                    <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                      ${user.username} /
+                    </span>
+                    <span class="text-sm text-gray-500 truncate dark:text-gray-400">
+                      ${user.email}
+                      <i class="fa-solid fa-envelope ml-1"></i>
+                    </span>
+                  </div>
+                  <div class="flex flex-wrap items-center mt-2 space-x-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800 mb-1 md:mb-0 ml-2">
+                        ${user.id}
+                        <i class="fa-solid fa-id-card-clip ml-1"></i>
+                    </span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-200 text-green-800 mb-1 md:mb-0">
+                        ${new Date(user.creation_date).toLocaleString()}
+                        <i class="fa-solid fa-file-circle-plus ml-1"></i>
+                    </span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800 mb-1 md:mb-0">
+                        ${new Date(user.last_update_time).toLocaleString()}
+                        <i class="fa-solid fa-pen ml-1"></i>
+                    </span>
+                </div>
+                </div>
+                <a id="inventory-link" class="inline-flex items-center text-base font-semibold text-white mt-3 md:mt-0" onclick="handleInventoryClick(event, '/api/items/${user.id}')">
+                  Inventory
+                  <i class="fa-solid fa-box ml-1 mt-1"></i>
+                </a>
+              </div>
+            `;
                     userList.appendChild(userItem);
                 });
             })

@@ -80,7 +80,7 @@
   <div id="deletePopup" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 invisible">
     <div class="bg-white p-4 rounded-lg shadow-lg text-center">
       <h2 class="text-2xl font-bold mb-4 text-black">
-        Delte! Delete! Delete!
+        Are you sure you want to delete your profile?
       </h2>
       <p class="mb-4 text-black">
         This action is irreversible and all your data will be lost.
@@ -91,11 +91,11 @@
       <div class=" mt-4 flex justify-center gap-6">
         <button id="loginButton" onclick="event.preventDefault(); DeleteUser();"
           class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-          Yes, I am sigma
+          Yes, delete
         </button>
         <button id="loginButton" onclick="hideDeletePopup();"
           class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-          No, I not sigma
+          No, cancel
         </button>
       </div>
 
@@ -168,7 +168,7 @@
                     </span>
                   </div>
                   <div class="flex flex-wrap items-center mt-2 space-x-2">
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800 mb-1 md:mb-0">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800 mb-1 md:mb-0 ml-2">
                       ${user.id}
                       <i class="fa-solid fa-id-card-clip ml-1"></i>
                     </span>
@@ -176,7 +176,7 @@
                       ${new Date(user.creation_date).toLocaleString()}
                       <i class="fa-solid fa-file-circle-plus ml-1"></i>
                     </span>
-                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800 mb-1 md:mb-0">
                       ${new Date(user.last_update_time).toLocaleString()}
                       <i class="fa-solid fa-pen ml-1"></i>
                     </span>
