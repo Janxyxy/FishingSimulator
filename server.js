@@ -457,6 +457,20 @@ function DeleteUser(req, res) {
     return;
   }
 
+  // Delete all items from userItems table with user_id = userId
+  const deleteQueryItems = "DELETE FROM userItems WHERE user_id = ?";
+  connection.query(deleteQueryItems, [userId], (error, results, fields) => {
+    if (error) {
+      res
+        .status(500)
+        .send("Database error while deleting user items: " + error.message);
+      console.log("Database error while deleting user items: " + error.message);
+      return;
+    }
+
+    console.log("User items deleted successfully");
+  });
+
   const deleteQuery = "DELETE FROM users WHERE id = ?";
 
   connection.query(deleteQuery, [userId], (error, results, fields) => {
@@ -474,7 +488,6 @@ function DeleteUser(req, res) {
       return;
     }
 
-    //TODO: Add fish deletion
     resetAutoIncrement();
 
     req.session.destroy((err) => {
