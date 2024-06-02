@@ -13,41 +13,33 @@
 
 <body
   class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white">
+
   <header class="bg-gray-800 p-4 shadow-lg">
-    <div class="container mx-auto flex justify-between m-2">
-      <blockquote class="text-2xl font-semibold text-white">
-        <!--text-->
+    <div class="container mx-auto flex flex-wrap items-center justify-between m-2">
+      <blockquote class="text-2xl font-semibold text-white mb-2 sm:mb-0">
         <span
           class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block">
           <span class="relative text-white">Fishing simulator</span>
         </span>
-        <!--text-->
+        <i class="fa-solid fa-fish ml-1"></i>
       </blockquote>
-      <nav>
-        <ul class="flex space-x-12 mt-1 mr-10">
-          <li>
+      <nav class="w-full sm:w-auto">
+        <ul class="flex flex-col sm:flex-row sm:space-x-12 mt-1 mr-10">
+          <li class="mb-2 sm:mb-0">
             <a href="/home" class="hover:text-blue-500">Home <i class="fa-solid fa-house ml-1"></i></a>
           </li>
-          <li>
-            <a href="/register" class="hover:text-blue-500">Sing up
-              <i class="fas fa-user-plus ml-1"></i>
-            </a>
+          <li class="mb-2 sm:mb-0">
+            <a href="/docs" class="hover:text-blue-500">Documentation <i class="fa-solid fa-book"></i></a>
           </li>
-          <li>
-            <a href="/login" class="hover:text-blue-500">Login <i class="fa-solid fa-right-to-bracket ml-1"></i></a>
-          </li>
-          <li>
-            <a href="/mainpage" class="hover:text-blue-500">Fishing simulator
-              <i class="fa-solid fa-fish ml-1"></i>
-            </a>
-          </li>
+
         </ul>
       </nav>
     </div>
   </header>
-  <div class="px-6 py-6 lg:px-8">
-    <div class="max-w- p-5">
 
+  <div class="px-6 py-6 lg:px-8">
+    <!--User info-->
+    <div class="max-w- p-5">
       <div
         class="p-4 max-w-screen-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
         <div class="flex justify-between items-center mb-4">
@@ -75,9 +67,15 @@
     <h1 class="text-center text-white text-2xl mt-4">
       Jirkoooo udelej csska díky
     </h1>
+    <button onclick="fish()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4">
+      Fish
+    </button>
     <div>
       <img class="border-rad" src="/public/images/minecraft_fishing4.png" />
     </div>
+
+
+    <!--Delete popup-->
     <div id="deletePopup"
       class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 invisible">
       <div class="bg-white p-4 rounded-lg shadow-lg text-center">
@@ -216,11 +214,18 @@
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({}),
         })
-          .then((response) => response.json())
+          .then((response) => {
+            if (!response.ok) {
+              return response.text().then((text) => { throw new Error(text) });
+            }
+            return response.json();
+          })
           .then((data) => {
-            alert(data.message);
+            alert(JSON.stringify(data));
+          })
+          .catch((error) => {
+            alert('Error: ' + error.message);
           });
       }
 

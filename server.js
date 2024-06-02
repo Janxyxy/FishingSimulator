@@ -292,11 +292,94 @@ app.get("/api/fish", (req, res) => {
         .send("Error retrieving fish data from database: " + error.message);
       return;
     }
-    res.json(results);
+
+    // Randomly select an item based on its drop rate
+    const selectedItem = selectItemByDropRate(results);
+
+    if (!selectedItem) {
+      res
+        .status(500)
+        .send("Error selecting item based on drop rate: No item selected");
+      return;
+    }
+
+    console.log(selectedItem);
+
+    // Get user id from session (assuming you store it in session)
+    const userId = req.session.userId;
+
+    // Insert or update the selected item in the userItems table
+    insertOrUpdateUserItem(userId, selectedItem.id, 1, (err) => {
+      if (err) {
+        res
+          .status(500)
+          .send(
+            "Error inserting or updating item in userItems table: " +
+              err.message
+          );
+        return;
+      }
+      res.json(selectedItem);
+    });
   });
 });
 
-///Functions///
+//Fishing functions
+
+function insertOrUpdateUserItem(userId, itemId, quantity, callback) {
+  const checkQuery =
+    "SELECT * FROM userItems WHERE user_id = ? AND item_id = ?";
+  connection.query(checkQuery, [userId, itemId], (err, results) => {
+    if (err) {
+      return callback(err);
+    }
+    if (results.length > 0) {
+      // Item exists, update the quantity
+      const updateQuery =
+        "UPDATE userItems SET quantity = quantity + ? WHERE user_id = ? AND item_id = ?";
+      connection.query(updateQuery, [quantity, userId, itemId], callback);
+    } else {
+      // Item does not exist, insert a new row
+      const insertQuery =
+        "INSERT INTO userItems (user_id, item_id, quantity) VALUES (?, ?, ?)";
+      connection.query(insertQuery, [userId, itemId, quantity], callback);
+    }
+  });
+}
+
+function selectItemByDropRate(items) {
+  const totalDropRate = items.reduce((acc, item) => {
+    const chance = parseFloat(item.unenchanted_chance);
+    if (isNaN(chance)) {
+      console.error("Invalid drop rate for item:", item);
+      return acc;
+    }
+    return acc + chance;
+  }, 0);
+
+  if (totalDropRate === 0) {
+    console.error("Total drop rate is zero, no items to select.");
+    return null;
+  }
+
+  let random = Math.random() * totalDropRate;
+
+  for (const item of items) {
+    const chance = parseFloat(item.unenchanted_chance);
+    if (isNaN(chance)) {
+      continue; // Skip items with invalid drop rates
+    }
+    if (random < chance) {
+      return item;
+    }
+    random -= chance;
+  }
+
+  console.error("Failed to select item after iterating all items.");
+  return null; // In case something goes wrong
+}
+
+//Auth Functions
 
 function TryLogin(email, password, req, res) {
   const selectQuery = "SELECT * FROM users WHERE email = ?";
@@ -413,8 +496,6 @@ function DeleteUser(req, res) {
     }
 
     //TODO: Add fish deletion
-    //TODO: Add user session deletion
-    //TODO: Redirect to home page
     resetAutoIncrement();
 
     req.session.destroy((err) => {

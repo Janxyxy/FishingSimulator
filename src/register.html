@@ -14,33 +14,24 @@
 <body
   class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white">
   <header class="bg-gray-800 p-4 shadow-lg">
-    <div class="container mx-auto flex justify-between m-2">
-      <blockquote class="text-2xl font-semibold text-white">
-        <!--text-->
+    <div class="container mx-auto flex flex-wrap items-center justify-between m-2">
+      <blockquote class="text-2xl font-semibold text-white mb-2 sm:mb-0">
         <span
           class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block">
           <span class="relative text-white">Register</span>
         </span>
         <i class="fas fa-user-plus text-white ml-2"></i>
-        <!--text-->
       </blockquote>
-      <nav>
-        <ul class="flex space-x-12 mt-1 mr-10">
-          <li>
+      <nav class="w-full sm:w-auto">
+        <ul class="flex flex-col sm:flex-row sm:space-x-12 mt-1 mr-10">
+          <li class="mb-2 sm:mb-0">
             <a href="/home" class="hover:text-blue-500">Home <i class="fa-solid fa-house ml-1"></i></a>
           </li>
-          <li>
-            <a href="/register" class="hover:text-blue-500">Sing up
-              <i class="fas fa-user-plus ml-1"></i>
-            </a>
-          </li>
-          <li>
+          <li class="mb-2 sm:mb-0">
             <a href="/login" class="hover:text-blue-500">Login <i class="fa-solid fa-right-to-bracket ml-1"></i></a>
           </li>
-          <li>
-            <a href="/mainpage" class="hover:text-blue-500">Fishing simulator
-              <i class="fa-solid fa-fish ml-1"></i>
-            </a>
+          <li class="mb-2 sm:mb-0">
+            <a href="/mainpage" class="hover:text-blue-500">Fishing simulator <i class="fa-solid fa-fish ml-1"></i></a>
           </li>
         </ul>
       </nav>
