@@ -235,10 +235,6 @@ app.get("/api/user-items", (req, res) => {
 });
 
 app.get("/api/items", (req, res) => {
-  if (!req.session || !req.session.username) {
-    res.sendFile(path.join(__dirname, "src", "401page.html"));
-    return;
-  }
   const selectQuery = "SELECT * FROM items";
   connection.query(selectQuery, (error, results, fields) => {
     if (error) {
@@ -252,50 +248,51 @@ app.get("/api/items", (req, res) => {
 });
 
 //Fish API
-app.get("/api/fish", (req, res) => {
-  if (!req.session || !req.session.username) {
-    res.sendFile(path.join(__dirname, "src", "401page.html"));
-    return;
-  }
-  const selectQuery = "SELECT * FROM items";
-  connection.query(selectQuery, (error, results, fields) => {
-    if (error) {
-      res
-        .status(500)
-        .send("Error retrieving fish data from database: " + error.message);
-      return;
-    }
 
-    // Randomly select an item based on its drop rate
-    const selectedItem = selectItemByDropRate(results);
+// app.get("/api/fish", (req, res) => {
+//   if (!req.session || !req.session.username) {
+//     res.sendFile(path.join(__dirname, "src", "401page.html"));
+//     return;
+//   }
+//   const selectQuery = "SELECT * FROM items";
+//   connection.query(selectQuery, (error, results, fields) => {
+//     if (error) {
+//       res
+//         .status(500)
+//         .send("Error retrieving fish data from database: " + error.message);
+//       return;
+//     }
 
-    if (!selectedItem) {
-      res
-        .status(500)
-        .send("Error selecting item based on drop rate: No item selected");
-      return;
-    }
+//     // Randomly select an item based on its drop rate
+//     const selectedItem = selectItemByDropRate(results);
 
-    console.log(selectedItem);
+//     if (!selectedItem) {
+//       res
+//         .status(500)
+//         .send("Error selecting item based on drop rate: No item selected");
+//       return;
+//     }
 
-    // Get user id from session (assuming you store it in session)
-    const userId = req.session.userId;
+//     console.log(selectedItem);
 
-    // Insert or update the selected item in the userItems table
-    insertOrUpdateUserItem(userId, selectedItem.id, 1, (err) => {
-      if (err) {
-        res
-          .status(500)
-          .send(
-            "Error inserting or updating item in userItems table: " +
-              err.message
-          );
-        return;
-      }
-      res.json(selectedItem);
-    });
-  });
-});
+//     // Get user id from session (assuming you store it in session)
+//     const userId = req.session.userId;
+
+//     // Insert or update the selected item in the userItems table
+//     insertOrUpdateUserItem(userId, selectedItem.id, 1, (err) => {
+//       if (err) {
+//         res
+//           .status(500)
+//           .send(
+//             "Error inserting or updating item in userItems table: " +
+//               err.message
+//           );
+//         return;
+//       }
+//       res.json(selectedItem);
+//     });
+//   });
+// });
 
 //Fishing functions
 
