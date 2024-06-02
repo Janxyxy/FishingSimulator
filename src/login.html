@@ -68,7 +68,7 @@
           <div class="flex items-center justify-between">
             <label for="password" class="block text-sm font-medium leading-6 text-white">Password</label>
             <div class="text-sm">
-              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500" onclick="DisplayAlert()">Forgot
+              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500" onclick="Forget()">Forget
                 password?</a>
             </div>
           </div>
@@ -99,8 +99,9 @@
     </div>
 
     <script>
-      function DisplayAlert() {
-        alert("You stupid!\nYou forgot password!\nI dont know your password!");
+      function Forget() {
+        //TODO: Implement forget password
+
       }
 
       const passwordInput = document.getElementById("password");
@@ -138,7 +139,7 @@
             errormessage.innerHTML = "Wrong password";
           } else if (response.status === 402) {
             errordiv.classList.remove("invisible");
-            errormessage.innerHTML = "Email doesn't exist";
+            errormessage.innerHTML = "User doesn't exist";
           } else if (response.ok) {
             window.location.href = "./mainpage";
           }
