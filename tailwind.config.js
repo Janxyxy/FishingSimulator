@@ -2,7 +2,12 @@
 module.exports = {
   content: ["./public/**/*.{html,js}", "./src/**/*.{html,js}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: (theme) => ({
+        "welcome-image": "url('/public/images/Minecraft_welcome_banner.png')",
+      }),
+    },
   },
+  variants: {},
   plugins: [],
 };

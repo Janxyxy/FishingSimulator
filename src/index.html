@@ -5,10 +5,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fishing Simulator</title>
-  <link href="/output.css" rel="stylesheet" />
   <!--Tailwind CSS-->
+  <link href="/output.css" rel="stylesheet" />
+  <!--Muj font awesome
+  <script src="https://kit.fontawesome.com/078c86a30a.js" crossorigin="anonymous"></script>-->
   <script src="https://kit.fontawesome.com/c4ffb2ea08.js" crossorigin="anonymous"></script>
-  <!--Muj font awesome-->
+
 </head>
 
 
@@ -26,21 +28,100 @@
       <nav class="w-full sm:w-auto">
         <ul class="flex flex-col sm:flex-row sm:space-x-12 mt-1 mr-10">
           <li class="mb-2 sm:mb-0">
-            <a href="/register" class="hover:text-blue-500">Sign up <i class="fas fa-user-plus ml-1"></i></a>
+            <a href="/register" class="hover:text-blue-500">Sign up <i class="fa-solid  fa-user-plus ml-1"></i></a>
           </li>
           <li class="mb-2 sm:mb-0">
             <a href="/login" class="hover:text-blue-500">Login <i class="fa-solid fa-right-to-bracket ml-1"></i></a>
           </li>
           <li class="mb-2 sm:mb-0">
-            <a href="/mainpage" class="hover:text-blue-500">Fishing simulator <i class="fa-solid fa-fish ml-1"></i></a>
+            <a href="/mainpage" class="hover:text-blue-500">Game <i class="fa-solid fa-fish ml-1"></i></a>
+          </li>
+          <li class="mb-2 sm:mb-0">
+            <a href="/docs" class="hover:text-blue-500">Docs <i class="fa-solid fa-book ml-1"></i></a>
           </li>
         </ul>
       </nav>
     </div>
   </header>
-  <h1 class="text-center text-white text-2xl mt-4">
-    Jirkoooo udelej csska díky
-  </h1>
+  <!--Main content-->
+  <div class="px-6 py-6 lg:px-8">
+    <div class="max-w- p-5">
+      <div class="flex flex-wrap -mx-2">
+
+        <div class="p-2 w-full sm:w-1/2">
+          <div class="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Welcome to Fishing Simulator!
+              </h3>
+              <i class="fa-solid fa-plane-departure"></i>
+            </div>
+            <div class="flow-root">
+              <img src="public/images/Minecraft_welcome_banner.png" alt="fishing"
+                class="w-full h-auto object-cover rounded-lg">
+            </div>
+          </div>
+        </div>
+
+        <div class="p-2 w-full sm:w-1/2">
+          <div class="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Leaderboard</h3>
+              <i class="fa-solid fa-ranking-star"></i>
+              </h3>
+            </div>
+            <div class="flow-root">
+              <ul role="list" class="divide-y divide-gray-200" id="leaderboard">
+                <!-- List items will be appended here by JavaScript -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('/api/user-items')
+        .then(response => response.json())
+        .then(data => {
+          const leaderboard = document.getElementById('leaderboard');
+          const sortedData = data.sort((a, b) => b.totalItems - a.totalItems);
+
+          sortedData.forEach((user, index) => {
+            const listItem = document.createElement('li');
+            listItem.className = 'py-3 sm:py-4';
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'flex items-center space-x-4';
+
+            const rankDiv = document.createElement('div');
+            rankDiv.className = 'text-xl font-bold text-gray-900 dark:text-white';
+            rankDiv.textContent = `#${index + 1}`;
+
+            const userDiv = document.createElement('div');
+            userDiv.className = 'flex-1 min-w-0';
+
+            const username = document.createElement('p');
+            username.className = 'text-sm font-medium text-gray-900 truncate dark:text-white';
+            username.textContent = user.username;
+
+            userDiv.appendChild(username);
+
+            const itemsDiv = document.createElement('div');
+            itemsDiv.className = 'inline-flex items-center text-base font-semibold text-gray-900 dark:text-white';
+            itemsDiv.textContent = `${user.totalItems} items`;
+
+            contentDiv.appendChild(rankDiv);
+            contentDiv.appendChild(userDiv);
+            contentDiv.appendChild(itemsDiv);
+
+            listItem.appendChild(contentDiv);
+            leaderboard.appendChild(listItem);
+          });
+        })
+        .catch(error => console.error('Error fetching user items:', error));
+    });
+  </script>
 </body>
 
 </html>

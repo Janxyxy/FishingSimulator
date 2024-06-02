@@ -29,7 +29,7 @@
             <a href="/home" class="hover:text-blue-500">Home <i class="fa-solid fa-house ml-1"></i></a>
           </li>
           <li class="mb-2 sm:mb-0">
-            <a href="/docs" class="hover:text-blue-500">Documentation <i class="fa-solid fa-book"></i></a>
+            <a href="/docs" class="hover:text-blue-500">Docs <i class="fa-solid fa-book ml-1"></i></a>
           </li>
 
         </ul>
@@ -40,18 +40,17 @@
   <div class="px-6 py-6 lg:px-8">
     <!--User info-->
     <div class="max-w- p-5">
-      <div
-        class="p-4 max-w-screen-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div class="p-4 max-w-screen-sm  rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
         <div class="flex justify-between items-center mb-4">
-          <h3 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Profile</h3>
+          <h3 class="text-xl font-bold leading-none text-whit">Profile</h3>
         </div>
         <div class="flow-root">
-          <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" id="userList">
+          <ul role="list" class="divide-y  divide-gray-700" id="userList">
             <!-- List items will be appended here by JavaScript -->
           </ul>
         </div>
         <div>
-          <h3 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Actions</h3>
+          <h3 class="text-xl font-bold leading-none  text-white">Actions</h3>
         </div>
         <div class="flex flex-col md:flex-row justify-start items-center mt-4 space-y-4 md:space-y-0 md:space-x-4"
           id="buttons">
@@ -70,9 +69,9 @@
     <button onclick="fish()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg mt-4">
       Fish
     </button>
-    <div>
+    <!-- <div>
       <img class="border-rad" src="/public/images/minecraft_fishing4.png" />
-    </div>
+    </div> -->
   </div>
 
 
@@ -159,10 +158,10 @@
                 </div>
                 <div class="flex-1 min-w-0">
                   <div>
-                    <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    <span class="text-sm font-medium  truncate text-white">
                       ${user.username} /
                     </span>
-                    <span class="text-sm text-gray-500 truncate dark:text-gray-400">
+                    <span class="text-sm truncate text-gray-400">
                       ${user.email}
                       <i class="fa-solid fa-envelope ml-1"></i>
                     </span>
@@ -210,7 +209,7 @@
 
     function fish() {
       fetch("/api/fish", {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },

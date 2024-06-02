@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fishing Simulator</title>
+    <!--Tailwind CSS-->
+    <link href="/output.css" rel="stylesheet" />
+    <!--Muj font awesome-->
+    <script src="https://kit.fontawesome.com/c4ffb2ea08.js" crossorigin="anonymous"></script>
+</head>
+
+<body
+    class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white">
+    <header class="bg-gray-800 p-4 shadow-lg">
+        <div class="container mx-auto flex flex-wrap items-center justify-between m-2">
+            <blockquote class="text-2xl font-semibold text-white mb-2 sm:mb-0">
+                <span
+                    class="before:block before:absolute before:-inset-1 before:-skew-y-2 before:bg-gradient-to-r from-purple-900 to-blue-500 relative inline-block">
+                    <span class="relative text-white">Documentation</span>
+                </span>
+                <i class="fa-solid fa-book ml-2"></i>
+            </blockquote>
+            <nav class="w-full sm:w-auto">
+                <ul class="flex flex-col sm:flex-row sm:space-x-12 mt-1 mr-10">
+                    <li class="mb-2 sm:mb-0">
+                        <a href="/home" class="hover:text-blue-500">Home<i class="fa-solid  fa-home ml-1"></i></a>
+                    </li>
+                    <li class="mb-2 sm:mb-0">
+                        <a href="/register" class="hover:text-blue-500">Sign up <i
+                                class="fa-solid  fa-user-plus ml-1"></i></a>
+                    </li>
+                    <li class="mb-2 sm:mb-0">
+                        <a href="/login" class="hover:text-blue-500">Login <i
+                                class="fa-solid fa-right-to-bracket ml-1"></i></a>
+                    </li>
+                    <li class="mb-2 sm:mb-0">
+                        <a href="/mainpage" class="hover:text-blue-500">Game <i class="fa-solid fa-fish ml-1"></i></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="flex-grow container mx-auto p-6">
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+
+            <div class="flexs justify-start row-span-1">
+                <span class="text-2xl font-bold mb-6">Loot Table</spans>
+                    <i class="fa-solid fa-table ml-1"></i>
+            </div>
+            <br>
+
+            <section id="fishes-section" class="mb-8">
+                <h3 class="text-xl font-semibold mb-4">Fish</h3>
+                <ul id="fishes-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Fishes will be populated here -->
+                </ul>
+            </section>
+
+            <section id="treasure-section" class="mb-8">
+                <h3 class="text-xl font-semibold mb-4">Treasure</h3>
+                <ul id="treasure-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Treasures will be populated here -->
+                </ul>
+            </section>
+
+            <section id="junk-section">
+                <h3 class="text-xl font-semibold mb-4">Junk</h3>
+                <ul id="junk-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Junk will be populated here -->
+                </ul>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        async function fetchItems() {
+            try {
+                const response = await fetch('/api/items');
+                const items = await response.json();
+                return items;
+            } catch (error) {
+                console.error('Error fetching items:', error);
+                return [];
+            }
+        }
+
+        function createItemElement(item) {
+            return `
+                <li class="flex items-center p-4 bg-gray-700 rounded-lg shadow-md border-gray-600">
+                    <img src="public/images/Loot/${item.name.replace(/ /g, '_')}.png" alt="${item.name}" class="w-12 h-12 rounded-full">
+                    <div class="ml-4">
+                        <div class="text-lg font-semibold  text-white">${item.name}</div>
+                        <div class="text-sm  text-gray-300">Catch chance: ${item.unenchanted_chance}%</div>
+                    </div>
+                </li>
+            `;
+        }
+
+        async function populateLootTable() {
+            const items = await fetchItems();
+            const fishesList = document.getElementById('fishes-list');
+            const treasureList = document.getElementById('treasure-list');
+            const junkList = document.getElementById('junk-list');
+
+            items.forEach(item => {
+                const itemElement = createItemElement(item);
+                if (item.category.toLowerCase() === 'fish') {
+                    fishesList.innerHTML += itemElement;
+                } else if (item.category.toLowerCase() === 'treasure') {
+                    treasureList.innerHTML += itemElement;
+                } else if (item.category.toLowerCase() === 'junk') {
+                    junkList.innerHTML += itemElement;
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', populateLootTable);
+    </script>
+</body>
+
+</html>

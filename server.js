@@ -70,6 +70,9 @@ app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "src", "login.html"));
 });
 
+app.get("/docs", (req, res) => {
+  res.sendFile(path.join(__dirname, "src", "docs.html"));
+});
 app.get("/profile", (req, res) => {
   if (!req.session || !req.session.userId) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
@@ -161,6 +164,15 @@ app.get("/api/users", (req, res) => {
   });
 });
 
+//Admin only
+app.get("/api/inventory/:userId", (req, res) => {
+  if (!req.session || !req.session.username || req.session.userId !== 1) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+  const userId = req.params.userId;
+});
+
 app.get("/api/user", (req, res) => {
   if (!req.session || !req.session.username) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
@@ -178,68 +190,6 @@ app.get("/api/user", (req, res) => {
         res
           .status(500)
           .send("Error retrieving user data from database: " + error.message);
-        return;
-      }
-      res.json(results);
-    }
-  );
-});
-
-app.get("/api/userId", (req, res) => {
-  if (!req.session || !req.session.userId) {
-    res.sendFile(path.join(__dirname, "src", "401page.html"));
-    return;
-  }
-  res.json({ userId: req.session.userId });
-});
-
-app.get("/api/username", (req, res) => {
-  if (!req.session || !req.session.username) {
-    res.sendFile(path.join(__dirname, "src", "401page.html"));
-    return;
-  }
-  res.json({ username: req.session.username });
-});
-
-app.get("/api/creation_date", (req, res) => {
-  if (!req.session || !req.session.username) {
-    res.sendFile(path.join(__dirname, "src", "401page.html"));
-    return;
-  }
-  const selectQuery = "SELECT creation_date FROM users WHERE id = ?";
-  connection.query(
-    selectQuery,
-    [req.session.userId],
-    (error, results, fields) => {
-      if (error) {
-        res
-          .status(500)
-          .send(
-            "Error retrieving creation date from database: " + error.message
-          );
-        return;
-      }
-      res.json(results);
-    }
-  );
-});
-
-app.get("/api/last_update_time", (req, res) => {
-  if (!req.session || !req.session.username) {
-    res.sendFile(path.join(__dirname, "src", "401page.html"));
-    return;
-  }
-  const selectQuery = "SELECT last_update_time FROM users WHERE id = ?";
-  connection.query(
-    selectQuery,
-    [req.session.userId],
-    (error, results, fields) => {
-      if (error) {
-        res
-          .status(500)
-          .send(
-            "Error retrieving creation date from database: " + error.message
-          );
         return;
       }
       res.json(results);
@@ -270,15 +220,38 @@ app.get("/api/inventory", (req, res) => {
   );
 });
 
-//Admin only
-app.get("/api/inventory/:userId", (req, res) => {
-  if (!req.session || !req.session.username || req.session.userId !== 1) {
+app.get("/api/user-items", (req, res) => {
+  const query = `
+    SELECT u.username, u.email, SUM(ui.quantity) as totalItems
+    FROM users u
+    JOIN userItems ui ON u.id = ui.user_id
+    GROUP BY u.id
+    ORDER BY totalItems DESC;
+  `;
+  connection.query(query, (error, results) => {
+    if (error) throw error;
+    res.json(results);
+  });
+});
+
+app.get("/api/items", (req, res) => {
+  if (!req.session || !req.session.username) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
-  const userId = req.params.userId;
+  const selectQuery = "SELECT * FROM items";
+  connection.query(selectQuery, (error, results, fields) => {
+    if (error) {
+      res
+        .status(500)
+        .send("Error retrieving item data from database: " + error.message);
+      return;
+    }
+    res.json(results);
+  });
 });
 
+//Fish API
 app.get("/api/fish", (req, res) => {
   if (!req.session || !req.session.username) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));

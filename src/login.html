@@ -13,8 +13,6 @@
 
 <body
   class="bg-fixed bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black text-white">
-
-
   <header class="bg-gray-800 p-4 shadow-lg">
     <div class="container mx-auto flex flex-wrap items-center justify-between m-2">
       <blockquote class="text-2xl font-semibold text-white mb-2 sm:mb-0">
@@ -34,117 +32,119 @@
           </li>
 
           <li class="mb-2 sm:mb-0">
-            <a href="/mainpage" class="hover:text-blue-500">Fishing simulator <i class="fa-solid fa-fish ml-1"></i></a>
+            <a href="/mainpage" class="hover:text-blue-500">Game<i class="fa-solid fa-fish ml-1"></i></a>
+          </li>
+          <li class="mb-2 sm:mb-0">
+            <a href="/docs" class="hover:text-blue-500">Docs <i class="fa-solid fa-book ml-1"></i></a>
           </li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <div class="px-4 py-4 lg:px-6"></div>
-
-  <div
-    class="sm:mx-auto sm:w-full sm:max-w-sm bg-clip-border p-6 bg-gray-900 border-4 border-violet-600 border-dashed rounded-lg">
-    <form class="space-y-6" onSubmit="event.preventDefault(); sendForm()">
-      <div class="flex items-center justify-center">
-        <h1 class="text-3xl font-medium leading-4 text-white">Login</h1>
-      </div>
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="email" class="block text-sm font-medium leading-6 text-white">Email address</label>
-          <div class="text-sm">
-            <a href="#" id="emailnotvalid" class="font-semibold text-red-500 hover:text-indigo-500 invisible">Email
-              doesn't exist</a>
+  <div class="px-4 py-4 lg:px-6">
+    <div
+      class="mt-4 sm:mx-auto sm:w-full sm:max-w-sm bg-clip-border p-6 bg-gray-900 border-4 border-violet-600 border-dashed rounded-lg">
+      <form class="space-y-4" onSubmit="event.preventDefault(); sendForm()">
+        <div class="flex items-center justify-center">
+          <h1 class="text-3xl font-medium leading-4 text-white">Login</h1>
+        </div>
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="email" class="block text-sm font-medium leading-6 text-white">Email address</label>
+            <div class="text-sm">
+              <a href="#" id="emailnotvalid" class="font-semibold text-red-500 hover:text-indigo-500 invisible">Email
+                doesn't exist</a>
+            </div>
+          </div>
+          <div class="mt-2 relative">
+            <input id="email" name="email" type="email" autocomplete="email" required
+              class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <i class="fa-solid fa-envelope absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"></i>
           </div>
         </div>
-        <div class="mt-2 relative">
-          <input id="email" name="email" type="email" autocomplete="email" required
-            class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-          <i class="fa-solid fa-envelope absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer"></i>
-        </div>
-      </div>
 
-      <div>
-        <div class="flex items-center justify-between">
-          <label for="password" class="block text-sm font-medium leading-6 text-white">Password</label>
-          <div class="text-sm">
-            <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500" onclick="DisplayAlert()">Forgot
-              password?</a>
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm font-medium leading-6 text-white">Password</label>
+            <div class="text-sm">
+              <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500" onclick="DisplayAlert()">Forgot
+                password?</a>
+            </div>
+          </div>
+          <div class="mt-2 relative">
+            <input id="password" name="password" type="password" autocomplete="current-password" required
+              class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+            <i id="toggleIcon"
+              class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-black"></i>
           </div>
         </div>
-        <div class="mt-2 relative">
-          <input id="password" name="password" type="password" autocomplete="current-password" required
-            class="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-          <i id="toggleIcon"
-            class="fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer text-black"></i>
+
+        <div>
+          <button type="submit"
+            class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            Login
+          </button>
         </div>
+      </form>
+      <div id="errordiv" class="text-lg text-center mt-2 invisible">
+        <span id="errormessage" class="font-semibold text-red-500"></span>
+        <i class="fa-solid fa-xmark text-red-500"></i>
       </div>
 
-      <div>
-        <button type="submit"
-          class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-          Login
-        </button>
-      </div>
-    </form>
-    <div id="errordiv" class="text-lg text-center mt-2 invisible">
-      <span id="errormessage" class="font-semibold text-red-500"></span>
-      <i class="fa-solid fa-xmark text-red-500"></i>
+      <p class="mt-2 text-center text-sm text-gray-500">
+        Not a member?
+        <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Make account</a>
+      </p>
     </div>
 
-    <p class="mt-2 text-center text-sm text-gray-500">
-      Not a member?
-      <a href="/register" class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Make account</a>
-    </p>
-  </div>
-
-  <script>
-    function DisplayAlert() {
-      alert("You stupid!\nYou forgot password!\nI dont know your password!");
-    }
-
-    const passwordInput = document.getElementById("password");
-    const toggleIcon = document.getElementById("toggleIcon");
-
-    const errordiv = document.getElementById("errordiv");
-    const errormessage = document.getElementById("errormessage");
-
-    toggleIcon.addEventListener("click", function () {
-      if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        toggleIcon.className =
-          "fa-solid fa-eye absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
-      } else {
-        passwordInput.type = "password";
-        toggleIcon.className =
-          "fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
+    <script>
+      function DisplayAlert() {
+        alert("You stupid!\nYou forgot password!\nI dont know your password!");
       }
-    });
 
-    function sendForm() {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+      const passwordInput = document.getElementById("password");
+      const toggleIcon = document.getElementById("toggleIcon");
 
-      //const url = window.location.protocol + '//' + window.location.host + '/api/login';
-      fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      }).then((response) => {
-        if (response.status === 401) {
-          errordiv.classList.remove("invisible");
-          errormessage.innerHTML = "Wrong password";
-        } else if (response.status === 402) {
-          errordiv.classList.remove("invisible");
-          errormessage.innerHTML = "Email doesn't exist";
-        } else if (response.ok) {
-          window.location.href = "./mainpage";
+      const errordiv = document.getElementById("errordiv");
+      const errormessage = document.getElementById("errormessage");
+
+      toggleIcon.addEventListener("click", function () {
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleIcon.className =
+            "fa-solid fa-eye absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
+        } else {
+          passwordInput.type = "password";
+          toggleIcon.className =
+            "fa-solid fa-eye-slash absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer  text-black";
         }
       });
-    }
-  </script>
+
+      function sendForm() {
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        //const url = window.location.protocol + '//' + window.location.host + '/api/login';
+        fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }).then((response) => {
+          if (response.status === 401) {
+            errordiv.classList.remove("invisible");
+            errormessage.innerHTML = "Wrong password";
+          } else if (response.status === 402) {
+            errordiv.classList.remove("invisible");
+            errormessage.innerHTML = "Email doesn't exist";
+          } else if (response.ok) {
+            window.location.href = "./mainpage";
+          }
+        });
+      }
+    </script>
 </body>
 
 </html>
