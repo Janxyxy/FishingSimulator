@@ -197,6 +197,14 @@ app.get("/api/user", (req, res) => {
   );
 });
 
+app.get("/api/user-check", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.json({ logged: "false" });
+    return;
+  }
+  res.json({ logged: "true" });
+});
+
 app.get("/api/inventory", (req, res) => {
   if (!req.session || !req.session.username) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));

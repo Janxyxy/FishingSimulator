@@ -27,13 +27,13 @@
       </blockquote>
       <nav class="w-full sm:w-auto">
         <ul class="flex flex-col sm:flex-row sm:space-x-12 mt-1 mr-10">
-          <li class="mb-2 sm:mb-0">
+          <li class="mb-2 sm:mb-0" id="registerlink">
             <a href="/register" class="hover:text-blue-500">Sign up <i class="fa-solid  fa-user-plus ml-1"></i></a>
           </li>
-          <li class="mb-2 sm:mb-0">
+          <li class="mb-2 sm:mb-0" id="loginlink">
             <a href="/login" class="hover:text-blue-500">Login <i class="fa-solid fa-right-to-bracket ml-1"></i></a>
           </li>
-          <li class="mb-2 sm:mb-0">
+          <li class="mb-2 sm:mb-0 hidden" id="homelink">
             <a href="/mainpage" class="hover:text-blue-500">Game <i class="fa-solid fa-fish ml-1"></i></a>
           </li>
           <li class="mb-2 sm:mb-0">
@@ -120,6 +120,21 @@
           });
         })
         .catch(error => console.error('Error fetching user items:', error));
+
+      fetch('/api/user-check')
+        .then(response => response.json())
+        .then(data => {
+          if (data.logged === "true") {
+            document.getElementById('homelink').classList.remove('hidden');
+            document.getElementById('registerlink').classList.add('hidden');
+            document.getElementById('loginlink').classList.add('hidden');
+          } else {
+            document.getElementById('homelink').classList.add('hidden');
+            document.getElementById('registerlink').classList.remove('hidden');
+            document.getElementById('loginlink').classList.remove('hidden');
+          }
+        })
+        .catch(error => console.error('Error fetching user check:', error));
     });
   </script>
 </body>
