@@ -222,7 +222,7 @@ app.get("/api/inventory", (req, res) => {
 
 app.get("/api/user-items", (req, res) => {
   const query = `
-    SELECT u.username, u.email, SUM(ui.quantity) as totalItems
+    SELECT u.username, SUM(ui.quantity) as totalItems
     FROM users u
     JOIN userItems ui ON u.id = ui.user_id
     GROUP BY u.id

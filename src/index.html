@@ -85,7 +85,7 @@
         .then(response => response.json())
         .then(data => {
           const leaderboard = document.getElementById('leaderboard');
-          const sortedData = data.sort((a, b) => b.totalItems - a.totalItems);
+          const sortedData = data.sort((a, b) => b.totalItems - a.totalItems).slice(0, 10); // Only keep the top 10
 
           sortedData.forEach((user, index) => {
             const listItem = document.createElement('li');
