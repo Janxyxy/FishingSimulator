@@ -273,7 +273,6 @@ app.get("/api/fish", (req, res) => {
       return;
     }
 
-    // Randomly select an item based on its drop rate
     const selectedItem = selectItemByDropRate(results);
 
     if (!selectedItem) {
@@ -283,7 +282,7 @@ app.get("/api/fish", (req, res) => {
       return;
     }
 
-    console.log(selectedItem);
+    //console.log(selectedItem);
 
     // Get user id from session (assuming you store it in session)
     const userId = req.session.userId;
