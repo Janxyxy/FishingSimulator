@@ -316,18 +316,29 @@
       const lootImage = lootDiv.querySelector('img');
       const lootText = lootDiv.querySelector('p');
 
-      lootImage.src = `/public/images/Loot/${item.name.replace(/ /g, '_')}.png`;
-      lootImage.alt = item.name;
-      lootText.textContent = `You caught a ${item.name}!`;
+      const newImageSrc = `/public/images/Loot/${item.name.replace(/ /g, '_')}.png`;
 
-      if (item.name.toLowerCase().includes('enchanted')) {
-        lootBg.classList.add('bg-animated');
-      } else {
-        lootBg.classList.remove('bg-animated');
-      }
-      lootDiv.classList.add('bg-animatednormal')
-      lootDiv.classList.remove('invisible');
+      // Create a new image object
+      const newImage = new Image();
+      newImage.src = newImageSrc;
+      newImage.alt = item.name;
+
+      // Once the new image is loaded, update the src of the existing image
+      newImage.onload = () => {
+        lootImage.src = newImageSrc;
+        lootImage.alt = item.name;
+        lootText.textContent = `You caught a ${item.name}!`;
+
+        if (item.name.toLowerCase().includes('enchanted')) {
+          lootBg.classList.add('bg-animated');
+        } else {
+          lootBg.classList.remove('bg-animated');
+        }
+        lootDiv.classList.add('bg-animatednormal');
+        lootDiv.classList.remove('invisible');
+      };
     }
+
 
     function hidePopup() {
       const lootDiv = document.getElementById('loot');
