@@ -230,6 +230,8 @@ app.get("/api/user-items", (req, res) => {
   `;
   connection.query(query, (error, results) => {
     if (error) throw error;
+    if (results.length === 0) {
+    }
     res.json(results);
   });
 });
@@ -249,50 +251,50 @@ app.get("/api/items", (req, res) => {
 
 //Fish API
 
-// app.get("/api/fish", (req, res) => {
-//   if (!req.session || !req.session.username) {
-//     res.sendFile(path.join(__dirname, "src", "401page.html"));
-//     return;
-//   }
-//   const selectQuery = "SELECT * FROM items";
-//   connection.query(selectQuery, (error, results, fields) => {
-//     if (error) {
-//       res
-//         .status(500)
-//         .send("Error retrieving fish data from database: " + error.message);
-//       return;
-//     }
+app.get("/api/fish", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+  const selectQuery = "SELECT * FROM items";
+  connection.query(selectQuery, (error, results, fields) => {
+    if (error) {
+      res
+        .status(500)
+        .send("Error retrieving fish data from database: " + error.message);
+      return;
+    }
 
-//     // Randomly select an item based on its drop rate
-//     const selectedItem = selectItemByDropRate(results);
+    // Randomly select an item based on its drop rate
+    const selectedItem = selectItemByDropRate(results);
 
-//     if (!selectedItem) {
-//       res
-//         .status(500)
-//         .send("Error selecting item based on drop rate: No item selected");
-//       return;
-//     }
+    if (!selectedItem) {
+      res
+        .status(500)
+        .send("Error selecting item based on drop rate: No item selected");
+      return;
+    }
 
-//     console.log(selectedItem);
+    console.log(selectedItem);
 
-//     // Get user id from session (assuming you store it in session)
-//     const userId = req.session.userId;
+    // Get user id from session (assuming you store it in session)
+    const userId = req.session.userId;
 
-//     // Insert or update the selected item in the userItems table
-//     insertOrUpdateUserItem(userId, selectedItem.id, 1, (err) => {
-//       if (err) {
-//         res
-//           .status(500)
-//           .send(
-//             "Error inserting or updating item in userItems table: " +
-//               err.message
-//           );
-//         return;
-//       }
-//       res.json(selectedItem);
-//     });
-//   });
-// });
+    // Insert or update the selected item in the userItems table
+    insertOrUpdateUserItem(userId, selectedItem.id, 1, (err) => {
+      if (err) {
+        res
+          .status(500)
+          .send(
+            "Error inserting or updating item in userItems table: " +
+              err.message
+          );
+        return;
+      }
+      res.json(selectedItem);
+    });
+  });
+});
 
 //Fishing functions
 
@@ -352,30 +354,30 @@ function selectItemByDropRate(items) {
 //Auth Functions
 
 function TryLogin(email, password, req, res) {
-  const selectQuery = "SELECT * FROM users WHERE email = ?";
-  connection.query(selectQuery, [email], (error, results, fields) => {
+  const selectQuery = "SELECT * FROM users WHERE email = ? || username = ?";
+  connection.query(selectQuery, [email, email], (error, results, fields) => {
     if (error) {
       res.status(500).send("Chyba databáze při přihlášení: " + error.message);
       return;
     }
     if (results.length === 0) {
-      res.status(402).send("Uživatel nenalezen");
+      res.status(402).send("User not found");
       return;
     }
     const user = results[0];
     bcrypt.compare(password, user.password_hash, (err, isMatch) => {
       if (err) {
-        "Chyba při ověřování hesla: " + err.message;
+        "Error password: " + err.message;
         return;
       }
       if (!isMatch) {
-        res.status(401).send("Nesprávné heslo");
+        res.status(401).send("Wrong password");
         return;
       }
       // Set user session details
       req.session.userId = user.id;
       req.session.username = user.username;
-      res.status(201).send("Přihlášení úspěšné");
+      res.status(201).send("User logged in successfully");
     });
   });
 }
