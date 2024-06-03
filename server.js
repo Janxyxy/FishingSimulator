@@ -42,7 +42,7 @@ app.use(
     secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true }, // Change to true if HTTPS is used
+    cookie: { secure: false }, // Change to true if HTTPS is used
   })
 );
 
