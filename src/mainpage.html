@@ -99,6 +99,7 @@
             </div>
           </div>
         </div>
+        <!--Fish content-->
         <div class="p-2 w-full sm:w-1/2">
           <div class="p-4 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
             <div class="flex justify-between items-center mb-4">
@@ -107,9 +108,13 @@
             </div>
             <div class="relative">
               <img class="border-rad w-full" src="/public/images/minecraft_fishing4.png" />
-              <button onclick="fish()"
+              <button id="startFishingButton" onclick="startFishing()"
                 class="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-orange-600 hover:bg-orange-600 text-white font-bold py-2 rounded-lg w-[calc(100%-16px)] ">
-                Fish
+                Start Fishing
+              </button>
+              <button id="catchFishButton" onclick="catchFish()" style="display:none;"
+                class="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-orange-600 hover:bg-orange-600 text-white font-bold py-2 rounded-lg w-[calc(100%-16px)] ">
+                Catch Fish
               </button>
             </div>
           </div>
@@ -119,13 +124,6 @@
     </div>
   </div>
   </div>
-
-
-
-
-
-
-
 
   <!--Delete popup-->
   <div id="deletePopup" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 invisible">
@@ -175,7 +173,12 @@
   <!--End of loot popup-->
 
 
+
   <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+      updateProfile();
+    });
 
     const dashboardButton = document.getElementById("dashboardButton");
     const popup = document.getElementById("deletePopup");
@@ -203,9 +206,91 @@
           console.error("Error deleting user:", error);
         });
     }
-    document.addEventListener("DOMContentLoaded", function () {
-      updateProfile();
-    });
+
+
+    function startFishing() {
+      fetch("/api/start-fishing", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const randomTime = data.randomTime;
+
+          // Hide the Start Fishing button
+          document.getElementById('startFishingButton').style.display = 'none';
+
+          // Show the Catch Fish button after the random time
+          setTimeout(() => {
+            document.getElementById('catchFishButton').style.display = 'block';
+          }, randomTime);
+        })
+        .catch((error) => {
+          console.error('Error fetching random time:', error);
+        });
+    }
+
+    function catchFish() {
+      fetch("/api/catch", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.text().then((text) => { throw new Error(text) });
+          }
+          return response.json();
+        })
+        .then((data) => {
+          updateProfile();
+          showPopup(data);
+          document.getElementById('catchFishButton').style.display = 'none';
+          document.getElementById('startFishingButton').style.display = 'block';
+        })
+        .catch((error) => {
+          console.error('Error:', error.message);
+        });
+    }
+
+    function showPopup(item) {
+      const lootBg = document.getElementById('lootbg');
+      const lootDiv = document.getElementById('loot');
+      const lootImage = lootDiv.querySelector('img');
+      const lootText = lootDiv.querySelector('p');
+
+      const newImageSrc = `/public/images/Loot/${item.name.replace(/ /g, '_')}.png`;
+
+      // Create a new image object
+      const newImage = new Image();
+      newImage.src = newImageSrc;
+      newImage.alt = item.name;
+
+      // Once the new image is loaded, update the src of the existing image
+      newImage.onload = () => {
+        lootImage.src = newImageSrc;
+        lootImage.alt = item.name;
+        lootText.textContent = `You caught a ${item.name}!`;
+
+        if (item.name.toLowerCase().includes('enchanted')) {
+          lootBg.classList.add('bg-animated');
+        } else {
+          lootBg.classList.remove('bg-animated');
+        }
+        lootDiv.classList.add('bg-animatednormal');
+        lootDiv.classList.remove('invisible');
+      };
+    }
+
+    function hidePopup() {
+      const lootDiv = document.getElementById('loot');
+      lootDiv.classList.add('invisible');
+      lootDiv.classList.remove('bg-animatednormal');
+    }
+
 
     function updateProfile() {
       Promise.all([
@@ -301,65 +386,6 @@
 
     function redirectToProfile() {
       window.location.href = "/profile";
-    }
-
-    function fish() {
-      fetch("/api/fish", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            return response.text().then((text) => { throw new Error(text) });
-          }
-          return response.json();
-        })
-        .then((data) => {
-          updateProfile();
-          showPopup(data);
-
-          //alert(JSON.stringify(data));
-        })
-        .catch((error) => {
-          alert('Error: ' + error.message);
-        });
-    }
-    function showPopup(item) {
-      const lootBg = document.getElementById('lootbg');
-      const lootDiv = document.getElementById('loot');
-      const lootImage = lootDiv.querySelector('img');
-      const lootText = lootDiv.querySelector('p');
-
-      const newImageSrc = `/public/images/Loot/${item.name.replace(/ /g, '_')}.png`;
-
-      // Create a new image object
-      const newImage = new Image();
-      newImage.src = newImageSrc;
-      newImage.alt = item.name;
-
-      // Once the new image is loaded, update the src of the existing image
-      newImage.onload = () => {
-        lootImage.src = newImageSrc;
-        lootImage.alt = item.name;
-        lootText.textContent = `You caught a ${item.name}!`;
-
-        if (item.name.toLowerCase().includes('enchanted')) {
-          lootBg.classList.add('bg-animated');
-        } else {
-          lootBg.classList.remove('bg-animated');
-        }
-        lootDiv.classList.add('bg-animatednormal');
-        lootDiv.classList.remove('invisible');
-      };
-    }
-
-
-    function hidePopup() {
-      const lootDiv = document.getElementById('loot');
-      lootDiv.classList.add('invisible');
-      lootDiv.classList.remove('bg-animatednormal');
     }
 
   </script>

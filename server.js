@@ -258,24 +258,31 @@ app.get("/api/items", (req, res) => {
   });
 });
 
-// Rate limiter for the fish API
-const apiLimiter = rateLimit({
-  windowMs: 5000, // 5s
-  max: 1, // Limit each user to 10 requests per windowMs
-  keyGenerator: (req) => req.session.userId, // Use userId from session as the key
-  handler: (req, res /*next*/) => {
-    res.status(429).json({
-      message: "Too many requests, please try again later.",
-    });
-  },
-});
+// Random time between 5 to 30 seconds
+function getRandomTime() {
+  return Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
+}
 
-// Apply rate limiter to /api/fish endpoint
-app.use("/api/fish", apiLimiter);
+const apiLimiter = (req, res, next) => {
+  const windowMs = req.session.randomTime || getRandomTime(); // Default to a new random time if not in session
+  const limiter = rateLimit({
+    windowMs: windowMs,
+    max: 1,
+    keyGenerator: (req) => req.session.userId,
+    handler: (req, res) => {
+      res.status(429).json({
+        message:
+          "You have cast your line too quickly! Please wait a moment before fishing again.",
+      });
+    },
+  });
+  limiter(req, res, next);
+};
 
-//Fish API
+// Apply rate limiter to /api/catch endpoint
+app.use("/api/catch", apiLimiter);
 
-app.get("/api/fish", (req, res) => {
+app.get("/api/catch", (req, res) => {
   if (!req.session || !req.session.username) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
@@ -317,6 +324,12 @@ app.get("/api/fish", (req, res) => {
       res.json(selectedItem);
     });
   });
+});
+
+app.get("/api/start-fishing", (req, res) => {
+  const randomTime = getRandomTime();
+  req.session.randomTime = randomTime;
+  res.json({ randomTime });
 });
 
 //Fishing functions
