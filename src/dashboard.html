@@ -148,22 +148,23 @@
                                     <i class="fa-solid fa-user"></i>
                                 </div>
                                 <div>
-                                <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                    ${user.username} /
-                                </span>
-                                <span class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                    ${user.email}
-                                    <i class="fa-solid fa-envelope ml-1"></i>
-                                </span>
+                                    <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                        ${user.username} /
+                                    </span>
+                                    <span class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                        ${user.email}
+                                        <i class="fa-solid fa-envelope ml-1"></i>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="flex flex-wrap items-center mt-2 space-x-2">
+                            <div class="flex   mt-2 space-x-2">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800 mb-1 md:mb-0 ml-2">
                                     #${index + 1}
                                     <i class="fa-solid fa-ranking-star ml-1"></i>
                                 </span>
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-200 text-green-800 mb-1 md:mb-0">
                                     ${new Date(user.creation_date).toLocaleString()}
-                                     <i class="fa-solid fa-file-circle-plus ml-1"></i>
+                                    <i class="fa-solid fa-file-circle-plus ml-1"></i>
                                 </span>
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800 mb-1 md:mb-0">
                                     Total Items: ${user.totalItems}
