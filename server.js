@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
 const bcrypt = require("bcryptjs");
+const rateLimit = require("express-rate-limit");
 const cors = require("cors");
 const session = require("express-session");
 const path = require("path");
@@ -257,8 +258,22 @@ app.get("/api/items", (req, res) => {
   });
 });
 
-//Fish API
+// Rate limiter for the fish API
+const apiLimiter = rateLimit({
+  windowMs: 5000, // 5s
+  max: 1, // Limit each user to 10 requests per windowMs
+  keyGenerator: (req) => req.session.userId, // Use userId from session as the key
+  handler: (req, res /*next*/) => {
+    res.status(429).json({
+      message: "Too many requests, please try again later.",
+    });
+  },
+});
 
+// Apply rate limiter to /api/fish endpoint
+app.use("/api/fish", apiLimiter);
+
+//Fish API
 app.get("/api/fish", (req, res) => {
   if (!req.session || !req.session.username) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
