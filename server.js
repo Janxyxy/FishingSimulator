@@ -167,11 +167,22 @@ app.get("/api/users", (req, res) => {
 
 //Admin only
 app.get("/api/inventory/:userId", (req, res) => {
-  if (!req.session || !req.session.username || req.session.userId !== 1) {
-    res.sendFile(path.join(__dirname, "src", "401page.html"));
-    return;
-  }
   const userId = req.params.userId;
+  const query = `
+    SELECT items.id, items.name, items.category, userItems.quantity 
+    FROM userItems
+    JOIN items ON userItems.item_id = items.id
+    WHERE userItems.user_id = ?
+  `;
+
+  connection.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error(err);
+      res.status(500).json({ error: "Database query failed" });
+      return;
+    }
+    res.json(results);
+  });
 });
 
 app.get("/api/user", (req, res) => {
@@ -235,7 +246,7 @@ app.get("/api/user-items", (req, res) => {
     FROM users u
     JOIN userItems ui ON u.id = ui.user_id
     GROUP BY u.id
-    ORDER BY totalItems DESC;
+    ORDER BY ui.item_id;
   `;
   connection.query(query, (error, results) => {
     if (error) throw error;

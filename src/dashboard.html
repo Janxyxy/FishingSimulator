@@ -66,127 +66,220 @@
             </nav>
         </div>
     </header>
-    <div class=" p-5">
+    <!-- <div class="p-5">
         <div
             class="p-4 max-w-screen-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-            <div class="flex justify-between items-center">
 
-                <span class="text-xl font-bold leading-none text-gray-900 dark:text-white">Game</span>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
-                    onclick="window.location.href='/mainpage'">Back <i class="fa-solid fa-backward"></i></button>
-            </div>
         </div>
     </div>
-    <div class="p-5 mb-10">
+    <div class="p-5 mb-10 flex">
         <div
-            class="p-4 max-w-screen-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+            class="p-4 max-w-screen-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 w-1/2">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Users</h3>
-
             </div>
             <div class="flow-root">
-                <ul role="list" class="divide-y  divide-gray-200 dark:divide-gray-700" id="userList">
-                    <!-- List items will be appended here by JavaScript -->
+                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" id="userList">
+                
                 </ul>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            updateProfile();
-        });
 
-        function handleInventoryClick(event, url) {
-            event.preventDefault();
-            fetchInventory(url);
-        }
+    <div class="px-6 py-6 lg:px-8">
+        <div class="flex flex-wrap -mx-2">
+            <!--Backbar-->
+            <div class="p-2 w-full sm:w-1/2">
+                <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+                    <div class="flex justify-between items-center ">
+                        <span class="text-xl font-bold leading-none text-gray-900 dark:text-white">Game</span>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            onclick="window.location.href='/mainpage'">Back <i
+                                class="fa-solid fa-backward"></i></button>
+                    </div>
+                </div>
 
-        function fetchInventory(url) {
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching inventory:', error);
+
+
+                <!--Profile-->
+                <div class="mt-4">
+                    <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-xl font-bold leading-none text-white">Profile</h3>
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+                        <div class="flow-root">
+                            <ul role="list" class="divide-y divide-gray-200" id="userList">
+                                <!-- List items will be appended here by JavaScript -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!--Profile end-->
+
+            </div>
+            <!--First half end-->
+
+
+            <!--Inventory content-->
+            <div class="p-2 w-full sm:w-1/2">
+                <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold leading-none text-white">Inventory</h3>
+                        <i class="fa-solid fa-box"></i>
+                    </div>
+                    <div class="flow-root">
+                        <ul role="list" class="divide-y divide-gray-200" id="inventory-list">
+                            <!-- List items will be appended here by JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--Inventory content end-->
+
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    updateProfile();
                 });
-        }
 
-        function updateProfile() {
-            fetch('/api/users')
-                .then(response => response.json())
-                .then(users => {
-                    return fetch('/api/user-items')
+                function handleInventoryClick(event, url) {
+                    event.preventDefault();
+                    fetchInventory(url);
+                }
+
+                function fetchInventory(url) {
+                    fetch(url)
                         .then(response => response.json())
-                        .then(userItems => {
-                            // Combine user data with user items data
-                            return users.map(user => {
-                                const userItem = userItems.find(item => item.username === user.username);
-                                return {
-                                    ...user,
-                                    totalItems: userItem ? userItem.totalItems : 0
-                                };
-                            });
+                        .then(data => {
+                            console.log(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching inventory:', error);
                         });
-                })
-                .then(data => {
-                    // Sort users by totalItems in descending order to determine ranking
-                    data.sort((a, b) => b.totalItems - a.totalItems);
+                }
 
-                    const userList = document.getElementById('userList');
-                    userList.innerHTML = ''; // Clear the list before appending new items
+                async function handleInventoryClick(event, apiEndpoint) {
+                    event.preventDefault();
 
-                    data.forEach((user, index) => {
-                        const userItem = document.createElement('li');
-                        userItem.className = "py-3 sm:py-4";
-                        userItem.innerHTML = `
-                        <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center"> <!-- Added flex container for icon and name -->
-                                <div class="mr-2"> <!-- Added margin-right for spacing -->
-                                    <i class="fa-solid fa-user"></i>
-                                </div>
-                                <div>
-                                    <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                                        ${user.username} /
-                                    </span>
-                                    <span class="text-sm text-gray-500 truncate dark:text-gray-400">
-                                        ${user.email}
-                                        <i class="fa-solid fa-envelope ml-1"></i>
-                                    </span>
-                                </div>
+                    try {
+                        const response = await fetch(apiEndpoint);
+                        if (!response.ok) {
+                            throw new Error(`An error occurred: ${response.statusText}`);
+                        }
+
+                        const items = await response.json();
+                        const inventoryList = document.getElementById("inventory-list");
+
+                        if (inventoryList) {
+                            inventoryList.innerHTML = ''; // Clear the existing inventory list
+                            populateInventory(inventoryList, items);
+                        } else {
+                            console.error("Inventory list element not found.");
+                        }
+                    } catch (error) {
+                        console.error("Failed to fetch inventory items:", error);
+                    }
+                }
+
+                function populateInventory(inventoryList, items) {
+                    items.forEach(item => {
+                        const li = document.createElement("li");
+                        li.className = "py-3 sm:py-4";
+                        li.innerHTML = `
+                        <div class="flex items-center space-x-4">
+                            <div class="flex-shrink-0">
+                                <img src="public/images/Loot/${item.name.replace(/ /g, '_')}.png" alt="${item.name}" class="w-6 h-6">
                             </div>
-                            <div class="flex   mt-2 space-x-2">
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800 mb-1 md:mb-0 ml-2">
-                                    #${index + 1}
-                                    <i class="fa-solid fa-ranking-star ml-1"></i>
-                                </span>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-200 text-green-800 mb-1 md:mb-0">
-                                    ${new Date(user.creation_date).toLocaleString()}
-                                    <i class="fa-solid fa-file-circle-plus ml-1"></i>
-                                </span>
-                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800 mb-1 md:mb-0">
-                                    Total Items: ${user.totalItems}
-                                    <i class="fa-solid fa-box ml-1"></i>
-                                </span>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-white truncate">
+                                    ${item.name}
+                                </p>
+                            </div>
+                            <div class="inline-flex items-center text-base font-semibold text-white">
+                                ${item.quantity}
                             </div>
                         </div>
-                        <a id="inventory-link" class="inline-flex items-center text-base font-semibold text-white mt-3 md:mt-0" onclick="handleInventoryClick(event, '/api/items/${user.id}')">
-                            Inventory
-                            <i class="fa-solid fa-box ml-1 mt-1"></i>
-                        </a>
-                    </div>
-                `;
-                        userList.appendChild(userItem);
+                    `;
+                        inventoryList.appendChild(li);
                     });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
+                }
 
-    </script>
+                function updateProfile() {
+                    fetch('/api/users')
+                        .then(response => response.json())
+                        .then(users => {
+                            return fetch('/api/user-items')
+                                .then(response => response.json())
+                                .then(userItems => {
+                                    // Combine user data with user items data
+                                    return users.map(user => {
+                                        const userItem = userItems.find(item => item.username === user.username);
+                                        return {
+                                            ...user,
+                                            totalItems: userItem ? userItem.totalItems : 0
+                                        };
+                                    });
+                                });
+                        })
+                        .then(data => {
+                            // Sort users by totalItems in descending order to determine ranking
+                            data.sort((a, b) => b.totalItems - a.totalItems);
+
+                            const userList = document.getElementById('userList');
+                            userList.innerHTML = ''; // Clear the list before appending new items
+
+                            data.forEach((user, index) => {
+                                const userItem = document.createElement('li');
+                                userItem.className = "py-3 sm:py-4";
+                                userItem.innerHTML = `
+                                    <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+                                    <div class="flex-1 min-w-0">
+                                        <div class="flex items-center"> <!-- Added flex container for icon and name -->
+                                            <div class="mr-2"> <!-- Added margin-right for spacing -->
+                                                <i class="fa-solid fa-user"></i>
+                                            </div>
+                                            <div>
+                                                <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    ${user.username} /
+                                                </span>
+                                                <span class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                    ${user.email}
+                                                    <i class="fa-solid fa-envelope ml-1"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-wrap mt-2 space-x-2"> <!-- Changed to flex-wrap for better responsiveness -->
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800 mb-1 ml-2">
+                                                #${index + 1}
+                                                <i class="fa-solid fa-ranking-star ml-1"></i>
+                                            </span>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-200 text-green-800 mb-1">
+                                                ${new Date(user.creation_date).toLocaleString()}
+                                                <i class="fa-solid fa-file-circle-plus ml-1"></i>
+                                            </span>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800 mb-1">
+                                                Total Items: ${user.totalItems}
+                                                <i class="fa-solid fa-box ml-1"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button id="inventory-button" class="inline-flex items-center text-base font-semibold text-white mt-3 md:mt-0 bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded" onclick="handleInventoryClick(event, '/api/inventory/${user.id}')">
+                                    Inventory
+                                    <i class="fa-solid fa-box ml-1 mt-1"></i>
+                                </button>
+                                </div>
+
+                            `;
+                                userList.appendChild(userItem);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }
+            </script>
 </body>
 
 </html>
