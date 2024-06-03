@@ -211,7 +211,7 @@ app.get("/api/inventory", (req, res) => {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
-  const selectQuery = "SELECT * FROM useritems WHERE user_id = ?";
+  const selectQuery = "SELECT * FROM userItems WHERE user_id = ?";
   connection.query(
     selectQuery,
     [req.session.userId],
