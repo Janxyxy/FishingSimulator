@@ -97,89 +97,87 @@
   </header>
 
   <div class="px-6 py-6 lg:px-8">
-    <div class="max-w">
-      <div class="flex flex-wrap -mx-2">
-        <!--Profile-->
-        <div class="p-2 w-full sm:w-1/2">
-          <div class="p-2 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+
+    <div class="flex flex-wrap -mx-2">
+      <!--Profile-->
+      <div class="p-2 w-full sm:w-1/2">
+        <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold leading-none text-white">Profile</h3>
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <div class="flow-root">
+            <ul role="list" class="divide-y divide-gray-200" id="userList">
+              <!-- List items will be appended here by JavaScript -->
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold leading-none text-white">Actions</h3>
+          </div>
+          <div class="flex flex-col md:flex-row justify-start items-center mt-4 space-y-4 md:space-y-0 md:space-x-4"
+            id="buttons">
+            <button onclick="showDeletePopup();"
+              class="w-full md:w-auto bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+              Delete profile
+            </button>
+          </div>
+        </div>
+
+        <!--Inventory-->
+        <div class="mt-4">
+          <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
             <div class="flex justify-between items-center mb-4">
-              <h3 class="text-xl font-bold leading-none text-white">Profile</h3>
-              <i class="fa-solid fa-id-card"></i>
+              <h3 class="text-xl font-bold leading-none text-white">Inventory</h3>
+              <i class="fa-solid fa-box"></i>
             </div>
             <div class="flow-root">
-              <ul role="list" class="divide-y divide-gray-200" id="userList">
+              <ul role="list" class="divide-y divide-gray-200" id="inventoryList">
                 <!-- List items will be appended here by JavaScript -->
               </ul>
             </div>
-            <div>
-              <h3 class="text-xl font-bold leading-none text-white">Actions</h3>
-            </div>
-            <div class="flex flex-col md:flex-row justify-start items-center mt-4 space-y-4 md:space-y-0 md:space-x-4"
-              id="buttons">
-              <button onclick="showDeletePopup();"
-                class="w-full md:w-auto bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
-                Delete profile
-              </button>
-            </div>
-          </div>
-
-          <!--Inventory-->
-          <div class="mt-4">
-            <div class="p-2 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
-              <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold leading-none text-white">Inventory</h3>
-                <i class="fa-solid fa-box"></i>
-              </div>
-              <div class="flow-root">
-                <ul role="list" class="divide-y divide-gray-200" id="inventoryList">
-                  <!-- List items will be appended here by JavaScript -->
-                </ul>
-              </div>
-            </div>
-          </div>
-          <!--Inventory end-->
-        </div>
-        <!--Profile end-->
-
-
-        <!--Fish content-->
-        <div class="p-2 w-full sm:w-1/2">
-          <div class="p-2 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
-            <div class="flex justify-between items-center mb-4">
-              <h3 class="text-xl font-bold leading-none text-white">Fishing</h3>
-              <i class="fa-solid fa-water"></i>
-            </div>
-            <div class="relative">
-              <img class="border-rad w-full rounded-lg" src="/public/images/fishing4.png" />
-              <button id="startFishingButton" onclick="startFishing()"
-                class="text-center px-4 py-2 bg-gray-800 text-sky-400 rounded-md border border-gray-600 absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[calc(100%-36px)] transition duration-300 ease-in-out  hover:scale-105">
-                Start fishing
-                <span class="absolute top-0 right-0  flex h-3 w-3">
-                  <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-                </span>
-              </button>
-              <button id="fishingWaitButton" disabled style="display: none;"
-                class="text-center px-4 py-2 bg-gray-800 text-sky-400 rounded-md border border-gray-600 absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[calc(100%-36px)] transition">
-                <i class=" animate-spin fa-solid fa-rotate-right mr-2"></i>
-                Fishing wait for fish
-              </button>
-              <button id="catchFishButton" onclick="catchFish()" style="display:none;"
-                class="text-center px-4 py-2 bg-gray-800 text-sky-400 rounded-md border border-gray-600 absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[calc(100%-36px)] transition duration-300 ease-in-out  hover:scale-105">
-                Catch fish
-                <span class="absolute top-0 right-0  flex h-3 w-3">
-                  <span
-                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                  <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
-                </span>
-              </button>
-            </div>
           </div>
         </div>
-        <!--End of fish content-->
+        <!--Inventory end-->
       </div>
+      <!--Profile end-->
+
+
+      <!--Fish content-->
+      <div class="p-2 w-full sm:w-1/2">
+        <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold leading-none text-white">Fishing</h3>
+            <i class="fa-solid fa-water"></i>
+          </div>
+          <div class="relative">
+            <img class="border-rad w-full rounded-lg" src="/public/images/fishing4.png" />
+            <button id="startFishingButton" onclick="startFishing()"
+              class="text-center px-4 py-2 bg-gray-800 text-sky-400 rounded-md border border-gray-600 absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[calc(100%-36px)] transition duration-300 ease-in-out  hover:scale-105">
+              Start fishing
+              <span class="absolute top-0 right-0  flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+              </span>
+            </button>
+            <button id="fishingWaitButton" disabled style="display: none;"
+              class="text-center px-4 py-2 bg-gray-800 text-sky-400 rounded-md border border-gray-600 absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[calc(100%-36px)] transition">
+              <i class=" animate-spin fa-solid fa-rotate-right mr-2"></i>
+              Fishing wait for fish
+            </button>
+            <button id="catchFishButton" onclick="catchFish()" style="display:none;"
+              class="text-center px-4 py-2 bg-gray-800 text-sky-400 rounded-md border border-gray-600 absolute bottom-4 left-1/2 transform -translate-x-1/2 w-[calc(100%-36px)] transition duration-300 ease-in-out  hover:scale-105">
+              Catch fish
+              <span class="absolute top-0 right-0  flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!--End of fish content-->
     </div>
+  </div>
   </div>
 
 
