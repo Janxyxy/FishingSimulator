@@ -264,19 +264,24 @@ function getRandomTime() {
 }
 
 const apiLimiter = (req, res, next) => {
-  const windowMs = req.session.randomTime || getRandomTime(); // Default to a new random time if not in session
-  const limiter = rateLimit({
-    windowMs: windowMs,
-    max: 1,
-    keyGenerator: (req) => req.session.userId,
-    handler: (req, res) => {
-      res.status(429).json({
-        message:
-          "You have cast your line too quickly! Please wait a moment before fishing again.",
-      });
-    },
-  });
-  limiter(req, res, next);
+  if (!req.session.randomTime || !req.session.startTime) {
+    return res.status(400).json({
+      message: "You must start fishing first.",
+    });
+  }
+
+  const windowMs = req.session.randomTime;
+  const startTime = req.session.startTime;
+  const currentTime = Date.now();
+
+  if (currentTime - startTime < windowMs) {
+    return res.status(429).json({
+      message:
+        "You have cast your line too quickly! Please wait a moment before fishing again.",
+    });
+  }
+
+  next();
 };
 
 // Apply rate limiter to /api/catch endpoint
@@ -305,8 +310,6 @@ app.get("/api/catch", (req, res) => {
       return;
     }
 
-    //console.log(selectedItem);
-
     // Get user id from session (assuming you store it in session)
     const userId = req.session.userId;
 
@@ -321,18 +324,32 @@ app.get("/api/catch", (req, res) => {
           );
         return;
       }
+
+      // Reset the session values to enforce the need to call /api/start-fishing again
+      delete req.session.randomTime;
+      delete req.session.startTime;
+
       res.json(selectedItem);
     });
   });
 });
 
 app.get("/api/start-fishing", (req, res) => {
+  if (!req.session || !req.session.username) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+  if (req.session.randomTime) {
+    return res.status(400).json({
+      message:
+        "You are already fishing. Please wait until you catch something.",
+    });
+  }
   const randomTime = getRandomTime();
   req.session.randomTime = randomTime;
+  req.session.startTime = Date.now();
   res.json({ randomTime });
 });
-
-//Fishing functions
 
 function insertOrUpdateUserItem(userId, itemId, quantity, callback) {
   const checkQuery =
