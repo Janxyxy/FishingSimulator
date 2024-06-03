@@ -274,6 +274,7 @@ const apiLimiter = rateLimit({
 app.use("/api/fish", apiLimiter);
 
 //Fish API
+
 app.get("/api/fish", (req, res) => {
   if (!req.session || !req.session.username) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
