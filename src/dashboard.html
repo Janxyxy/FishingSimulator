@@ -32,7 +32,8 @@
                                 class="fa-solid fa-door-open"></i></a>
                     </li>
                     <li class="mb-2 sm:mb-0">
-                        <a href="/mainpage" class="hover:text-blue-500">Game <i class="fa-solid fa-fish ml-1"></i></a>
+                        <a href="/mainpage" class="hover:text-blue-500">Game <i
+                                class="fa-solid fa-fish-fins ml-1"></i></a>
                     </li>
                     <li class="mb-2 sm:mb-0">
                         <a href="/docs" class="hover:text-blue-500">Docs <i class="fa-solid fa-book ml-1"></i></a>
@@ -117,12 +118,13 @@
                         const userItem = document.createElement('li');
                         userItem.className = "py-3 sm:py-4";
                         userItem.innerHTML = `
-                    <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
-                        <div class="flex-shrink-0 mb-3 md:mb-0">
-                            <i class="fa-solid fa-user ml-2"></i>
-                        </div>
+                        <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
                         <div class="flex-1 min-w-0">
-                            <div>
+                            <div class="flex items-center"> <!-- Added flex container for icon and name -->
+                                <div class="mr-2"> <!-- Added margin-right for spacing -->
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
+                                <div>
                                 <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
                                     ${user.username} /
                                 </span>

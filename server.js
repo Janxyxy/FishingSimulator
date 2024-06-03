@@ -430,7 +430,7 @@ function TryLogin(email, password, req, res) {
       // Set user session details
       req.session.userId = user.id;
       req.session.username = user.username;
-      res.status(201).send("User logged in successfully");
+      res.status(200).send("User logged in successfully");
     });
   });
 }
