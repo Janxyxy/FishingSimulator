@@ -258,20 +258,20 @@ app.get("/api/items", (req, res) => {
   });
 });
 
-// Rate limiter for the fish API
-const apiLimiter = rateLimit({
-  windowMs: 5000, // 5s
-  max: 1, // Limit each user to 10 requests per windowMs
-  keyGenerator: (req) => req.session.userId, // Use userId from session as the key
-  handler: (req, res /*next*/) => {
-    res.status(429).json({
-      message: "Too many requests, please try again later.",
-    });
-  },
-});
+// // Rate limiter for the fish API
+// const apiLimiter = rateLimit({
+//   windowMs: 5000, // 5s
+//   max: 1, // Limit each user to 10 requests per windowMs
+//   keyGenerator: (req) => req.session.userId, // Use userId from session as the key
+//   handler: (req, res /*next*/) => {
+//     res.status(429).json({
+//       message: "Too many requests, please try again later.",
+//     });
+//   },
+// });
 
-// Apply rate limiter to /api/fish endpoint
-app.use("/api/fish", apiLimiter);
+// // Apply rate limiter to /api/fish endpoint
+// app.use("/api/fish", apiLimiter);
 
 //Fish API
 
