@@ -120,14 +120,13 @@
 
   <div id="successPopup"
     class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 invisible">
-    <div class="bg-white p-4 rounded-lg shadow-lg text-center">
-      <h2 class="text-2xl font-bold mb-4 text-black">
+    <div class="bg-white p-4 md:p-8 rounded-lg shadow-lg text-center max-w-lg mx-2">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4 text-black">
         User Created Successfully!
       </h2>
-      <div class="flex justify-center">
-        <img src="/public/images/Superman.png" class="w-96 rounded-lg" />
+      <div class="flex justify-center mb-4">
+        <img src="/public/images/Superman.png" class="w-64 md:w-96 lg:w-full rounded-lg" />
       </div>
-
       <p class="mb-3 text-black">
         Your account has been created. Please log in to continue.
       </p>
@@ -137,13 +136,17 @@
         But he thinks he'd blow our minds
       </p>
       <button id="loginButton" onclick="window.location.href = '/login';"
-        class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-44 rounded">
+        class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-8 md:px-16 lg:px-32 rounded">
         Dive in
       </button>
     </div>
   </div>
 
+
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      successPopup.classList.remove("invisible");
+    });
     // variables
     const passwordInput = document.getElementById("password");
     const toggleIcon = document.getElementById("toggleIcon");
