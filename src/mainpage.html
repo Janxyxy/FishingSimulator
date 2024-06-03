@@ -76,7 +76,7 @@
   <div class="px-6 py-6 lg:px-8">
     <div class="max-w">
       <div class="flex flex-wrap -mx-2">
-
+        <!--Profile-->
         <div class="p-2 w-full sm:w-1/2">
           <div class="p-2 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
             <div class="flex justify-between items-center mb-4">
@@ -99,7 +99,26 @@
               </button>
             </div>
           </div>
+
+          <!--Inventory-->
+          <div class="mt-4">
+            <div class="p-2 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold leading-none text-white">Inventory</h3>
+                <i class="fa-solid fa-box"></i>
+              </div>
+              <div class="flow-root">
+                <ul role="list" class="divide-y divide-gray-200" id="inventoryList">
+                  <!-- List items will be appended here by JavaScript -->
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!--Inventory end-->
         </div>
+        <!--Profile end-->
+
+
         <!--Fish content-->
         <div class="p-2 w-full sm:w-1/2">
           <div class="p-2 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
@@ -136,10 +155,11 @@
           </div>
         </div>
         <!--End of fish content-->
-
       </div>
     </div>
   </div>
+
+
 
   <!--Delete popup-->
   <div id="deletePopup" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 invisible">
@@ -399,6 +419,62 @@
           console.error('Error:', error);
         });
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const inventoryList = document.getElementById("inventoryList");
+
+      // Fetch inventory data
+      fetch("/api/inventory")
+        .then(response => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then(inventoryData => {
+          // Fetch items data
+          return fetch("/api/items")
+            .then(response => {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return response.json();
+            })
+            .then(itemsData => {
+              populateInventory(inventoryData, itemsData);
+            });
+        })
+        .catch(error => {
+          console.error("There was a problem with the fetch operation:", error);
+        });
+
+      function populateInventory(inventory, items) {
+        inventory.forEach(item => {
+          const itemData = items.find(i => i.id === item.item_id);
+          if (itemData) {
+            const li = document.createElement("li");
+            li.className = "py-3 sm:py-4";
+            li.innerHTML = `
+          <div class="flex items-center space-x-4">
+            <div class="flex-shrink-0">
+              <img src="public/images/Loot/${itemData.name.replace(/ /g, '_')}.png" alt="${itemData.name}" class="w-12 h-12 rounded-full">
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-white truncate">
+                ${itemData.name}
+              </p>
+            </div>
+            <div class="inline-flex items-center text-base font-semibold text-white">
+              ${item.quantity}
+            </div>
+          </div>
+        `;
+            inventoryList.appendChild(li);
+          }
+        });
+      }
+    });
+
 
     function redirectToLogout() {
       window.location.href = "/api/logout";
