@@ -7,9 +7,15 @@
   <title>Fishing Simulator</title>
   <!--Tailwind CSS-->
   <link href="/output.css" rel="stylesheet" />
-  <!--Muj font awesome
-  <script src="https://kit.fontawesome.com/078c86a30a.js" crossorigin="anonymous"></script>-->
+  <!--Muj font awesome-->
   <script src="https://kit.fontawesome.com/c4ffb2ea08.js" crossorigin="anonymous"></script>
+
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="Fishing simulator">
+  <!-- <meta property="og:description" content=""> -->
+  <meta property="og:image" content="URL k obrázku, který chcete zobrazit">
+  <meta property="og:image" content="https://fishing.honza.space/public/images/welcome_banner2.png">
+  <meta property="og:type" content="website">
 
 </head>
 
@@ -53,15 +59,24 @@
       <div class="flex flex-wrap -mx-2">
 
         <div class="p-2 w-full sm:w-1/2">
-          <div class="p-4  rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+          <div class=" rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-xl font-bold leading-none text-white">Welcome to Fishing Simulator!
               </h3>
               <i class="fa-solid fa-plane-departure"></i>
             </div>
             <div class="flow-root">
-              <img src="public/images/Minecraft_welcome_banner.png" alt="fishing"
-                class="w-full h-auto object-cover rounded-lg">
+              <img src="public/images/welcome_banner2.png" alt="fishing" class="w-full h-auto object-cover rounded-lg">
+            </div>
+            <div>
+
+              <div class="flex justify-end mb-2">
+                <button id="startFishingButton" onclick="startFishing()"
+                  class="text-center px-4 py-2 bg-blue-500 text-gray-800 rounded-md border border-gray-600 transform  w-full transition duration-300 ease-in-out hover:scale-105 mt-4 font-bold">
+                  Lets go fishing! <i class="fa-solid fa-fish-fins ml-1"></i>
+
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -99,8 +114,8 @@
             contentDiv.className = 'flex items-center space-x-4';
 
             const rankDiv = document.createElement('div');
-            rankDiv.className = 'text-xl font-bold text-white';
-            rankDiv.textContent = `#${index + 1}`;
+            rankDiv.className = 'text-xl font-bold text-white ';
+            rankDiv.textContent = `#${index + 1} `;
 
             const userDiv = document.createElement('div');
             userDiv.className = 'flex-1 min-w-0';

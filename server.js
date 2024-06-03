@@ -259,8 +259,13 @@ app.get("/api/items", (req, res) => {
 });
 
 // Random time between 5 to 30 seconds
+//return Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
+
+// Random time between 5 to 15 seconds
+//return Math.floor(Math.random() * (15000 - 5000 + 1)) + 5000;
+
 function getRandomTime() {
-  return Math.floor(Math.random() * (30000 - 5000 + 1)) + 5000;
+  return Math.floor(Math.random() * (15000 - 5000 + 1)) + 5000;
 }
 
 const apiLimiter = (req, res, next) => {
