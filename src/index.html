@@ -12,7 +12,8 @@
 
   <!-- Open Graph meta tags -->
   <meta property="og:title" content="Fishing simulator">
-  <!-- <meta property="og:description" content=""> -->
+  <meta property="og:description"
+    content="Compete on leaderboards, collect valuable loot, and discover new items and fish for your inventory.">
   <meta property="og:image" content="URL k obrázku, který chcete zobrazit">
   <meta property="og:image" content="https://fishing.honza.space/public/images/welcome_banner2.png">
   <meta property="og:type" content="website">
@@ -71,10 +72,9 @@
             <div>
 
               <div class="flex justify-end mb-2">
-                <button id="startFishingButton" onclick="startFishing()"
+                <button id="startFishingButton"
                   class="text-center px-4 py-2 bg-blue-500 text-gray-800 rounded-md border border-gray-600 transform  w-full transition duration-300 ease-in-out hover:scale-105 mt-4 font-bold">
                   Lets go fishing! <i class="fa-solid fa-fish-fins ml-1"></i>
-
                 </button>
               </div>
             </div>
@@ -82,7 +82,21 @@
         </div>
 
         <div class="p-2 w-full sm:w-1/2">
-          <div class="p-4 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+          <div class=" rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+              <h3 class="text-xl font-bold leading-none text-white">About</h3>
+              <i class="fa-solid fa-info"></i>
+            </div>
+            <div class="flow-root">
+              <p class="text-white">Fishing Simulator is a project where you can compete on leaderboards, collect
+                valuable
+                loot, and discover new items and fish for your inventory. </p>
+              <p class="text-red-500 mt-4">NOT AN OFFICIAL MINECRAFT [PRODUCT/SERVICE/EVENT/etc.]. NOT APPROVED BY OR
+                ASSOCIATED WITH MOJANG OR MICROSOFT!</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700 mt-4">
             <div class="flex justify-between items-center mb-4">
               <h3 class="text-xl font-bold leading-none  text-white">Leaderboard</h3>
               <i class="fa-solid fa-ranking-star"></i>
@@ -94,70 +108,86 @@
               </ul>
             </div>
           </div>
+
         </div>
       </div>
     </div>
-  </div>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      fetch('/api/user-items')
-        .then(response => response.json())
-        .then(data => {
-          const leaderboard = document.getElementById('leaderboard');
-          const sortedData = data.sort((a, b) => b.totalItems - a.totalItems).slice(0, 10); // Only keep the top 10
+    <script>
 
-          sortedData.forEach((user, index) => {
-            const listItem = document.createElement('li');
-            listItem.className = 'py-3 sm:py-4';
+      function redirectToGame() {
+        fetch('/api/user-check')
+          .then(response => response.json())
+          .then(data => {
+            if (data.logged === "true") {
+              window.location.href = '/mainpage';
+            } else {
+              window.location.href = '/login';
+            }
+          })
+          .catch(error => console.error('Error fetching user check:', error));
+      }
 
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'flex items-center space-x-4';
+      document.getElementById('startFishingButton').addEventListener('click', redirectToGame);
 
-            const rankDiv = document.createElement('div');
-            rankDiv.className = 'text-xl font-bold text-white ';
-            rankDiv.textContent = `#${index + 1} `;
+      document.addEventListener('DOMContentLoaded', () => {
+        fetch('/api/user-items')
+          .then(response => response.json())
+          .then(data => {
+            const leaderboard = document.getElementById('leaderboard');
+            const sortedData = data.sort((a, b) => b.totalItems - a.totalItems).slice(0, 10); // Only keep the top 10
 
-            const userDiv = document.createElement('div');
-            userDiv.className = 'flex-1 min-w-0';
+            sortedData.forEach((user, index) => {
+              const listItem = document.createElement('li');
+              listItem.className = 'py-3 sm:py-4';
 
-            const username = document.createElement('p');
-            username.className = 'text-sm font-medium  truncate text-white';
-            username.textContent = user.username;
+              const contentDiv = document.createElement('div');
+              contentDiv.className = 'flex items-center space-x-4';
 
-            userDiv.appendChild(username);
+              const rankDiv = document.createElement('div');
+              rankDiv.className = 'text-xl font-bold text-white ';
+              rankDiv.textContent = `#${index + 1} `;
 
-            const itemsDiv = document.createElement('div');
-            itemsDiv.className = 'inline-flex items-center text-base font-semibold text-white';
-            itemsDiv.textContent = `${user.totalItems} items`;
+              const userDiv = document.createElement('div');
+              userDiv.className = 'flex-1 min-w-0';
 
-            contentDiv.appendChild(rankDiv);
-            contentDiv.appendChild(userDiv);
-            contentDiv.appendChild(itemsDiv);
+              const username = document.createElement('p');
+              username.className = 'text-sm font-medium  truncate text-white';
+              username.textContent = user.username;
 
-            listItem.appendChild(contentDiv);
-            leaderboard.appendChild(listItem);
-          });
-        })
-        .catch(error => console.error('Error fetching user items:', error));
+              userDiv.appendChild(username);
 
-      fetch('/api/user-check')
-        .then(response => response.json())
-        .then(data => {
-          if (data.logged === "true") {
-            document.getElementById('homelink').classList.remove('hidden');
-            document.getElementById('registerlink').classList.add('hidden');
-            document.getElementById('loginlink').classList.add('hidden');
-            document.getElementById('logoutlink').classList.remove('hidden');
-          } else {
-            document.getElementById('homelink').classList.add('hidden');
-            document.getElementById('registerlink').classList.remove('hidden');
-            document.getElementById('loginlink').classList.remove('hidden');
-            document.getElementById('logoutlink').classList.add('hidden');
-          }
-        })
-        .catch(error => console.error('Error fetching user check:', error));
-    });
-  </script>
+              const itemsDiv = document.createElement('div');
+              itemsDiv.className = 'inline-flex items-center text-base font-semibold text-white';
+              itemsDiv.textContent = `${user.totalItems} items`;
+
+              contentDiv.appendChild(rankDiv);
+              contentDiv.appendChild(userDiv);
+              contentDiv.appendChild(itemsDiv);
+
+              listItem.appendChild(contentDiv);
+              leaderboard.appendChild(listItem);
+            });
+          })
+          .catch(error => console.error('Error fetching user items:', error));
+
+        fetch('/api/user-check')
+          .then(response => response.json())
+          .then(data => {
+            if (data.logged === "true") {
+              document.getElementById('homelink').classList.remove('hidden');
+              document.getElementById('registerlink').classList.add('hidden');
+              document.getElementById('loginlink').classList.add('hidden');
+              document.getElementById('logoutlink').classList.remove('hidden');
+            } else {
+              document.getElementById('homelink').classList.add('hidden');
+              document.getElementById('registerlink').classList.remove('hidden');
+              document.getElementById('loginlink').classList.remove('hidden');
+              document.getElementById('logoutlink').classList.add('hidden');
+            }
+          })
+          .catch(error => console.error('Error fetching user check:', error));
+      });
+    </script>
 </body>
 
 </html>
