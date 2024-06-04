@@ -276,7 +276,7 @@ app.get("/api/items", (req, res) => {
 //return Math.floor(Math.random() * (15000 - 5000 + 1)) + 5000;
 
 function getRandomTime() {
-  return Math.floor(Math.random() * (15000 - 5000 + 1)) + 5000;
+  return Math.floor(Math.random() * (6000 - 3000 + 1)) + 3000;
 }
 
 const apiLimiter = (req, res, next) => {
