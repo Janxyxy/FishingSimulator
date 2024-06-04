@@ -282,8 +282,85 @@ app.get("/api/items", (req, res) => {
 // Random time between 5 to 15 seconds
 //return Math.floor(Math.random() * (15000 - 5000 + 1)) + 5000;
 
+app.post("/api/update-settings", (req, res) => {
+  if (!req.session || !req.session.admin === 1) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
+
+  const minTime = req.body.minTime;
+  const maxTime = req.body.maxTime;
+
+  if (!minTime || !maxTime) {
+    res.status(400).json({ message: "Invalid request" });
+    return;
+  }
+
+  if (minTime >= maxTime) {
+    res.status(400).json({ message: "Min time must be lower than max time" });
+    return;
+  }
+
+  const updateQuery = "UPDATE timeSettings SET min_time = ?, max_time = ?";
+  connection.query(updateQuery, [minTime, maxTime], (error) => {
+    if (error) {
+      res.status(500).json({ message: "Internal server error" });
+      return;
+    }
+    res.json({ message: "Settings updated successfully" });
+  });
+});
+
+app.get("/api/settings", (req, res) => {
+  if (!req.session || !req.session.admin === 1) {
+    res.status(401).json({ message: "Unauthorized" });
+    return;
+  }
+
+  const selectQuery = "SELECT min_time, max_time FROM timeSettings";
+  connection.query(selectQuery, (error, results, fields) => {
+    if (error) {
+      res.status(500).json({ message: "Internal server error" });
+      return;
+    }
+    if (results.length === 0) {
+      const insertQuery =
+        "INSERT INTO timeSettings (min_time, max_time) VALUES (?, ?)";
+      connection.query(insertQuery, [3, 5], (error) => {
+        if (error) {
+          res.status(500).json({ message: "Internal server error" });
+          return;
+        }
+        res.json({ min_time: 3, max_time: 5 });
+      });
+    } else {
+      res.json(results[0]);
+    }
+  });
+});
+
 function getRandomTime() {
-  return Math.floor(Math.random() * (6000 - 3000 + 1)) + 3000;
+  return new Promise((resolve, reject) => {
+    // Retrieve times from database table settings
+    const selectQuery = "SELECT min_time, max_time FROM timeSettings";
+    connection.query(selectQuery, (error, results, fields) => {
+      if (error) {
+        console.error("Failed to retrieve times from database");
+        reject(error);
+        return;
+      }
+
+      const minTime = results[0].min_time;
+      const maxTime = results[0].max_time;
+
+      // Generate random time between minTime and maxTime
+      const randomTime =
+        Math.floor(Math.random() * (maxTime * 1000 - minTime * 1000 + 1)) +
+        minTime * 1000;
+      console.log("Random time:", randomTime);
+      resolve(randomTime);
+    });
+  });
 }
 
 const apiLimiter = (req, res, next) => {
@@ -357,7 +434,7 @@ app.get("/api/catch", (req, res) => {
   });
 });
 
-app.get("/api/start-fishing", (req, res) => {
+app.get("/api/start-fishing", async (req, res) => {
   if (!req.session || !req.session.username) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
@@ -368,7 +445,8 @@ app.get("/api/start-fishing", (req, res) => {
         "You are already fishing. Please wait until you catch something.",
     });
   }
-  const randomTime = getRandomTime();
+  const randomTime = await getRandomTime();
+  console.log("Random time:", randomTime);
   req.session.randomTime = randomTime;
   req.session.startTime = Date.now();
   res.json({ randomTime });

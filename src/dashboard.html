@@ -66,25 +66,6 @@
             </nav>
         </div>
     </header>
-    <!-- <div class="p-5">
-        <div
-            class="p-4 max-w-screen-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-
-        </div>
-    </div>
-    <div class="p-5 mb-10 flex">
-        <div
-            class="p-4 max-w-screen-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700 w-1/2">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Users</h3>
-            </div>
-            <div class="flow-root">
-                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700" id="userList">
-                
-                </ul>
-            </div>
-        </div>
-    </div> -->
 
 
     <div class="px-6 py-6 lg:px-8">
@@ -92,22 +73,37 @@
             <!--Backbar-->
             <div class="p-2 w-full sm:w-1/2">
                 <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
-                    <div class="flex justify-between items-center ">
-                        <span class="text-xl font-bold leading-none text-gray-900 dark:text-white">Game setings</span>
-                        <div>
-                            <label for="default-range"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Default
-                                range</label>
-                            <input id="default-range" type="range" value="0" max="20"
-                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-                                onchange="console.log(this.value)">
-                        </div>
-                        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            onclick="window.location.href='/mainpage'">Back <i
-                                class="fa-solid fa-backward"></i></button>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold leading-none text-white">Settings</h3>
+                        <i class="fa-solid fa-bars-progress"></i>
+                    </div>
+                    <div>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">Catch time settings <i
+                                class="fa-solid fa-clock ml-1"></i> </span>
+                    </div>
+                    <div class="px-6 py-2">
+                        <label for="min-range"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Minimal catch time:
+                            <span id="min-value">0</span></label>
+                        <input id="min-range" type="range" value="0" max="30" step="0.1"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                            oninput="document.getElementById('min-value').textContent = this.value">
+
+                        <!-- Range slider max -->
+                        <label for="max-range"
+                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Maximal catch
+                            time:
+                            <span id="max-value">0</span></label>
+                        <input id="max-range" type="range" value="0" max="30" step="0.1"
+                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                            oninput="document.getElementById('max-value').textContent = this.value">
+                    </div>
+                    <div class="mt-4 flex justify-end">
+                        <button
+                            class="bg-green-500 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded w-full"
+                            onclick="UpdateSettings();">Save settings<i class="fa-solid fa-save ml-1"></i></button>
                     </div>
                 </div>
-
 
 
                 <!--Profile-->
@@ -115,11 +111,10 @@
                     <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-xl font-bold leading-none text-white">Users</h3>
-                            <i class="fa-solid fa-box"></i>
+                            <i class="fa-solid fa-hands-holding-child "></i>
                         </div>
-                        <div class="flow-root">
+                        <div class="flow-root   ">
                             <ul role="list" class="divide-y divide-gray-200" id="userList">
-                                <!-- List items will be appended here by JavaScript -->
                             </ul>
                         </div>
                     </div>
@@ -134,12 +129,15 @@
             <div class="p-2 w-full sm:w-1/2" id="inventory">
                 <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
                     <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold leading-none text-white">Inventory</h3>
-                        <i class="fa-solid fa-box"></i>
+                        <h3 class="text-xl font-bold leading-none text-white">Vault</h3>
+                        <i class="fa-solid fa-vault"></i>
                     </div>
                     <div class="flow-root">
                         <h4 id="inventory-user" class="text-sm font-bold leading-none text-gray-500"></h4>
                         <ul role="list" class="divide-y divide-gray-200" id="inventory-list">
+                            <li>
+                                <h1></h1>
+                            </li>
                             <!-- List items will be appended here by JavaScript -->
                         </ul>
                     </div>
@@ -151,9 +149,59 @@
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     updateProfile();
+                    LoadSetiings();
                 });
 
+                function LoadSetiings() {
+                    fetch('/api/settings')
+                        .then(response => response.json())
+                        .then(settings => {
+                            const minRange = document.getElementById("min-range");
+                            const maxRange = document.getElementById("max-range");
 
+                            const minRangeValue = document.getElementById("min-value");
+                            const maxRangeValue = document.getElementById("max-value");
+
+                            minRange.value = settings.min_time;
+                            maxRange.value = settings.max_time;
+
+                            minRangeValue.textContent = settings.min_time;
+                            maxRangeValue.textContent = settings.max_time;
+                        })
+                        .catch(error => {
+                            console.error("Failed to fetch settings:", error);
+                        });
+                }
+
+                function UpdateSettings() {
+                    var minTime = document.getElementById("min-range").value;
+                    var maxTime = document.getElementById("max-range").value;
+
+                    if (minTime >= maxTime) {
+                        alert("Minimal time cannot be higher than maximal time");
+                        return;
+                    }
+                    fetch('/api/update-settings', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            minTime: minTime,
+                            maxTime: maxTime
+                        })
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(`An error occurred: ${response.statusText}`);
+                            }
+                            //Show response message
+                            alert("Settings updated successfully");
+                        })
+                        .catch(error => {
+                            console.error("Failed to update settings:", error);
+                        });
+                }
 
                 async function handleInventoryClick(event, apiEndpoint) {
                     event.preventDefault();
@@ -272,12 +320,19 @@
                                                 Total Items: ${user.totalItems}
                                                 <i class="fa-solid fa-box ml-1"></i>
                                             </span>
+
+                                            ${user.admin === 1 ? `
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800 mb-1">
+                                                Admin
+
+                                                <i class="fa-solid fa-shield-halved ml-1"></i>
+                                            </span>` : ''}
                                         </div>
                                     </div>
                                     <div class="flex flex-col lg:flex-row lg:justify-start space-x-0 lg:space-x-2 space-y-2 lg:space-y-0">
                                  
                                     <button id="inventory-button-2" class="text-center inline-flex items-center font-semibold text-white mt-3 md:mt-0 bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded" onclick="handleInventoryClick(event, '/api/inventory/${user.id}'); ChangeInventoryUser(${user.id})">
-                                        <span class="mx-auto">Inventory <i class="fa-solid fa-box ml-1 mt-1"></i></span>
+                                        <span class="mx-auto text-sm">Inventory <i class="fa-solid fa-box ml-1 text-sm"></i></span>
                                     </button>
                                     </div>
                                 </div>

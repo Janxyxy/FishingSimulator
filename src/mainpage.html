@@ -407,6 +407,12 @@
                         Total Items: ${userItem ? userItem.totalItems : 0}
                         <i class="fa-solid fa-boxes-stacked ml-1"></i>
                     </span>
+                    ${user.admin === 1 ? `
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800 mb-2">
+                        Admin
+
+                        <i class="fa-solid fa-shield-halved ml-1"></i>
+                    </span>` : ''}
                 </div>
             </div>
             
