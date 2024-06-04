@@ -100,11 +100,13 @@ CREATE TABLE userItems  (
 );
 ```
 
+```sql
 CREATE TABLE timeSettings (
 id INT AUTO_INCREMENT PRIMARY KEY,
 min_time FLOAT NOT NULL,
 max_time FLOAT NOT NULL
 );
+```
 
 ### Items
 
