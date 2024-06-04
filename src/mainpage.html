@@ -425,7 +425,7 @@
             const userItem = userItems.find(item => item.username === user.username);
             const index = userItems.findIndex(item => item.username === user.username);
 
-            if (user.id === 1) {
+            if (user.admin === 1) {
               const dashboardButton = document.createElement('button');
               dashboardButton.onclick = function (event) {
                 event.preventDefault();

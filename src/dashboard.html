@@ -93,7 +93,15 @@
             <div class="p-2 w-full sm:w-1/2">
                 <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
                     <div class="flex justify-between items-center ">
-                        <span class="text-xl font-bold leading-none text-gray-900 dark:text-white">Game</span>
+                        <span class="text-xl font-bold leading-none text-gray-900 dark:text-white">Game setings</span>
+                        <div>
+                            <label for="default-range"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Default
+                                range</label>
+                            <input id="default-range" type="range" value="0" max="20"
+                                class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                                onchange="console.log(this.value)">
+                        </div>
                         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onclick="window.location.href='/mainpage'">Back <i
                                 class="fa-solid fa-backward"></i></button>
@@ -106,7 +114,7 @@
                 <div class="mt-4">
                     <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xl font-bold leading-none text-white">Profile</h3>
+                            <h3 class="text-xl font-bold leading-none text-white">Users</h3>
                             <i class="fa-solid fa-box"></i>
                         </div>
                         <div class="flow-root">
@@ -130,6 +138,7 @@
                         <i class="fa-solid fa-box"></i>
                     </div>
                     <div class="flow-root">
+                        <h4 id="inventory-user" class="text-sm font-bold leading-none text-gray-500"></h4>
                         <ul role="list" class="divide-y divide-gray-200" id="inventory-list">
                             <!-- List items will be appended here by JavaScript -->
                         </ul>
@@ -144,21 +153,7 @@
                     updateProfile();
                 });
 
-                function handleInventoryClick(event, url) {
-                    event.preventDefault();
-                    fetchInventory(url);
-                }
 
-                function fetchInventory(url) {
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-                        })
-                        .catch(error => {
-                            console.error('Error fetching inventory:', error);
-                        });
-                }
 
                 async function handleInventoryClick(event, apiEndpoint) {
                     event.preventDefault();
@@ -176,6 +171,7 @@
                         if (inventoryList) {
                             inventoryList.innerHTML = ''; // Clear the existing inventory list
                             populateInventory(inventoryList, items);
+
                             var element = document.getElementById("inventory");
                             element.scrollIntoView();
                         } else {
@@ -207,6 +203,16 @@
                     `;
                         inventoryList.appendChild(li);
                     });
+                }
+
+                function ChangeInventoryUser(id) {
+                    fetch('/api/users') // Make a GET request to '/api/users'
+                        .then(response => response.json()) // Parse the response as JSON
+                        .then(users => {
+                            const userWithId = users.find(user => user.id === id);
+                            const inventoryUser = document.getElementById('inventory-user');
+                            inventoryUser.innerHTML = `Inventory for ${userWithId.username}`;
+                        });
                 }
 
                 function updateProfile() {
@@ -268,13 +274,14 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <button id="inventory-button" class="inline-flex items-center text-base font-semibold text-white mt-3 md:mt-0 bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded" onclick="handleInventoryClick(event, '/api/inventory/${user.id}')">
-                                    Inventory
-                                    <i class="fa-solid fa-box ml-1 mt-1"></i>
-                                </button>
+                                    <div class="flex flex-col lg:flex-row lg:justify-start space-x-0 lg:space-x-2 space-y-2 lg:space-y-0">
+                                 
+                                    <button id="inventory-button-2" class="text-center inline-flex items-center font-semibold text-white mt-3 md:mt-0 bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded" onclick="handleInventoryClick(event, '/api/inventory/${user.id}'); ChangeInventoryUser(${user.id})">
+                                        <span class="mx-auto">Inventory <i class="fa-solid fa-box ml-1 mt-1"></i></span>
+                                    </button>
+                                    </div>
                                 </div>
-
-                            `;
+                                    `;
                                 userList.appendChild(userItem);
                             });
                         })
