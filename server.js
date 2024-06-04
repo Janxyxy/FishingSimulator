@@ -54,6 +54,8 @@ connection.connect((err) => {
   console.log("Connected to MySQL as id " + connection.threadId);
 });
 
+//Define admin user
+
 // Routes
 
 app.get("/", (req, res) => {
@@ -84,11 +86,12 @@ app.get("/profile", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  if (req.session && req.session.userId === 1) {
-    res.sendFile(path.join(__dirname, "src", "dashboard.html"));
+  if (!req.session || req.session.admin !== 1) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
-  res.sendFile(path.join(__dirname, "src", "401page.html"));
+  //Admin only
+  res.sendFile(path.join(__dirname, "src", "dashboard.html"));
 });
 
 app.get("/mainpage", (req, res) => {
@@ -146,13 +149,13 @@ app.delete("/api/delete", (req, res) => {
 
 //Admin only
 app.get("/api/users", (req, res) => {
-  if (!req.session || !req.session.username || req.session.userId !== 1) {
+  if (!req.session || !req.session.username || req.session.admin !== 1) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
 
   const selectQuery =
-    "SELECT id, username, email, creation_date, last_update_time FROM users";
+    "SELECT id, username, email, creation_date, last_update_time, admin FROM users";
 
   connection.query(selectQuery, (error, results, fields) => {
     if (error) {
@@ -167,6 +170,10 @@ app.get("/api/users", (req, res) => {
 
 //Admin only
 app.get("/api/inventory/:userId", (req, res) => {
+  if (!req.session || !req.session.username || req.session.admin !== 1) {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
   const userId = req.params.userId;
   const query = `
     SELECT items.id, items.name, items.category, userItems.quantity 
@@ -192,7 +199,7 @@ app.get("/api/user", (req, res) => {
   }
 
   const selectQuery =
-    "SELECT id, username, email, creation_date, last_update_time FROM users WHERE id = ?";
+    "SELECT id, username, email, creation_date, last_update_time, admin FROM users WHERE id = ?";
 
   connection.query(
     selectQuery,
@@ -446,6 +453,7 @@ function TryLogin(email, password, req, res) {
       // Set user session details
       req.session.userId = user.id;
       req.session.username = user.username;
+      req.session.admin = user.admin === 1;
       res.status(200).send("User logged in successfully");
     });
   });

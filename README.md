@@ -42,7 +42,7 @@ Install Node.js and npm from [here](https://nodejs.org/en).
 Install all dependencies:
 
 ```
-npm install
+npm installi
 ```
 
 Start tailwind watch:
@@ -75,7 +75,8 @@ CREATE TABLE users (
     email VARCHAR(60) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    last_update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    last_update_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    admin BOOL NOT NULL DEFAULT FALSE
 );
 ```
 
