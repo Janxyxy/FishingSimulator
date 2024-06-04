@@ -86,7 +86,7 @@ app.get("/profile", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  if (!req.session || req.session.admin !== 1) {
+  if (!req.session || !req.session.admin === 1) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
