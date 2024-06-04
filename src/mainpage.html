@@ -468,6 +468,7 @@
               return response.json();
             })
             .then(itemsData => {
+              inventoryData.sort((a, b) => a.item_id - b.item_id);
               populateInventory(inventoryData, itemsData);
             });
         })
