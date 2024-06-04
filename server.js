@@ -149,7 +149,7 @@ app.delete("/api/delete", (req, res) => {
 
 //Admin only
 app.get("/api/users", (req, res) => {
-  if (!req.session || !req.session.username || req.session.admin !== 1) {
+  if (!req.session || !req.session.username || !req.session.admin === 1) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
@@ -170,7 +170,7 @@ app.get("/api/users", (req, res) => {
 
 //Admin only
 app.get("/api/inventory/:userId", (req, res) => {
-  if (!req.session || !req.session.username || req.session.admin !== 1) {
+  if (!req.session || !req.session.username || !req.session.admin === 1) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
