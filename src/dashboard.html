@@ -170,6 +170,7 @@
                         }
 
                         const items = await response.json();
+                        items.sort((a, b) => a.id - b.id);
                         const inventoryList = document.getElementById("inventory-list");
 
                         if (inventoryList) {
