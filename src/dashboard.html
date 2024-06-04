@@ -123,7 +123,7 @@
 
 
             <!--Inventory content-->
-            <div class="p-2 w-full sm:w-1/2">
+            <div class="p-2 w-full sm:w-1/2" id="inventory">
                 <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xl font-bold leading-none text-white">Inventory</h3>
@@ -175,7 +175,7 @@
                         if (inventoryList) {
                             inventoryList.innerHTML = ''; // Clear the existing inventory list
                             populateInventory(inventoryList, items);
-                            var element = document.getElementById("inventory-list");
+                            var element = document.getElementById("inventory");
                             element.scrollIntoView();
                         } else {
                             console.error("Inventory list element not found.");
