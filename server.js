@@ -357,7 +357,6 @@ function getRandomTime() {
       const randomTime =
         Math.floor(Math.random() * (maxTime * 1000 - minTime * 1000 + 1)) +
         minTime * 1000;
-      console.log("Random time:", randomTime);
       resolve(randomTime);
     });
   });
