@@ -175,6 +175,8 @@
                         if (inventoryList) {
                             inventoryList.innerHTML = ''; // Clear the existing inventory list
                             populateInventory(inventoryList, items);
+                            var element = document.getElementById("inventory-list");
+                            element.scrollIntoView();
                         } else {
                             console.error("Inventory list element not found.");
                         }
