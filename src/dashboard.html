@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
     <link href="/output.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!--Tailwind CSS-->
     <script src="https://kit.fontawesome.com/c4ffb2ea08.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!--Muj font awesome-->
     <!-- Primary Meta Tags -->
     <link rel="icon" type="image/x-icon" href="/public/images/fishingicon_2nbg_mini.png">
@@ -78,24 +82,22 @@
                         <i class="fa-solid fa-bars-progress"></i>
                     </div>
                     <div>
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">Catch time settings <i
+                        <span class="text-sm font-medium text-white">Catch time settings <i
                                 class="fa-solid fa-clock ml-1"></i> </span>
                     </div>
                     <div class="px-6 py-2">
-                        <label for="min-range"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Minimal catch time:
+                        <label for="min-range" class="block mb-2 text-sm font-medium  text-white">Minimal catch time:
                             <span id="min-value">0</span></label>
                         <input id="min-range" type="range" value="0" max="30" step="0.1"
-                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                            class="w-full h-2  rounded-lg appearance-none cursor-pointer bg-gray-700"
                             oninput="document.getElementById('min-value').textContent = this.value">
 
                         <!-- Range slider max -->
-                        <label for="max-range"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Maximal catch
+                        <label for="max-range" class="block mb-2 text-sm font-medium text-white">Maximal catch
                             time:
                             <span id="max-value">0</span></label>
                         <input id="max-range" type="range" value="0" max="30" step="0.1"
-                            class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+                            class="w-full h-2 rounded-lg appearance-none cursor-pointer bg-gray-700"
                             oninput="document.getElementById('max-value').textContent = this.value">
                     </div>
                     <div class="mt-4 flex justify-end">
@@ -110,11 +112,17 @@
                 <div class="mt-4">
                     <div class="p-3 rounded-lg border shadow-md sm:p-8 bg-gray-800 border-gray-700">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-xl font-bold leading-none text-white">Users</h3>
-                            <i class="fa-solid fa-hands-holding-child "></i>
+                            <h3 class="text-xl font-bold leading-none text-white relative">Users (<span
+                                    id="userCount"></span>)</h3>
+                            <i class="fa-solid fa-users-viewfinder text-sm"></i>
                         </div>
-                        <div class="flow-root   ">
-                            <ul role="list" class="divide-y divide-gray-200" id="userList">
+                        <div class="text-sm mb-2">
+                            <span>Scroll<i class="fa-solid fa-arrows-up-down text-white ml-1"></i></span>
+                        </div>
+                        <div class="flow-root">
+                            <ul role="list"
+                                class="divide-y divide-gray-200 h-44 overflow-y-scroll overscroll-y-none overflow-x-auto scrollbar-hide"
+                                id="userList">
                             </ul>
                         </div>
                     </div>
@@ -236,8 +244,8 @@
                         li.className = "py-3 sm:py-4";
                         li.innerHTML = `
                         <div class="flex items-center space-x-4">
-                            <div class="flex-shrink-0">
-                                <img src="public/images/Loot/${item.name.replace(/ /g, '_')}.png" alt="${item.name}" class="w-6 h-6">
+                            <div class="flex-shrink-0 transform hover:scale-150 duration-300">
+                                <img src="public/images/Loot/${item.name.replace(/ /g, '_')}.png" alt="${item.name}" class="w-6 h-6 hover:animate-spin">
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-medium text-white truncate">
@@ -287,6 +295,9 @@
                             const userList = document.getElementById('userList');
                             userList.innerHTML = ''; // Clear the list before appending new items
 
+                            const userCount = document.getElementById('userCount');
+                            userCount.textContent = data.length;
+
                             data.forEach((user, index) => {
                                 const userItem = document.createElement('li');
                                 userItem.className = "py-3 sm:py-4";
@@ -298,31 +309,31 @@
                                                 <i class="fa-solid fa-user"></i>
                                             </div>
                                             <div>
-                                                <span class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                <span class="text-sm font-medium truncate text-white">
                                                     ${user.username} /
                                                 </span>
-                                                <span class="text-sm text-gray-500 truncate dark:text-gray-400">
+                                                <span class="text-sm truncate text-gray-400 transform hover:scale-110 duration-300">
                                                     ${user.email}
                                                     <i class="fa-solid fa-envelope ml-1"></i>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="flex flex-wrap mt-2 space-x-2"> <!-- Changed to flex-wrap for better responsiveness -->
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800 mb-1 ml-2">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-200 text-blue-800 mb-1 ml-2 transform hover:scale-110 duration-300">
                                                 #${index + 1}
                                                 <i class="fa-solid fa-ranking-star ml-1"></i>
                                             </span>
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-200 text-green-800 mb-1">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-200 text-green-800 mb-1 transform hover:scale-110 duration-300">
                                                 ${new Date(user.creation_date).toLocaleString()}
                                                 <i class="fa-solid fa-file-circle-plus ml-1"></i>
                                             </span>
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800 mb-1">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-200 text-red-800 mb-1 transform hover:scale-110 duration-300">
                                                 Total Items: ${user.totalItems}
                                                 <i class="fa-solid fa-box ml-1"></i>
                                             </span>
 
                                             ${user.admin === 1 ? `
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800 mb-1">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-200 text-gray-800 mb-1 transform hover:scale-110 duration-300">
                                                 Admin
 
                                                 <i class="fa-solid fa-shield-halved ml-1"></i>
@@ -331,7 +342,7 @@
                                     </div>
                                     <div class="flex flex-col lg:flex-row lg:justify-start space-x-0 lg:space-x-2 space-y-2 lg:space-y-0">
                                  
-                                    <button id="inventory-button-2" class="text-center inline-flex items-center font-semibold text-white mt-3 md:mt-0 bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded" onclick="handleInventoryClick(event, '/api/inventory/${user.id}'); ChangeInventoryUser(${user.id})">
+                                    <button id="inventory-button-2" class="text-center inline-flex items-center font-semibold text-white mt-3 md:mt-0 bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded transform hover:scale-110 duration-300" onclick="handleInventoryClick(event, '/api/inventory/${user.id}'); ChangeInventoryUser(${user.id})">
                                         <span class="mx-auto text-sm">Inventory <i class="fa-solid fa-box ml-1 text-sm"></i></span>
                                     </button>
                                     </div>
