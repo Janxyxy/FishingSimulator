@@ -110,6 +110,7 @@
             </div>
             <br>
 
+
             <section id="fishes-section" class="mb-8">
                 <div class="mb-4">
                     <span class="text-xl font-semibold mb-4">Fish <i
@@ -159,9 +160,9 @@
                 <li class="flex items-center p-4 bg-gray-700 rounded-lg shadow-md border-gray-600">
                     <img src="public/images/Loot/${item.name.replace(/ /g, '_')}.png" alt="${item.name}" class="w-12 h-12 hover:animate-spin">
                     <div class="ml-4">
-                        <div class="text-lg font-semibold  text-white">${item.name}
+                        <div class="text-lg font-semibold text-white ">${item.name}
                                     ${item.name.toLowerCase().includes('enchanted') ?
-                    `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-animated text-white transform hover:scale-110 duration-300 ml-2">
+                    `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-animated text-white transform hover:scale-110 duration-300 ml-0 md:ml-0 lg:ml-0 xl:ml-2 mb-1 sm:mb-0">
                                     Enchanted 
                                     <i class="fa-solid fa-cube ml-1"></i>
                                     </span>` : ''}
