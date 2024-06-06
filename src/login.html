@@ -153,6 +153,7 @@
           },
           body: JSON.stringify({ email, password }),
         }).then((response) => {
+          //Tohle by hctelo predelat
           if (response.status === 401) {
             errordiv.classList.remove("invisible");
             errormessage.innerHTML = "Wrong password";
