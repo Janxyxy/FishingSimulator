@@ -86,7 +86,7 @@ app.get("/profile", (req, res) => {
 });
 
 app.get("/dashboard", (req, res) => {
-  if (!req.session || !req.session.admin === 1) {
+  if (!req.session || !req.session.admin) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
@@ -149,7 +149,7 @@ app.delete("/api/delete", (req, res) => {
 
 //Admin only
 app.get("/api/users", (req, res) => {
-  if (!req.session || !req.session.username || !req.session.admin === 1) {
+  if (!req.session || !req.session.username || !req.session.admin) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
@@ -170,7 +170,7 @@ app.get("/api/users", (req, res) => {
 
 //Admin only
 app.get("/api/inventory/:userId", (req, res) => {
-  if (!req.session || !req.session.username || !req.session.admin === 1) {
+  if (!req.session || !req.session.username || !req.session.admin) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
@@ -283,7 +283,7 @@ app.get("/api/items", (req, res) => {
 //return Math.floor(Math.random() * (15000 - 5000 + 1)) + 5000;
 
 app.post("/api/update-settings", (req, res) => {
-  if (!req.session || !req.session.admin === 1) {
+  if (!req.session || !req.session.admin) {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
@@ -312,7 +312,7 @@ app.post("/api/update-settings", (req, res) => {
 });
 
 app.get("/api/settings", (req, res) => {
-  if (!req.session || !req.session.admin === 1) {
+  if (!req.session || !req.session.admin) {
     res.status(401).json({ message: "Unauthorized" });
     return;
   }

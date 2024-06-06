@@ -1,11 +1,12 @@
 # Fishing Simulator
 
-![Raw Cod](/public/images/Raw_Cod.png)
+![Raw Cod](/public/images/welcome_banner2.png)
 
 ## Table of Contents
 
 - [Introduction](#introduction)
 - [Technologies Used](#technologies-used)
+- [Deployment](#deployment)
 - [Members](#members)
 - [Setup](#setup)
 - [Database](#database)
@@ -29,6 +30,7 @@ The fishing simulator is a web application that simulates fishing in Minecraft. 
 
 ## Deployment
 
+Web run on Nxinex on VPS. <br>
 You can access web [here](https://fishing.honza.space).
 
 ## Members
