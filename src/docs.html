@@ -62,8 +62,10 @@
             animation: enchantedBg 4s ease infinite;
         }
 
-        .bg-animatednormal {
-            background: #0b101a;
+        .bg-animatedspecial {
+            background: linear-gradient(45deg, #ff9500, #08e862);
+            background-size: 200% 200%;
+            animation: enchantedBg 4s ease infinite;
         }
     </style>
 
@@ -164,6 +166,12 @@
                                     ${item.name.toLowerCase().includes('enchanted') ?
                     `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-animated text-white transform hover:scale-110 duration-300 ml-0 md:ml-0 lg:ml-0 xl:ml-2 mb-1 sm:mb-0">
                                     Enchanted 
+                                    <i class="fa-solid fa-cube ml-1"></i>
+                                    </span>` : ''}
+
+                                    ${item.name.toLowerCase().includes('axolotl') ?
+                    `<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-animatedspecial text-white transform hover:scale-110 duration-300 ml-0 md:ml-0 lg:ml-0 xl:ml-2 mb-1 sm:mb-0">
+                                    Special
                                     <i class="fa-solid fa-cube ml-1"></i>
                                     </span>` : ''}
                                     
