@@ -16,7 +16,7 @@
 
 ## Introduction
 
-//TODO: Write a short introduction to the project.
+The fishing simulator is a web application that simulates fishing in Minecraft. The user can fish and get items such as fish, junk, and treasure. The user can also sell the items and buy new items. The user can also enchant the items to increase the chance of getting treasure items.
 
 ## Technologies Used
 
