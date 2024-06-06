@@ -61,6 +61,12 @@
       animation: enchantedBg 4s ease infinite;
     }
 
+    .bg-animatedspecial {
+      background: linear-gradient(45deg, #ff9500, #08e862);
+      background-size: 200% 200%;
+      animation: enchantedBg 4s ease infinite;
+    }
+
     .bg-animatednormal {
       background: #0b101a;
     }
@@ -342,7 +348,10 @@
 
         if (item.name.toLowerCase().includes('enchanted')) {
           lootBg.classList.add('bg-animated');
-        } else {
+        } else if (item.name.toLowerCase().includes('axolotl')) {
+          lootBg.classList.add('bg-animatedspecial');
+        }
+        else {
           lootBg.classList.remove('bg-animated');
         }
         lootDiv.classList.add('bg-animatednormal');
