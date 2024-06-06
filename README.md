@@ -44,7 +44,7 @@ You can access web [here](https://fishing.honza.space).
 
 Install Node.js and npm from [here](https://nodejs.org/en).
 
-Setup database and stars it.
+Setup and stars database.
 [Database](#database)
 
 Install all dependencies:
@@ -152,6 +152,10 @@ INSERT INTO items (name, category, unenchanted_chance) VALUES
 ('Nautilus Shell', 'Treasure', 0.8),
 ('Saddle', 'Treasure', 0.8);
 ```
+
+-- Axolotl special item
+INSERT INTO items (name, category, unenchanted_chance) VALUES
+('Axolotl', 'Fish', 0.05),
 
 ## ENV Variables
 
