@@ -22,6 +22,7 @@ The fishing simulator is a web application that simulates fishing in Minecraft. 
 
 - Node.js
 - Express.js
+- JavaScript :)
 - Tailwind CSS
 - Docker
 - MariaDB
