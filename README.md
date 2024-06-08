@@ -35,17 +35,22 @@ You can access web [here](https://fishing.honza.space).
 
 ## Members
 
-- Jan
-- Jirka
+- Janxyxy (frontend + backend)
+- Jirka (design of frontend + helping with backend)
+
+? some commits from Jirka are from Janxyxy accout :)
 
 ## Setup
 
 Install Node.js and npm from [here](https://nodejs.org/en).
 
+Setup and stars database.
+[Database](#database)
+
 Install all dependencies:
 
 ```
-npm installi
+npm install
 ```
 
 Start tailwind watch:
@@ -148,6 +153,10 @@ INSERT INTO items (name, category, unenchanted_chance) VALUES
 ('Saddle', 'Treasure', 0.8);
 ```
 
+-- Axolotl special item
+INSERT INTO items (name, category, unenchanted_chance) VALUES
+('Axolotl', 'Fish', 0.05),
+
 ## ENV Variables
 
 Variables in .env file:<br>
@@ -162,5 +171,4 @@ SECRET_KEY = my_secure_random_key_12345
 ## Admin dashboard
 
 Dashboard is available only for admin users.
-Admin user is user with id = 1
-[Dashboard](http://localhost:3000/dashboard)
+[Dashboard localhost](http://localhost:3000/dashboard)
