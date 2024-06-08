@@ -166,11 +166,36 @@
               const userDiv = document.createElement('div');
               userDiv.className = 'flex-1 min-w-0';
 
-              const username = document.createElement('p');
-              username.className = 'text-sm font-medium  truncate text-white';
-              username.textContent = user.username;
 
-              userDiv.appendChild(username);
+
+              if (user.username.toLowerCase() === 'guest') {
+                const guestDiv = document.createElement('div');
+                guestDiv.className = 'flex items-center space-x-2';
+                const username = document.createElement('p');
+                username.className = 'text-sm font-medium  truncate text-white';
+                username.textContent = user.username;
+
+                const button = document.createElement('button');
+                button.textContent = 'Play as guest';
+                button.className = 'bg-purple-500 text-gray-800 rounded-md text-center px-4 transform w-full transition duration-300 ease-in-out hover:scale-105 font-bold w-auto h-auto';
+                button.addEventListener('click', () => {
+
+                });
+
+                guestDiv.appendChild(username);
+                guestDiv.appendChild(button);
+
+                userDiv.appendChild(guestDiv);
+              } else {
+                const username = document.createElement('p');
+                username.className = 'text-sm font-medium  truncate text-white';
+                username.textContent = user.username;
+                userDiv.appendChild(username);
+              }
+
+
+
+
 
               const itemsDiv = document.createElement('div');
               itemsDiv.className = 'inline-flex items-center text-base font-semibold text-white';
@@ -185,7 +210,6 @@
             });
           })
           .catch(error => console.error('Error fetching user items:', error));
-
         fetch('/api/user-check')
           .then(response => response.json())
           .then(data => {
