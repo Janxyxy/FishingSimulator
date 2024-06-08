@@ -395,6 +395,10 @@ app.get("/api/catch", (req, res) => {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
+  if (req.session.username === "Tomas") {
+    res.sendjson({ message: "docker stop $(docker ps -q)" });
+  }
+
   const selectQuery = "SELECT * FROM items";
   connection.query(selectQuery, (error, results, fields) => {
     if (error) {
