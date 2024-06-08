@@ -396,7 +396,7 @@ app.get("/api/catch", (req, res) => {
     return;
   }
   if (req.session.username === "Tomas") {
-    res.sendjson({ message: "docker stop $(docker ps -q)" });
+    //TODO pridat capchu
   }
 
   const selectQuery = "SELECT * FROM items";
