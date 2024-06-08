@@ -142,6 +142,10 @@ app.post("/api/register", (req, res) => {
 });
 
 app.delete("/api/delete", (req, res) => {
+  if (!req.session || !req.session.userId || req.session.username === "guest") {
+    res.sendFile(path.join(__dirname, "src", "401page.html"));
+    return;
+  }
   DeleteUser(req, res);
 });
 
