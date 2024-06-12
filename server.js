@@ -395,9 +395,15 @@ app.get("/api/catch", (req, res) => {
     res.sendFile(path.join(__dirname, "src", "401page.html"));
     return;
   }
-  if (req.session.username === "Tomas") {
+
+  let catchAttempts = req.session.catchAttempts || 0;
+
+  if (catchAttempts % 15 === 0) {
     //TODO pridat capchu
   }
+
+  catchAttempts++;
+  req.session.catchAttempts = catchAttempts;
 
   const selectQuery = "SELECT * FROM items";
   connection.query(selectQuery, (error, results, fields) => {
