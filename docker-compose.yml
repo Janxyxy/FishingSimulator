@@ -9,6 +9,7 @@ services:
       - .env
     depends_on:	
       - db
+    restart: always  # Auto-restart Express service
   db:
     image: mariadb
     restart: always
