@@ -435,8 +435,8 @@
 
           // Remove only the specific button related to the dashboard
           const dashboardButton = document.getElementById('dashboardButton');
-          if (dashboardButton) {
-            buttons.removeChild(dashboardButton);
+          if (buttons.children.length > 0) {
+            buttons.innerHTML = '';
           }
 
           users.forEach(user => {
