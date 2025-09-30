@@ -37,9 +37,6 @@ You can access web [here](https://fishing.honza.space).
 
 - Janxyxy (frontend + backend)
 - Jirka (design of frontend + helping with backend)
-
-? some commits from Jirka are from Janxyxy accout :)
-
 ## Setup
 
 Install Node.js and npm from [here](https://nodejs.org/en).
