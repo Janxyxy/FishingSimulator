@@ -1,6 +1,7 @@
 # Fishing Simulator
+<img src="/public/images/welcome_banner2.png" height="160"><img src="/public/images/FishingShowcase1.png" height="160"><img src="/public/images/FishingShowcase2.png" height="160">
 
-![Raw Cod](/public/images/welcome_banner2.png)
+
 
 ## Table of Contents
 
