@@ -30,7 +30,7 @@ The fishing simulator is a web application that simulates fishing in Minecraft. 
 
 ## Deployment
 
-Web run on Nxinex on VPS. <br>
+Web run on Nxinex web server. <br>
 You can access web [here](https://fishing.honza.space).
 
 ## Members
