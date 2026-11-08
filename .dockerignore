@@ -127,3 +127,7 @@ dist
 .pnp.*
 
 db/
+# Not needed in the image
+db/
+.git
+*.bak*

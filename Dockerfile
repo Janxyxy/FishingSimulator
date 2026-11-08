@@ -4,10 +4,11 @@ WORKDIR /app
 
 COPY package*.json /app
 
-RUN npm install
+RUN npm install && npm cache clean --force
 
 COPY . /app
 
-RUN npm run css
+# Build CSS with tailwind, then drop dev dependencies
+RUN npm run css && npm prune --omit=dev
 
 CMD ["node", "server.js"]
